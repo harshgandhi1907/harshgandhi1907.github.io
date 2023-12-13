@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const expenseForm = document.getElementById("expense-form");
     const expenseList = document.getElementById("expense-list");
     const balance = document.getElementById("balance");
+    const expensesContainer = document.getElementById("expenses-container");
+
 
     let expenses = [];
     let totalExpense = 0;
@@ -18,8 +20,14 @@ document.addEventListener("DOMContentLoaded", () => {
             totalExpense += amount;
             updateUI();
             expenseForm.reset();
+            toggleExpenseListVisibility();
         }
     });
+
+    // Function to toggle visibility of the expense list based on expense addition
+    function toggleExpenseListVisibility() {
+        expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
+    }
 
     function updateUI() {
         expenseList.innerHTML = "";
@@ -39,5 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const removedExpense = expenses.splice(index, 1)[0];
         totalExpense -= removedExpense.amount;
         updateUI();
+        toggleExpenseListVisibility();
     };
 });
