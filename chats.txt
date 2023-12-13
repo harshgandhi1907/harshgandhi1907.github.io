@@ -1,0 +1,2 @@
+--> Sync main branch whenever start working
+--> If making any large changes, do create new branch
