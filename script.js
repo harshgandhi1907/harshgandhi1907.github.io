@@ -7,98 +7,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let expenses = [];
         let totalExpense = 0;
+        // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
+        // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.lightning.force.com/services/data/v58.0/sobjects/Expense__c/";
-async function addExpenseToSalesforce(name, amount) {
-    const accessToken = "6Cel800D5h0000093stB8885h000000OynwCrXf1CoyP4GtJX3RpmnCxzFjHBU1vR3qz37oQH0n0GIswVXEXdZJKuXmZQ3EAFN2sJ1M8dqO";
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
-    };
+        async function addExpenseToSalesforce(name, amount) {
+            try {
+                const accessToken = "6Cel800D5h0000093stB8885h000000OynwCrXf1CoyP4GtJX3RpmnCxzFjHBU1vR3qz37oQH0n0GIswVXEXdZJKuXmZQ3EAFN2sJ1M8dqO";
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                };
 
-    const requestBody = JSON.stringify({
-        "Name": name,
-        "Expense_Amount__c": amount
-    });
+                const requestBody = JSON.stringify({
+                    "Name": name,
+                    "Expense_Amount__c": amount
+                });
 
-    try {
-        const response = await fetch(salesforceEndpoint, {
-            method: "POST",
-            headers,
-            body: requestBody,
-        });
+                const response = await fetch(salesforceEndpoint, {
+                    method: "POST",
+                    headers,
+                    body: requestBody,
+                });
 
-        if (response.ok) {
-            console.log("Expense added to Salesforce!");
-        } else {
-            console.error("Failed to add expense to Salesforce:", response.statusText);
+                if (response.ok) {
+                    console.log("Expense added to Salesforce!");
+                } else {
+                    console.error("Failed to add expense to Salesforce:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error adding expense to Salesforce:", error);
+            }
         }
-    } catch (error) {
-        console.error("Error adding expense to Salesforce:", error);
-    }
-}
 
-expenseForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("expense-name").value;
-    const amount = parseFloat(document.getElementById("expense-amount").value);
+        expenseForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("expense-name").value;
+            const amount = parseFloat(document.getElementById("expense-amount").value);
 
-    if (name && amount) {
-        expenses.push({ name, amount });
-        totalExpense += amount;
-        await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
-        updateUI();
-        expenseForm.reset();
-        toggleExpenseListVisibility();
-    }
-});
-        // expenseForm.addEventListener("submit", (e) => {
-        //     try {
-        //         e.preventDefault();
-        //         const name = document.getElementById("expense-name").value;
-        //         const amount = parseFloat(
-        //             document.getElementById("expense-amount").value
-        //         );
-
-        //         if (name && amount) {
-        //             expenses.push({ name, amount });
-        //             totalExpense += amount;
-        //             updateUI();
-        //             expenseForm.reset();
-
-        //             // Rest API callout
-        //             var data = {
-        //                 Name: name,
-        //                 Expense_Amount__c: amount
-        //             };
-        //             // consumer key = 3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3
-        //             // consumer secret =  38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8
-        //             var access_token = '6Cel800D5h0000093stB8885h000000OynwCrXf1CoyP4GtJX3RpmnCxzFjHBU1vR3qz37oQH0n0GIswVXEXdZJKuXmZQ3EAFN2sJ1M8dqO';
-        //             if(access_token != ''){
-        //                 var xhr = new XMLHttpRequest();
-        //                 xhr.open('POST', 'https://expensetrackerportal-dev-ed.develop.lightning.force.com/services/data/v58.0/sobjects/Expense__c/', true);
-        //                 xhr.setRequestHeader('Content-Type', 'application/json');
-        //                 xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
-                        
-        //                 xhr.onreadystatechange = function() {
-        //                     if (xhr.readyState === 4 && xhr.status === 200) {
-        //                         console.log('Data stored successfully');
-        //                     } else {
-        //                         console.error('Error storing data');
-        //                     }
-        //                 };
-        //                 console.log('xhr ==> '+xhr);
-                        
-        //                 xhr.send(JSON.stringify(data));
-        //                 toggleExpenseListVisibility();
-        //             } else{
-        //                 alert('Something went wrong !! Please try again');
-        //             }
-        //         }
-        //     } catch (error) {
-        //         console.log('error in submit click ==> ' + error);
-        //         console.log('Line number ==> ' + error.lineNumber);
-        //     }
-        // });
+            if (name && amount) {
+                expenses.push({ name, amount });
+                totalExpense += amount;
+                await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
+                updateUI();
+                expenseForm.reset();
+                toggleExpenseListVisibility();
+            }
+        });
 
         // Function to toggle visibility of the expense list based on expense addition
         function toggleExpenseListVisibility() {
