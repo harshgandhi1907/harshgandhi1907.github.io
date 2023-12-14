@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (name && amount) {
                     expenses.push({ name, amount });
                     totalExpense += amount;
-                    await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
                     updateUI();
                     expenseForm.reset();
                     toggleExpenseListVisibility();
