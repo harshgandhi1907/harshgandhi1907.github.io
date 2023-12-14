@@ -41,6 +41,39 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
+        // async function getRecordsFromSalesforce(username, password) {
+        //     try {
+        //         const accessToken = "YOUR_ACCESS_TOKEN"; // Replace with your Salesforce access token
+        
+        //         const headers = {
+        //             "Content-Type": "application/json",
+        //             "Authorization": `Bearer ${accessToken}`,
+        //         };
+        
+        //         const query = `SELECT Id, Name, OtherField__c FROM Expense__c WHERE Username__c = '${username}' AND Password__c = '${password}'`; // Modify the fields as per your Salesforce object schema
+        
+        //         const requestBody = JSON.stringify({
+        //             "query": query
+        //         });
+        
+        //         const response = await fetch(salesforceEndpoint, {
+        //             method: "POST",
+        //             headers,
+        //             body: requestBody,
+        //         });
+        
+        //         if (response.ok) {
+        //             const data = await response.json();
+        //             console.log("Records retrieved from Salesforce:", data);
+        //             // Handle the retrieved records here (e.g., display in UI)
+        //         } else {
+        //             console.error("Failed to retrieve records from Salesforce:", response.statusText);
+        //         }
+        //     } catch (error) {
+        //         console.error("Error retrieving records from Salesforce:", error);
+        //     }
+        // }
+
         expenseForm.addEventListener("submit", async (e) => {
             try {
                 e.preventDefault();
