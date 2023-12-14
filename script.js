@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function addExpenseToSalesforce(name, amount) {
         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.lightning.force.com/services/data/v58.0/sobjects/Expense__c";
-        const accessToken = "YOUR_ACCESS_TOKEN";
+        const accessToken = "6Cel800D5h0000093stB8885h000000Oynw40RJran3Jypf7lPD8tLGLiNMmrXO3Rc7uXNCExve1P2AO1x8fJiYYVAz6Y4NYLdaIZf3zIbI";
 
         const headers = {
             "Content-Type": "application/json",
