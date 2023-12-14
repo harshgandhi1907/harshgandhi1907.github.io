@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     try {
-        console.log('hi');
         const expenseForm = document.getElementById("expense-form");
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
@@ -15,33 +14,28 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
                 const accessToken = "00D5h0000093stB!ARMAQJFeFELpvLe9iZHCQqoIekwTI5_1Fl5lZn8aTVP9QxKlBIQRIug_FXsicyQdJK7Mf5pALoLUBPVCZToAhYW7nt9j8id0";
 
-                const objectData = {
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                };
+        
+                const requestBody = JSON.stringify({
                     "Name": name,
                     "Expense_Amount__c": amount
-                };
-
-                fetch('expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    },
-                        body: JSON.stringify(objectData)
-                })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    throw new Error('Failed to create record');
-                })
-                .then(data => {
-                    console.log('Record created:', data);
-                    // Handle success
-                })
-                .catch(error => {
-                    console.error('Error creating record:', error.message);
-                    // Handle error
+                    // Add other fields as needed for your Expense object
                 });
+
+                const response = await fetch(salesforceEndpoint, {
+                    method: "POST",
+                    headers,
+                    body: requestBody,
+                });
+        
+                if (response.ok) {
+                    console.log("Expense added to Salesforce!");
+                } else {
+                    console.error("Failed to add expense to Salesforce:", response.statusText);
+                }
             } catch (error) {
                 console.error("Error adding expense to Salesforce:", error);
             }
@@ -49,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         expenseForm.addEventListener("submit", async (e) => {
             try {
-                
                 e.preventDefault();
                 const name = document.getElementById("expense-name").value;
                 const amount = parseFloat(document.getElementById("expense-amount").value);
