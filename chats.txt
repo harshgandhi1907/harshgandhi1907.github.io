@@ -2,6 +2,16 @@
 --> If making any large changes, do create new branch
 
 
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+Username: expensetracker@company.dev
+Password: expense12345
+Login URL: https://login.salesforce.com/
+Object: Expense__c
+    Fields: Name, Expense_Amount__c
+Connected App: Expense
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 
 -->aa code try kar @harsh
 const salesforceEndpoint = "https://your-salesforce-instance/services/data/vXX.X/sobjects/Expense__c/";
@@ -48,4 +58,3 @@ expenseForm.addEventListener("submit", async (e) => {
         toggleExpenseListVisibility();
     }
 });
-
