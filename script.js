@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    console.log('hi');
     try {
         const expenseForm = document.getElementById("expense-form");
         const expenseList = document.getElementById("expense-list");
@@ -9,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let totalExpense = 0;
         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
-        const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.lightning.force.com/services/data/v58.0/sobjects/Expense__c";
+        const salesforceEndpoint = "expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
         async function addExpenseToSalesforce(name, amount) {
             try {
                 const accessToken = "6Cel800D5h0000093stB8885h000000OynwCrXf1CoyP4GtJX3RpmnCxzFjHBU1vR3qz37oQH0n0GIswVXEXdZJKuXmZQ3EAFN2sJ1M8dqO";
@@ -49,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (name && amount) {
                     expenses.push({ name, amount });
                     totalExpense += amount;
+                    await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
                     updateUI();
                     expenseForm.reset();
                     toggleExpenseListVisibility();
