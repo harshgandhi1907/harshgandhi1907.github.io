@@ -1,4 +1,7 @@
 --> Sync main branch whenever start working
+--> Always commit changes to the branch
+--> If working with remote branch, Create Pull Request for that branch after completing work or at End Of the Day
+--> Always pull main branch to your remote branch whenever start working
 --> If making any large changes, do create new branch
 
 
@@ -14,48 +17,4 @@ Connected App: Expense
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
 
--->aa code try kar @harsh
-const salesforceEndpoint = "https://your-salesforce-instance/services/data/vXX.X/sobjects/Expense__c/";
-async function addExpenseToSalesforce(name, amount) {
-    const accessToken = "your-access-token";
-    const headers = {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${accessToken}`,
-    };
 
-    const requestBody = JSON.stringify({
-        "Expense_Name__c": name,
-        "Amount__c": amount,
-    });
-
-    try {
-        const response = await fetch(salesforceEndpoint, {
-            method: "POST",
-            headers,
-            body: requestBody,
-        });
-
-        if (response.ok) {
-            console.log("Expense added to Salesforce!");
-        } else {
-            console.error("Failed to add expense to Salesforce:", response.statusText);
-        }
-    } catch (error) {
-        console.error("Error adding expense to Salesforce:", error);
-    }
-}
-
-expenseForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const name = document.getElementById("expense-name").value;
-    const amount = parseFloat(document.getElementById("expense-amount").value);
-
-    if (name && amount) {
-        expenses.push({ name, amount });
-        totalExpense += amount;
-        await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
-        updateUI();
-        expenseForm.reset();
-        toggleExpenseListVisibility();
-    }
-});
