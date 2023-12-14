@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     totalExpense += amount;
                     updateUI();
                     expenseForm.reset();
+                    toggleExpenseListVisibility();
                 }
             } catch (error) {
                 console.log('error in submit click ==> ' + error);
