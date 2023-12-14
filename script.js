@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log('hi');
     try {
         console.log('hi');
         const expenseForm = document.getElementById("expense-form");
@@ -107,38 +106,5 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
         console.log('error in DOMContentLoaded ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
-    }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const loginForm = document.getElementById("login-form");
-    const mainContent = document.getElementById("main-content");
-
-    function login() {
-        // Add your login logic here
-        // Example: Check if username and password are valid
-
-        // For demonstration, set isLoggedIn to true
-        const isLoggedIn = true;
-
-        if (isLoggedIn) {
-            loginForm.style.display = "none";
-            mainContent.style.display = "block";
-        } else {
-            alert("Invalid username or password");
-        }
-    }
-
-    function logout() {
-        // Add your logout logic here
-        // Example: Clear session, reset isLoggedIn to false
-
-        // For demonstration, set isLoggedIn to false
-        const isLoggedIn = false;
-
-        if (!isLoggedIn) {
-            loginForm.style.display = "block";
-            mainContent.style.display = "none";
-        }
     }
 });
