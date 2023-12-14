@@ -13,28 +13,35 @@ document.addEventListener("DOMContentLoaded", () => {
         const salesforceEndpoint = "expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
         async function addExpenseToSalesforce(name, amount) {
             try {
-                const accessToken = "00D5h0000093stB!ARMAQNA9Ow08OtuquzO7WD7zK60zFhICmq4nY_ZY6HEp6qg_JhCA5un6wh1tA0xEtT.iMYWb7flhBJjQFI8KxEtmPl9t4r8P";
-                const headers = {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`,
-                };
+                const accessToken = "00D5h0000093stB!ARMAQJFeFELpvLe9iZHCQqoIekwTI5_1Fl5lZn8aTVP9QxKlBIQRIug_FXsicyQdJK7Mf5pALoLUBPVCZToAhYW7nt9j8id0";
 
-                const requestBody = JSON.stringify({
+                const objectData = {
                     "Name": name,
                     "Expense_Amount__c": amount
-                });
+                };
 
-                const response = await fetch(salesforceEndpoint, {
-                    method: "POST",
-                    headers,
-                    body: requestBody,
+                fetch('expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                        body: JSON.stringify(objectData)
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Failed to create record');
+                })
+                .then(data => {
+                    console.log('Record created:', data);
+                    // Handle success
+                })
+                .catch(error => {
+                    console.error('Error creating record:', error.message);
+                    // Handle error
                 });
-
-                if (response.ok) {
-                    console.log("Expense added to Salesforce!");
-                } else {
-                    console.error("Failed to add expense to Salesforce:", response.statusText);
-                }
             } catch (error) {
                 console.error("Error adding expense to Salesforce:", error);
             }
