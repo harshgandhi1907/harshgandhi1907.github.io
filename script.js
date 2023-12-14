@@ -40,17 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         expenseForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const name = document.getElementById("expense-name").value;
-            const amount = parseFloat(document.getElementById("expense-amount").value);
-
-            if (name && amount) {
-                expenses.push({ name, amount });
-                totalExpense += amount;
-                await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
-                updateUI();
-                expenseForm.reset();
-                toggleExpenseListVisibility();
+            try {
+                
+                e.preventDefault();
+                const name = document.getElementById("expense-name").value;
+                const amount = parseFloat(document.getElementById("expense-amount").value);
+                
+                if (name && amount) {
+                    expenses.push({ name, amount });
+                    totalExpense += amount;
+                    await addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
+                    updateUI();
+                    expenseForm.reset();
+                    toggleExpenseListVisibility();
+                }
+            } catch (error) {
+                console.log('error in submit action ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
             }
         });
 
