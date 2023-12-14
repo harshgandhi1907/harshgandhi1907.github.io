@@ -1,2 +1,14 @@
 --> Sync main branch whenever start working
 --> If making any large changes, do create new branch
+
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+Username: expensetracker@company.dev
+Password: expense12345
+Login URL: https://login.salesforce.com/
+Object: Expense__c
+    Fields: Name, Expense_Amount__c
+Connected App: Expense
+-----------------------------------------------------------------------
+-----------------------------------------------------------------------
+

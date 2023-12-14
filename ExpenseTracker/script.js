@@ -24,16 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     // Rest API callout
                     var data = {
-                        Name: (Math.random()).toString(),
-                        Expense_Name__c: name,
+                        Name: name,
                         Expense_Amount__c: amount
                     };
-                    // consumer key = 3MVG9pRzvMkjMb6naRM353RGyfO_sA0RSipQL3qs0I8rba2pDr1arq8GaEy5PnjyOvuR8Vkz1MYORLHlYfs6s
-                    // consumer secret =  460ADD94008F060A4F3E58FBCE32EC0122A3929E335D703E7FBF72AE5A3E4215
-                    var access_token = '6Cel800D5j00000CfpEr8885j000000hFF1sx4PcANYC4BmtyMxqoaGR5lMuVoE7QhIRYMleURFncbZPYUrDYuwRNtGdRIpQykOd4hj7V0O';
+                    // consumer key = 3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3
+                    // consumer secret =  38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8
+                    var access_token = '6Cel800D5h0000093stB8885h000000OynwCrXf1CoyP4GtJX3RpmnCxzFjHBU1vR3qz37oQH0n0GIswVXEXdZJKuXmZQ3EAFN2sJ1M8dqO';
                     if(access_token != ''){
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', 'https://harsh-2b-dev-ed.develop.lightning.force.com/services/data/v58.0/sobjects/Expense__c/', true);
+                        xhr.open('POST', 'https://expensetrackerportal-dev-ed.develop.lightning.force.com//services/data/v58.0/sobjects/Expense__c/', true);
                         xhr.setRequestHeader('Content-Type', 'application/json');
                         xhr.setRequestHeader('Authorization', 'Bearer ' + access_token);
                         
@@ -44,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 console.error('Error storing data');
                             }
                         };
-                        console.log(xhr);
+                        console.log('xhr ==> '+xhr);
                         
                         xhr.send(JSON.stringify(data));
                         toggleExpenseListVisibility();
