@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    console.log('hi');
     try {
+        console.log('hi');
         const expenseForm = document.getElementById("expense-form");
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
