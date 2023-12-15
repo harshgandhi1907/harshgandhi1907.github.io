@@ -24,10 +24,3 @@ link.addEventListener("click", e => {
  e.preventDefault(); //preventing form submit
  forms.classList.toggle("show-signup");
 })
-<<<<<<< HEAD
-})
-=======
-})
-
-
->>>>>>> 8fa5024ea7a201e4a9c85dfd97c92dc9fcc79888
