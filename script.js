@@ -4,10 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
         const expensesContainer = document.getElementById("expenses-container");
-<<<<<<< HEAD
-
-=======
->>>>>>> 8fa5024ea7a201e4a9c85dfd97c92dc9fcc79888
 
         let expenses = [];
         let totalExpense = 0;
@@ -84,11 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (name && amount) {
                     expenses.push({ name, amount });
                     totalExpense += amount;
-                    // addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
                     updateUI();
                     expenseForm.reset();
                     toggleExpenseListVisibility();
-                    fetchExpensesFromSalesforce('harsh1907','harsh1907');
                 }
             } catch (error) {
                 console.log('error in submit action ==> ' + error);
@@ -142,27 +136,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('error in DOMContentLoaded ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
-<<<<<<< HEAD
-// <<<<<<< HEAD
-// =======
-});
-
-
-// login/signup page
-let signup = document.querySelector(".signup");
-let login = document.querySelector(".login");
-let slider = document.querySelector(".slider");
-let formSection = document.querySelector(".form-section");
- 
-signup.addEventListener("click", () => {
-    slider.classList.add("moveslider");
-    formSection.classList.add("form-section-move");
-});
- 
-login.addEventListener("click", () => {
-    slider.classList.remove("moveslider");
-    formSection.classList.remove("form-section-move");
-// >>>>>>> 2ffd77321fede2669adc315ab9c06d1512698bfc
-=======
->>>>>>> 8fa5024ea7a201e4a9c85dfd97c92dc9fcc79888
 });
