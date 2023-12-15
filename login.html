@@ -1,176 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Coding By CodingNepal - codingnepalweb.com -->
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title> Responsive Login and Signup Form </title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Login Page</title>
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@200;300;400;500;600;700&display=swap");
+        <!-- CSS -->
+        <link rel="stylesheet" href="css/style.css">
+                
+        <!-- Boxicons CSS -->
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="/login.css">
+                        
+    </head>
+    <body>
+        <section class="container forms">
+            <div class="form login">
+                <div class="form-content">
+                    <header>Login</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Open Sans", sans-serif;
-        }
+                        <div class="field input-field">
+                            <input type="password" placeholder="Password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
 
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            width: 100%;
-            padding: 0 10px;
-        }
+                        <div class="form-link">
+                            <a href="#" class="forgot-pass">Forgot password?</a>
+                        </div>
 
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url("https://www.codingnepalweb.com/demos/create-glassmorphism-login-form-html-css/hero-bg.jpg"), #000;
-            background-position: center;
-            background-size: cover;
-        }
+                        <div class="field button-field">
+                            <button>Login</button>
+                        </div>
+                    </form>
 
-        .wrapper {
-            width: 400px;
-            border-radius: 8px;
-            padding: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(9px);
-            -webkit-backdrop-filter: blur(9px);
-        }
+                    <div class="form-link">
+                        <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+                    </div>
+                </div>
 
-        form {
-            display: flex;
-            flex-direction: column;
-        }
+                <div class="line"></div>
 
-        h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
+                <div class="media-options">
+                    <a href="#" class="field facebook">
+                        <i class='bx bxl-facebook facebook-icon'></i>
+                        <span>Login with Facebook</span>
+                    </a>
+                </div>
 
-        .input-field {
-            position: relative;
-            border-bottom: 2px solid #ccc;
-            margin: 15px 0;
-        }
+                <div class="media-options">
+                    <a href="#" class="field google">
+                        <img src="#" alt="" class="google-img">
+                        <span>Login with Google</span>
+                    </a>
+                </div>
 
-        .input-field label {
-            position: absolute;
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-            color: #fff;
-            font-size: 16px;
-            pointer-events: none;
-            transition: 0.15s ease;
-        }
-
-        .input-field input {
-            width: 100%;
-            height: 40px;
-            background: transparent;
-            border: none;
-            outline: none;
-            font-size: 16px;
-            color: #fff;
-        }
-
-        .input-field input:focus~label,
-        .input-field input:valid~label {
-            font-size: 0.8rem;
-            top: 10px;
-            transform: translateY(-120%);
-        }
-
-        .forget {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin: 25px 0 35px 0;
-            color: #fff;
-        }
-
-        #remember {
-            accent-color: #fff;
-        }
-
-        .forget label {
-            display: flex;
-            align-items: center;
-        }
-
-        .forget label p {
-            margin-left: 8px;
-        }
-
-        .wrapper a {
-            color: #efefef;
-            text-decoration: none;
-        }
-
-        .wrapper a:hover {
-            text-decoration: underline;
-        }
-
-        button {
-            background: #fff;
-            color: #000;
-            font-weight: 600;
-            border: none;
-            padding: 12px 20px;
-            cursor: pointer;
-            border-radius: 3px;
-            font-size: 16px;
-            border: 2px solid transparent;
-            transition: 0.3s ease;
-        }
-
-        button:hover {
-            color: #fff;
-            border-color: #fff;
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .register {
-            text-align: center;
-            margin-top: 30px;
-            color: #fff;
-        }
-    </style>
-</head>
-
-<body>
-    <div class="wrapper">
-        <form action="#">
-            <h2>Login</h2>
-            <div class="input-field">
-                <input type="text" required>
-                <label>Enter your email</label>
             </div>
-            <div class="input-field">
-                <input type="password" required>
-                <label>Enter your password</label>
-            </div>
-            <div class="forget">
-                <label for="remember">
-                    <input type="checkbox" id="remember">
-                    <p>Remember me</p>
-                </label>
-                <a href="#">Forgot password?</a>
-            </div>
-            <button type="submit">Log In</button>
-            <div class="register">
-                <p>Don't have an account? <a href="#">SignUp</a></p>
-            </div>
-        </form>
-    </div>
-</body>
 
+            <!-- Signup Form -->
+
+            <div class="form signup">
+                <div class="form-content">
+                    <header>Signup</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Create password" class="password">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Confirm password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            <button>Signup</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+                    </div>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="media-options">
+                    <a href="#" class="field facebook">
+                        <i class='bx bxl-facebook facebook-icon'></i>
+                        <span>Login with Facebook</span>
+                    </a>
+                </div>
+
+                <div class="media-options">
+                    <a href="#" class="field google">
+                        <i class='bx bxl-google google-icon'></i>
+                        <!-- <img src="#" alt="" class="google-img"> -->
+                        <span>Login with Google</span>
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- JavaScript -->
+        <script src="/login.js"></script>
+    </body>
 </html>
