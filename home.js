@@ -41,26 +41,23 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        const salesforceQueryEndpoint = "https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query/";
+        const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c='${username}' AND Password__c='${password}'`;
+        const salesforceQueryEndpoint = `https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query?q=${encodeURIComponent(query)}`;
+
+        const accessToken = "00D5h0000093stB!ARMAQIPIpD.RxtIwOrGxOU8yw7hXh5qpLeT53s0kXe1cpTJnqeU6.FClkPSDrXL2INrKRurY3dJ6DIkYT9gxXfnW26p8GR4b"; // Replace with your Salesforce access token
+
         async function fetchExpensesFromSalesforce(username, password) {
             try {
-                const accessToken = "00D5h0000093stB!ARMAQIogQ9EhD18VWLG4kuLYREUgdgv3Es41x_08L9p1BbBalbZ6R7fS_xHAemSm.7yNnlujv7pTVZPp1Qv8Ap8sPDeO5mac"; // Make sure to replace with a valid access token
-
                 const headers = {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
                 };
 
-                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
-                // const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}'`;
-                console.log(JSON.stringify({ query }));
                 const response = await fetch(salesforceQueryEndpoint, {
-                    method: "POST",
+                    method: "GET",
                     headers,
-                    body: JSON.stringify({ query }),
                 });
-                console.log(response);
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Expenses fetched from Salesforce:", data);
