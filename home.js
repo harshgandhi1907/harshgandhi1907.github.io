@@ -41,13 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c='${username}' AND Password__c='${password}'`;
-        const salesforceQueryEndpoint = `https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query?q=${encodeURIComponent(query)}`;
-
-        const accessToken = "00D5h0000093stB!ARMAQIPIpD.RxtIwOrGxOU8yw7hXh5qpLeT53s0kXe1cpTJnqeU6.FClkPSDrXL2INrKRurY3dJ6DIkYT9gxXfnW26p8GR4b"; // Replace with your Salesforce access token
-
+        
         async function fetchExpensesFromSalesforce(username, password) {
             try {
+                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c='${username}' AND Password__c='${password}'`;
+                const salesforceQueryEndpoint = `https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query?q=${encodeURIComponent(query)}`;
+        
+                const accessToken = "00D5h0000093stB!ARMAQIPIpD.RxtIwOrGxOU8yw7hXh5qpLeT53s0kXe1cpTJnqeU6.FClkPSDrXL2INrKRurY3dJ6DIkYT9gxXfnW26p8GR4b"; // Replace with your Salesforce access token
                 const headers = {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
