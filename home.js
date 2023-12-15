@@ -42,33 +42,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         
-        async function fetchExpensesFromSalesforce(username, password) {
-            try {
-                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c='${username}' AND Password__c='${password}'`;
-                const salesforceQueryEndpoint = `https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query?q=${encodeURIComponent(query)}`;
+        // async function fetchExpensesFromSalesforce(username, password) {
+        //     try {
+        //         const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c='${username}' AND Password__c='${password}'`;
+        //         const salesforceQueryEndpoint = `https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query?q=${encodeURIComponent(query)}`;
         
-                const accessToken = "00D5h0000093stB!ARMAQIPIpD.RxtIwOrGxOU8yw7hXh5qpLeT53s0kXe1cpTJnqeU6.FClkPSDrXL2INrKRurY3dJ6DIkYT9gxXfnW26p8GR4b"; // Replace with your Salesforce access token
-                const headers = {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`,
-                };
+        //         const accessToken = "00D5h0000093stB!ARMAQIPIpD.RxtIwOrGxOU8yw7hXh5qpLeT53s0kXe1cpTJnqeU6.FClkPSDrXL2INrKRurY3dJ6DIkYT9gxXfnW26p8GR4b"; // Replace with your Salesforce access token
+        //         const headers = {
+        //             "Content-Type": "application/json",
+        //             "Authorization": `Bearer ${accessToken}`,
+        //         };
 
-                const response = await fetch(salesforceQueryEndpoint, {
-                    method: "GET",
-                    headers,
-                });
+        //         const response = await fetch(salesforceQueryEndpoint, {
+        //             method: "GET",
+        //             headers,
+        //         });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log("Expenses fetched from Salesforce:", data);
-                    // Process the fetched data here
-                } else {
-                    console.log("Failed to fetch expenses from Salesforce:", response.statusText);
-                }
-            } catch (error) {
-                console.log("Error fetching expenses from Salesforce:", error);
-            }
-        }
+        //         if (response.ok) {
+        //             const data = await response.json();
+        //             console.log("Expenses fetched from Salesforce:", data);
+        //             // Process the fetched data here
+        //         } else {
+        //             console.log("Failed to fetch expenses from Salesforce:", response.statusText);
+        //         }
+        //     } catch (error) {
+        //         console.log("Error fetching expenses from Salesforce:", error);
+        //     }
+        // }
 
         expenseForm.addEventListener("submit", async (e) => {
             try {
@@ -83,7 +83,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     // addExpenseToSalesforce(name,amount);
                     expenseForm.reset();
                     toggleExpenseListVisibility();
-                    fetchExpensesFromSalesforce('harsh1907','harsh1907');
+                    // fetchExpensesFromSalesforce('harsh1907','harsh1907');
+
+                    const accessToken = "00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o";
+                    // Make a request to fetch data
+                    const axios = require('axios');
+                    axios.get('https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c', {
+                        headers: {
+                            'Authorization': `Bearer ${accessToken}`
+                        }
+                    })
+                    .then(response => {
+                        // Handle the Salesforce data
+                        console.log(response);
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
                 } else{
                     alert('something went wrong !! Record not stored')
                 }
