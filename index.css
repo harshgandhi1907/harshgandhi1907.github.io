@@ -64,7 +64,7 @@
 header{
     font-size: 28px;
     font-weight: 600;
-    color: #232836;
+    color: #00abef;
     text-align: center;
 }
 form{
@@ -116,16 +116,18 @@ form{
 .form-link{
     text-align: center;
     margin-top: 10px;
+    
 }
 .form-link span,
 .form-link a{
     font-size: 14px;
     font-weight: 400;
-    color: #232836;
+    color: white;
 }
 .form a{
-    color: #0171d3;
+    color: #00abef;
     text-decoration: none;
+
 }
 .form-content a:hover{
     text-decoration: underline;
