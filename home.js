@@ -1,4 +1,4 @@
-const axios = require('axios');
+import { get } from 'axios';
 document.addEventListener("DOMContentLoaded", () => {
     try {
         const expenseForm = document.getElementById("expense-form");
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     const accessToken = "00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o";
                     // Make a request to fetch data
-                    axios.get('https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c', {
+                    get('https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c', {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
                         }
