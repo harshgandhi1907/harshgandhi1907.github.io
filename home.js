@@ -1,4 +1,3 @@
-import { get } from 'axios';
 document.addEventListener("DOMContentLoaded", () => {
     try {
         const expenseForm = document.getElementById("expense-form");
