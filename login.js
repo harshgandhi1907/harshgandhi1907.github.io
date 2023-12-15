@@ -25,4 +25,6 @@ links.forEach(link => {
   })
 })
 
-
+function redirectToHome() {
+  window.location.href = "/home.html";
+}
