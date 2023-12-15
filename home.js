@@ -51,14 +51,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Authorization": `Bearer ${accessToken}`,
                 };
 
-                // const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
-                const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}'`;
-                var responseURL = salesforceQueryEndpoint + query;
-                console.log(responseURL);
+                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
+                // const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}'`;
 
-                const response = await fetch(responseURL, {
-                    method: "GET",
+                const response = await fetch(salesforceEndpoint, {
+                    method: "POST",
                     headers,
+                    body: JSON.stringify({ query }),
                 });
                 console.log(response);
                 
