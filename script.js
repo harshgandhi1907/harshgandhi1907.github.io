@@ -4,8 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
         const expensesContainer = document.getElementById("expenses-container");
-        const aboutSection = document.querySelector(".about-section");
-        const aboutLink = document.getElementById("about-link");
 
 
         let totalExpense = 0;
@@ -139,8 +137,8 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('error in DOMContentLoaded ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
-<<<<<<< HEAD
-=======
+// <<<<<<< HEAD
+// =======
 });
 
 
@@ -158,5 +156,5 @@ signup.addEventListener("click", () => {
 login.addEventListener("click", () => {
     slider.classList.remove("moveslider");
     formSection.classList.remove("form-section-move");
->>>>>>> 2ffd77321fede2669adc315ab9c06d1512698bfc
+// >>>>>>> 2ffd77321fede2669adc315ab9c06d1512698bfc
 });
