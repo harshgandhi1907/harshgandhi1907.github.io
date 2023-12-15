@@ -1,44 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Expense Tracker</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <div class="app-container">
-        <header>
-            <h1>Expense Tracker</h1>
-            <nav class="navbar">
-                <ul>
-                    <li><a href="/login.html">Login/SignUp</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
-        <div class="main-container">
-            <div class="balance">
-                <h2>Total Expense: ₹<span id="balance">0.00</span></h2>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login/SignUp Page</title>
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="/login.css">
+        <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+                        
+    </head>
+    <body>
+        <section class="container forms">
+            <div class="form login">
+                <div class="form-content">
+                    <header>Login</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="form-link">
+                            <a href="#" class="forgot-pass">Forgot password?</a>
+                        </div>
+
+                        <div class="field button-field">
+                            <a href="/home.html"><button>Login</button></a>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Don't have an account? <a href="#" class="link signup-link">Signup</a></span>
+                    </div>
+                </div>
             </div>
-            <div class="expenses" id="expenses-container" style="display: none;">
-                <h2>Recent Transactions</h2>
-                <ul id="expense-list">
-                    <!-- Expenses will be added here dynamically -->
-                </ul>
-            </div>
-            <div class="add-expense">
-                <h2>Add a New Expense</h2>
-                <!-- input form field -->
-                <form id="expense-form">
-                    <input type="text" id="expense-name" placeholder="Expense Name" required />
-                    <input type="number" id="expense-amount" placeholder="Amount" required /><br>
-                    <button type="submit">Add</button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
+
+            <!-- Signup Form -->
+
+            <div class="form signup">
+                <div class="form-content">
+                    <header>Signup</header>
+                    <form action="#">
+                        <div class="field input-field">
+                            <input type="email" placeholder="Email" class="input">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Create password" class="password">
+                        </div>
+
+                        <div class="field input-field">
+                            <input type="password" placeholder="Confirm password" class="password">
+                            <i class='bx bx-hide eye-icon'></i>
+                        </div>
+
+                        <div class="field button-field">
+                            <button class="link login-link">Signup</button>
+                        </div>
+                    </form>
+
+                    <div class="form-link">
+                        <span>Already have an account? <a href="#" class="link login-link">Login</a></span>
+                    </div>
+                </div>
+        </section>
+
+        <!-- JavaScript -->
+        <script src="/login.js"></script>
+    </body>
 </html>
