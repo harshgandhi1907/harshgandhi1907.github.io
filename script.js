@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
         const expensesContainer = document.getElementById("expenses-container");
-        const aboutSection = document.querySelector(".about-section");
-        const aboutLink = document.getElementById("about-link");
 
-
+        let expenses = [];
         let totalExpense = 0;
         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
@@ -20,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`,
                 };
-
+        
                 const requestBody = JSON.stringify({
                     "Name": name,
                     "Expense_Amount__c": amount
@@ -32,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     headers,
                     body: requestBody,
                 });
-
+        
                 if (response.ok) {
                     console.log("Expense added to Salesforce!");
                 } else {
@@ -53,9 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Authorization": `Bearer ${accessToken}`,
                 };
 
-                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
+                // const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
+                const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}`;
 
-                const response = await fetch(`${salesforceQueryEndpoint}?q=${encodeURIComponent(query)}`, {
+                const response = await fetch(`${salesforceQueryEndpoint}?${query}`, {
                     method: "GET",
                     headers,
                 });
@@ -77,11 +76,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
                 const name = document.getElementById("expense-name").value;
                 const amount = parseFloat(document.getElementById("expense-amount").value);
-
+                
                 if (name && amount) {
                     expenses.push({ name, amount });
                     totalExpense += amount;
-                    addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
+                    // addExpenseToSalesforce(name, amount); // Add the expense to Salesforce
                     updateUI();
                     expenseForm.reset();
                     toggleExpenseListVisibility();
@@ -118,11 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 balance.innerText = totalExpense.toFixed(2);
             } catch (error) {
-                console.log('error in updateUI ==> ' + error);
-                console.log('Line number ==> ' + error.lineNumber);
+                console.log('error in updateUI ==> ' + error); 
+                console.log('Line number ==> ' + error.lineNumber); 
             }
         }
-
+        
         // remove expense lines
         window.removeExpense = (index) => {
             try {
@@ -132,31 +131,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 toggleExpenseListVisibility();
             } catch (error) {
                 console.log('error in removeExpnese ==> ' + error);
-                console.log('Line number ==> ' + error.lineNumber);
+                console.log('Line number ==> ' + error.lineNumber); 
             }
         };
     } catch (error) {
         console.log('error in DOMContentLoaded ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
-<<<<<<< HEAD
-=======
-});
-
-
-// login/signup page
-let signup = document.querySelector(".signup");
-let login = document.querySelector(".login");
-let slider = document.querySelector(".slider");
-let formSection = document.querySelector(".form-section");
- 
-signup.addEventListener("click", () => {
-    slider.classList.add("moveslider");
-    formSection.classList.add("form-section-move");
-});
- 
-login.addEventListener("click", () => {
-    slider.classList.remove("moveslider");
-    formSection.classList.remove("form-section-move");
->>>>>>> 2ffd77321fede2669adc315ab9c06d1512698bfc
 });
