@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
                 // const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}'`;
-
+                console.log(JSON.stringify({ query }));
                 const response = await fetch(salesforceEndpoint, {
                     method: "POST",
                     headers,
