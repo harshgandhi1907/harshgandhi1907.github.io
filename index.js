@@ -14,17 +14,17 @@ pwShowHide.forEach(eyeIcon => {
         }
         password.type = "password";
         eyeIcon.classList.replace("bx-show", "bx-hide");
-    })
-  })
-})      
+    });
+  });
+});      
 
 links.forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault(); //preventing form submit
     forms.classList.toggle("show-signup");
-  })
-})
+  });
+});
 
-function redirectToHome() {
+document.getElementById("loginButton").onclick = function() {
   window.location.href = "/home.html";
-}
+};
