@@ -86,10 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     // fetchExpensesFromSalesforce('harsh1907','harsh1907');
 
                      // Make a request to fetch data
-                    const salesforceEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c';
+                    const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c';
                     const accessToken = '00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o'; // Replace with your Salesforce access token
 
-                    const response = await fetch(salesforceEndpoint, {
+                    const response = await fetch(salesforceQEndpoint, {
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
