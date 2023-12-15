@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
         async function addExpenseToSalesforce(name, amount) {
             try {
-                const accessToken = "00D5h0000093stB!ARMAQJFeFELpvLe9iZHCQqoIekwTI5_1Fl5lZn8aTVP9QxKlBIQRIug_FXsicyQdJK7Mf5pALoLUBPVCZToAhYW7nt9j8id0";
+                const accessToken = "00D5h0000093stB!ARMAQIogQ9EhD18VWLG4kuLYREUgdgv3Es41x_08L9p1BbBalbZ6R7fS_xHAemSm.7yNnlujv7pTVZPp1Qv8Ap8sPDeO5mac";
 
                 const headers = {
                     "Content-Type": "application/json",
@@ -41,38 +41,34 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
 
-        // async function getRecordsFromSalesforce(username, password) {
-        //     try {
-        //         const accessToken = "YOUR_ACCESS_TOKEN"; // Replace with your Salesforce access token
-        
-        //         const headers = {
-        //             "Content-Type": "application/json",
-        //             "Authorization": `Bearer ${accessToken}`,
-        //         };
-        
-        //         const query = `SELECT Id, Name, OtherField__c FROM Expense__c WHERE Username__c = '${username}' AND Password__c = '${password}'`; // Modify the fields as per your Salesforce object schema
-        
-        //         const requestBody = JSON.stringify({
-        //             "query": query
-        //         });
-        
-        //         const response = await fetch(salesforceEndpoint, {
-        //             method: "POST",
-        //             headers,
-        //             body: requestBody,
-        //         });
-        
-        //         if (response.ok) {
-        //             const data = await response.json();
-        //             console.log("Records retrieved from Salesforce:", data);
-        //             // Handle the retrieved records here (e.g., display in UI)
-        //         } else {
-        //             console.error("Failed to retrieve records from Salesforce:", response.statusText);
-        //         }
-        //     } catch (error) {
-        //         console.error("Error retrieving records from Salesforce:", error);
-        //     }
-        // }
+        const salesforceQueryEndpoint = "https://expensetrackerportal-dev-ed.my.salesforce.com/services/data/v58.0/query/";
+        async function fetchExpensesFromSalesforce(username, password) {
+            try {
+                const accessToken = "00D5h0000093stB!ARMAQIogQ9EhD18VWLG4kuLYREUgdgv3Es41x_08L9p1BbBalbZ6R7fS_xHAemSm.7yNnlujv7pTVZPp1Qv8Ap8sPDeO5mac"; // Make sure to replace with a valid access token
+
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                };
+
+                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
+
+                const response = await fetch(`${salesforceQueryEndpoint}?q=${encodeURIComponent(query)}`, {
+                    method: "GET",
+                    headers,
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Expenses fetched from Salesforce:", data);
+                    // Process the fetched data here
+                } else {
+                    console.error("Failed to fetch expenses from Salesforce:", response.statusText);
+                }
+            } catch (error) {
+                console.error("Error fetching expenses from Salesforce:", error);
+            }
+        }
 
         expenseForm.addEventListener("submit", async (e) => {
             try {
@@ -87,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     updateUI();
                     expenseForm.reset();
                     toggleExpenseListVisibility();
+                    fetchExpensesFromSalesforce('harsh1907','harsh1907');
                 }
             } catch (error) {
                 console.log('error in submit action ==> ' + error);
