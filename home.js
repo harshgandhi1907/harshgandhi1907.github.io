@@ -86,21 +86,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     toggleExpenseListVisibility();
                     // fetchExpensesFromSalesforce('harsh1907','harsh1907');
 
-                    const accessToken = "00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o";
-                    // Make a request to fetch data
-                    get('https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c', {
+                     // Make a request to fetch data
+                    const salesforceEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c';
+                    const accessToken = '00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o'; // Replace with your Salesforce access token
+
+                    const response = await fetch(salesforceEndpoint, {
+                        method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${accessToken}`
                         }
-                    })
-                    .then(response => {
-                        // Handle the Salesforce data
-                        console.log(response);
-                        console.log(response.data);
-                    })
-                    .catch(error => {
-                        console.log(error);
                     });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        // Handle the Salesforce data
+                        console.log(data);
+                    } else {
+                        console.error('Failed to fetch data from Salesforce:', response.statusText);
+                    }
                 } else{
                     alert('something went wrong !! Record not stored')
                 }
