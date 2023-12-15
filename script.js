@@ -51,23 +51,26 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Authorization": `Bearer ${accessToken}`,
                 };
 
-                // const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c ='${password}'`;
-                const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}`;
+                const query = `SELECT Name, Expense_Amount__c FROM Expense__c WHERE User_Name__c = '${username}' AND Password__c = '${password}'`;
+                // const query = `q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c='${username}'+AND+Password__c='${password}'`;
+                var responseURL = salesforceQueryEndpoint + query;
+                console.log(responseURL);
 
-                const response = await fetch(`${salesforceQueryEndpoint}?${query}`, {
-                    method: "GET",
+                const response = await fetch(salesforceQueryEndpoint, {
+                    method: "POST",
                     headers,
+                    body: JSON.stringify({ query }),
                 });
-
+                console.log(response);
                 if (response.ok) {
                     const data = await response.json();
                     console.log("Expenses fetched from Salesforce:", data);
                     // Process the fetched data here
                 } else {
-                    console.error("Failed to fetch expenses from Salesforce:", response.statusText);
+                    console.log("Failed to fetch expenses from Salesforce:", response.statusText);
                 }
             } catch (error) {
-                console.error("Error fetching expenses from Salesforce:", error);
+                console.log("Error fetching expenses from Salesforce:", error);
             }
         }
 
