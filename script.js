@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log(responseURL);
 
                 const response = await fetch(salesforceQueryEndpoint, {
-                    method: "GET",
+                    method: "POST",
                     headers,
                     body: JSON.stringify({ query }),
                 });
