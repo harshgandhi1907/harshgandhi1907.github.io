@@ -84,8 +84,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     expenses.push({ name, amount });
                     totalExpense += amount;
                     updateUI();
+                    // addExpenseToSalesforce(name,amount);
                     expenseForm.reset();
                     toggleExpenseListVisibility();
+                    fetchExpensesFromSalesforce('harsh1907','harsh1907');
+                } else{
+                    alert('something went wrong !! Record not stored')
                 }
             } catch (error) {
                 console.log('error in submit action ==> ' + error);
