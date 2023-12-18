@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('onload if');
                 globalUsername = '';
                 globalPassword = '';
+                localStorage.setItem('username', globalUsername);
+                localStorage.setItem('username', globalUsername);
                 const forms = document.querySelector(".forms"),
                     pwShowHide = document.querySelectorAll(".eye-icon"),
                     links = document.querySelectorAll(".link");
