@@ -57,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     // fetchExpensesFromSalesforce('harsh1907','harsh1907');
 
                     // Make a request to fetch data
-                    const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c';
-                    const accessToken = '00D5h0000093stB!ARMAQH9Uc3S5Tw1YXBMjO.cOZqlO2xAtN61U8Pnv3Txk86_CIJXZvdIbmqCNoWBsTNZQ96DDfUMyIYcE4aBTdZOcLah5H_6o'; // Replace with your Salesforce access token
+                    const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c="harsh1907"+Password__c="harsh1907"';
+                    const accessToken = '00D5h0000093stB!ARMAQL8.DAMQJIaA7A3EIc32Pbpept0OA6Wv0uLc5YVZGJLZ4wUtRvDUu0wVmRf8jTW8nGQYDau.YQzCkCfIaOPsdI.tFfi7'; // Replace with your Salesforce access token
 
                     const response = await fetch(salesforceQEndpoint, {
                         method: 'GET',
@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             'Authorization': `Bearer ${accessToken}`
                         }
                     });
+                    console.log(data);
 
                     if (response.ok) {
                         const data = await response.json();
