@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         // Make a request to fetch data
         const encodedUsername = encodeURIComponent(username);
         // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
+        // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
         const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27${encodedUsername}%27';
         const accessToken = '00D5h0000093stB!ARMAQL8.DAMQJIaA7A3EIc32Pbpept0OA6Wv0uLc5YVZGJLZ4wUtRvDUu0wVmRf8jTW8nGQYDau.YQzCkCfIaOPsdI.tFfi7'; // Replace with your Salesforce access token
 
