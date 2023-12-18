@@ -165,7 +165,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
                         const requestBody = JSON.stringify({
                             "Name": name,
-                            "Expense_Amount__c": amount
+                            "Expense_Amount__c": amount,
+                            "User_Name__c": storedUsername,
+                            "Password__c": storedPassword
                             // Add other fields as needed for your Expense object
                         });
 
