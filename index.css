@@ -47,7 +47,7 @@
     padding: 30px;
     border-radius: 6px;
     opacity: 1;
-    background: transparent;
+    background: linear-gradient(15deg, black, transparent);
 }
 .form.signup{
     opacity: 0;
