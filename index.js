@@ -24,3 +24,12 @@ links.forEach(link => {
     forms.classList.toggle("show-signup");
   });
 });
+
+let username = '';
+let password = '';
+function handleLogin(){
+  username = document.getElementById('usernameInput').value;
+  password = document.getElementById('passwordInput').value;
+  window.location.href = '/home.html';
+}
+export { username, password, handleLogin};

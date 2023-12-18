@@ -1,5 +1,28 @@
-document.addEventListener("DOMContentLoaded", () => {
+import { username, password, handleLogin} from './index';
+document.addEventListener("DOMContentLoaded", async (e) => {
     try {
+        // Make a request to fetch data
+        const encodedUsername = encodeURIComponent(username);
+        // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
+        const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27${encodedUsername}%27';
+        const accessToken = '00D5h0000093stB!ARMAQL8.DAMQJIaA7A3EIc32Pbpept0OA6Wv0uLc5YVZGJLZ4wUtRvDUu0wVmRf8jTW8nGQYDau.YQzCkCfIaOPsdI.tFfi7'; // Replace with your Salesforce access token
+
+        const response = await fetch(salesforceQEndpoint, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+        console.log(response);
+
+        if (response.ok) {
+            const data = await response.json();
+            // Handle the Salesforce data
+            console.log(data);
+        } else {
+            console.error('Failed to fetch data from Salesforce:', response.statusText);
+        }
+
         const expenseForm = document.getElementById("expense-form");
         const expenseList = document.getElementById("expense-list");
         const balance = document.getElementById("balance");
@@ -54,27 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     // addExpenseToSalesforce(name,amount);
                     expenseForm.reset();
                     toggleExpenseListVisibility();
-                    // fetchExpensesFromSalesforce('harsh1907','harsh1907');
-
-                    // Make a request to fetch data
-                    const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
-                    const accessToken = '00D5h0000093stB!ARMAQL8.DAMQJIaA7A3EIc32Pbpept0OA6Wv0uLc5YVZGJLZ4wUtRvDUu0wVmRf8jTW8nGQYDau.YQzCkCfIaOPsdI.tFfi7'; // Replace with your Salesforce access token
-
-                    const response = await fetch(salesforceQEndpoint, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`
-                        }
-                    });
-                    console.log(response);
-
-                    if (response.ok) {
-                        const data = await response.json();
-                        // Handle the Salesforce data
-                        console.log(data);
-                    } else {
-                        console.error('Failed to fetch data from Salesforce:', response.statusText);
-                    }
                 } else{
                     alert('something went wrong !! Record not stored')
                 }
