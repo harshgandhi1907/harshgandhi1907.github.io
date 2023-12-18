@@ -74,8 +74,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const data = await response.json();
                     // Handle the Salesforce data
                     console.log(data);
-                    console.log(data.records[0].Expense_Amount__c);
-                    console.log(data.records[0].Name);
+                    data.records.forEach(record => {
+                        const expenseName = record.Name;
+                        const expenseAmount = record.Expense_Amount__c;
+                        
+                        console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
+                    });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
                 }
