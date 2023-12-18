@@ -29,15 +29,15 @@ let globalUsername = '';
 let globalPassword = '';
 
 // Event listener for username input change
-document.getElementById('usernameInput').addEventListener('input', function(event) {
-    globalUsername = event.target.value;
-    console.log('Username:', globalUsername);
+document.getElementById('usernameInput').addEventListener('input', function (event) {
+  globalUsername = event.target.value;
+  console.log('Username:', globalUsername);
 });
 
 // Event listener for password input change
-document.getElementById('passwordInput').addEventListener('input', function(event) {
-    globalPassword = event.target.value;
-    console.log('Password:', globalPassword);
+document.getElementById('passwordInput').addEventListener('input', function (event) {
+  globalPassword = event.target.value;
+  console.log('Password:', globalPassword);
 });
 
-export { globalUsername, globalPassword};
+export { globalUsername, globalPassword };
