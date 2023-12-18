@@ -25,11 +25,19 @@ links.forEach(link => {
   });
 });
 
-let username = '';
-let password = '';
-function handleLogin(){
-  username = document.getElementById('usernameInput').value;
-  password = document.getElementById('passwordInput').value;
-  window.location.href = '/home.html';
-}
-export { username, password, handleLogin};
+let globalUsername = '';
+let globalPassword = '';
+
+// Event listener for username input change
+document.getElementById('usernameInput').addEventListener('input', function(event) {
+    globalUsername = event.target.value;
+    console.log('Username:', globalUsername);
+});
+
+// Event listener for password input change
+document.getElementById('passwordInput').addEventListener('input', function(event) {
+    globalPassword = event.target.value;
+    console.log('Password:', globalPassword);
+});
+
+export { globalUsername, globalPassword};
