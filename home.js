@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             if(storedUsername != '' && storedPassword != ''){
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+storedUsername+'%27';
+                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Password__c+FROM+Expense__c+WHERE+User_Name__c+=+%27'+storedUsername+'%27';
                 console.log(salesforceQEndpoint);
                 const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
 
