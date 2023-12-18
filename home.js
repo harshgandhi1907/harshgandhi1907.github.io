@@ -3,31 +3,80 @@ let expenses = [];
 let totalExpense = 0;
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
-        // Make a request to fetch data
-        // const encodedUsername = encodeURIComponent(username);
-        const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
-        // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-        // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+encodedUsername+'%27';
-        console.log(salesforceQEndpoint);
-        const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
+        if(window.location.href === 'https://harshgandhi1907.github.io'){
+            try {
+                const forms = document.querySelector(".forms"),
+                pwShowHide = document.querySelectorAll(".eye-icon"),
+                links = document.querySelectorAll(".link");
 
-        const response = await fetch(salesforceQEndpoint, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${accessToken}`
+                pwShowHide.forEach(eyeIcon => {
+                    eyeIcon.addEventListener("click", () => {
+                        let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+
+                        pwFields.forEach(password => {
+                        if (password.type === "password") {
+                            password.type = "text";
+                            eyeIcon.classList.replace("bx-hide", "bx-show");
+                            return;
+                        }
+                        password.type = "password";
+                        eyeIcon.classList.replace("bx-show", "bx-hide");
+                        })
+                    })
+                })
+
+                links.forEach(link => {
+                    link.addEventListener("click", e => {
+                        e.preventDefault(); //preventing form submit
+                        forms.classList.toggle("show-signup");
+                    });
+                });
+
+                let globalUsername = '';
+                let globalPassword = '';
+
+                // Event listener for username input change
+                document.getElementById('usernameInput').addEventListener('input', function(event) {
+                    globalUsername = event.target.value;
+                    console.log('Username:', globalUsername);
+                });
+
+                // Event listener for password input change
+                document.getElementById('passwordInput').addEventListener('input', function(event) {
+                    globalPassword = event.target.value;
+                    console.log('Password:', globalPassword);
+                });
+            } catch (error) {
+                console.log('error in DOMContentLoaded login ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
             }
-        });
-        console.log(response);
+        } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
+            // Make a request to fetch data
+            // const encodedUsername = encodeURIComponent(username);
+            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
+            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
+            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+encodedUsername+'%27';
+            console.log(salesforceQEndpoint);
+            const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
 
-        if (response.ok) {
-            const data = await response.json();
-            // Handle the Salesforce data
-            console.log(data);
-        } else {
-            console.error('Failed to fetch data from Salesforce:', response.statusText);
+            const response = await fetch(salesforceQEndpoint, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            console.log(response);
+
+            if (response.ok) {
+                const data = await response.json();
+                // Handle the Salesforce data
+                console.log(data);
+            } else {
+                console.error('Failed to fetch data from Salesforce:', response.statusText);
+            }
         }
     } catch (error) {
-        console.log('error in DOMContentLoaded ==> ' + error);
+        console.log('error in DOMContentLoaded home ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
