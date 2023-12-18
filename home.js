@@ -38,12 +38,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 document.getElementById('usernameInput').addEventListener('input', function(event) {
                     globalUsername = event.target.value;
                     console.log('Username:', globalUsername);
+                    localStorage.setItem('username', globalUsername);
                 });
-
+                
                 // Event listener for password input change
                 document.getElementById('passwordInput').addEventListener('input', function(event) {
                     globalPassword = event.target.value;
                     console.log('Password:', globalPassword);
+                    localStorage.setItem('password', globalPassword);
                 });
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
@@ -51,12 +53,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             }
         } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
             console.log('onload else if');
-            console.log(globalUsername);
-            console.log(globalPassword);
-            if(globalUsername != '' && globalPassword != ''){
+            const storedUsername = localStorage.getItem('username');
+            const storedPassword = localStorage.getItem('password');
+            if(storedUsername != '' && storedPassword != ''){
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+globalUsername+'%27';
+                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+storedUsername+'%27';
                 console.log(salesforceQEndpoint);
                 const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
                 
