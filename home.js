@@ -4,25 +4,25 @@ let globalUsername = '';
 let globalPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
-        if(window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html'){
+        if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html') {
             try {
                 console.log('onload if');
                 const forms = document.querySelector(".forms"),
-                pwShowHide = document.querySelectorAll(".eye-icon"),
-                links = document.querySelectorAll(".link");
+                    pwShowHide = document.querySelectorAll(".eye-icon"),
+                    links = document.querySelectorAll(".link");
 
                 pwShowHide.forEach(eyeIcon => {
                     eyeIcon.addEventListener("click", () => {
                         let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
 
                         pwFields.forEach(password => {
-                        if (password.type === "password") {
-                            password.type = "text";
-                            eyeIcon.classList.replace("bx-hide", "bx-show");
-                            return;
-                        }
-                        password.type = "password";
-                        eyeIcon.classList.replace("bx-show", "bx-hide");
+                            if (password.type === "password") {
+                                password.type = "text";
+                                eyeIcon.classList.replace("bx-hide", "bx-show");
+                                return;
+                            }
+                            password.type = "password";
+                            eyeIcon.classList.replace("bx-show", "bx-hide");
                         })
                     })
                 })
@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 });
 
                 // Event listener for username input change
-                document.getElementById('usernameInput').addEventListener('input', function(event) {
+                document.getElementById('usernameInput').addEventListener('input', function (event) {
                     globalUsername = event.target.value;
                     console.log('Username:', globalUsername);
                     localStorage.setItem('username', globalUsername);
                 });
                 
                 // Event listener for password input change
-                document.getElementById('passwordInput').addEventListener('input', function(event) {
+                document.getElementById('passwordInput').addEventListener('input', function (event) {
                     globalPassword = event.target.value;
                     console.log('Password:', globalPassword);
                     localStorage.setItem('password', globalPassword);
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+storedUsername+'%27';
                 console.log(salesforceQEndpoint);
                 const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
-                
+
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
                     headers: {
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 });
                 console.log(response);
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     // Handle the Salesforce data
@@ -77,10 +77,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
                 }
-            } else{
+            } else {
                 console.log('login credentials not fetched');
             }
-        } else{
+        } else {
             console.log('onload else');
         }
     } catch (error) {
@@ -97,15 +97,15 @@ expenseForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const name = document.getElementById("expense-name").value;
         const amount = parseFloat(document.getElementById("expense-amount").value);
-        
+
         if (name && amount) {
             expenses.push({ name, amount });
             totalExpense += amount;
             updateUI();
-            addExpenseToSalesforce(name,amount);
+            addExpenseToSalesforce(name, amount);
             expenseForm.reset();
             toggleExpenseListVisibility();
-        } else{
+        } else {
             alert('something went wrong !! Record not stored')
         }
     } catch (error) {
@@ -132,8 +132,8 @@ function updateUI() {
         });
         balance.innerText = totalExpense.toFixed(2);
     } catch (error) {
-        console.log('error in updateUI ==> ' + error); 
-        console.log('Line number ==> ' + error.lineNumber); 
+        console.log('error in updateUI ==> ' + error);
+        console.log('Line number ==> ' + error.lineNumber);
     }
 }
 
@@ -158,7 +158,7 @@ window.removeExpense = (index) => {
         toggleExpenseListVisibility();
     } catch (error) {
         console.log('error in removeExpnese ==> ' + error);
-        console.log('Line number ==> ' + error.lineNumber); 
+        console.log('Line number ==> ' + error.lineNumber);
     }
 };
 
