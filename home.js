@@ -1,10 +1,12 @@
-// import { username, password, handleLogin} from './index';
 let expenses = [];
 let totalExpense = 0;
+let globalUsername = '';
+let globalPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
-        if(window.location.href === 'https://harshgandhi1907.github.io'){
+        if(window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html'){
             try {
+                console.log('onload if');
                 const forms = document.querySelector(".forms"),
                 pwShowHide = document.querySelectorAll(".eye-icon"),
                 links = document.querySelectorAll(".link");
@@ -32,9 +34,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     });
                 });
 
-                let globalUsername = '';
-                let globalPassword = '';
-
                 // Event listener for username input change
                 document.getElementById('usernameInput').addEventListener('input', function(event) {
                     globalUsername = event.target.value;
@@ -51,8 +50,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('Line number ==> ' + error.lineNumber);
             }
         } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
-            // Make a request to fetch data
-            // const encodedUsername = encodeURIComponent(username);
+            console.log('onload else if');
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+encodedUsername+'%27';
@@ -74,6 +72,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             } else {
                 console.error('Failed to fetch data from Salesforce:', response.statusText);
             }
+        } else{
+            console.log('onload else');
         }
     } catch (error) {
         console.log('error in DOMContentLoaded home ==> ' + error);
@@ -85,6 +85,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 const expenseForm = document.getElementById("expense-form");
 expenseForm.addEventListener("submit", async (e) => {
     try {
+        console.log('onclick submit');
         e.preventDefault();
         const name = document.getElementById("expense-name").value;
         const amount = parseFloat(document.getElementById("expense-amount").value);
@@ -110,6 +111,7 @@ const balance = document.getElementById("balance");
 const expenseList = document.getElementById("expense-list");
 function updateUI() {
     try {
+        console.log('updateUI');
         expenseList.innerHTML = "";
         expenses.forEach((expense) => {
             const listItem = document.createElement("li");
@@ -131,6 +133,7 @@ function updateUI() {
 const expensesContainer = document.getElementById("expenses-container");
 function toggleExpenseListVisibility() {
     try {
+        console.log('toggle meth');
         expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
     } catch (error) {
         console.log('error in toggle expense ==> ' + error);
@@ -140,6 +143,7 @@ function toggleExpenseListVisibility() {
 
 window.removeExpense = (index) => {
     try {
+        console.log('remove meth');
         const removedExpense = expenses.splice(index, 1)[0];
         totalExpense -= removedExpense.amount;
         updateUI();
@@ -152,6 +156,7 @@ window.removeExpense = (index) => {
 
 async function addExpenseToSalesforce(name, amount) {
     try {
+        console.log('add expense callout meth');
         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
