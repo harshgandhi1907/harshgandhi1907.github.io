@@ -51,26 +51,32 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             }
         } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
             console.log('onload else if');
-            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
-            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+encodedUsername+'%27';
-            console.log(salesforceQEndpoint);
-            const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
-
-            const response = await fetch(salesforceQEndpoint, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
+            console.log(globalUsername);
+            console.log(globalPassword);
+            if(globalUsername != '' && globalPassword != ''){
+                // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
+                // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
+                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27'+globalUsername+'%27';
+                console.log(salesforceQEndpoint);
+                const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
+                
+                const response = await fetch(salesforceQEndpoint, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                });
+                console.log(response);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    // Handle the Salesforce data
+                    console.log(data);
+                } else {
+                    console.error('Failed to fetch data from Salesforce:', response.statusText);
                 }
-            });
-            console.log(response);
-
-            if (response.ok) {
-                const data = await response.json();
-                // Handle the Salesforce data
-                console.log(data);
-            } else {
-                console.error('Failed to fetch data from Salesforce:', response.statusText);
+            } else{
+                console.log('login credentials not fetched');
             }
         } else{
             console.log('onload else');
