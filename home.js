@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             'Authorization': `Bearer ${accessToken}`
                         }
                     });
-                    console.log(data);
+                    console.log(response);
 
                     if (response.ok) {
                         const data = await response.json();
