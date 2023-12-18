@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html' || window.location.href === 'https://harshgandhi1907.github.io/') {
             try {
                 console.log('onload if');
+                globalUsername = '';
+                globalPassword = '';
                 const forms = document.querySelector(".forms"),
                     pwShowHide = document.querySelectorAll(".eye-icon"),
                     links = document.querySelectorAll(".link");
