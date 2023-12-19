@@ -14,24 +14,24 @@
                 <header>Signup</header>
                 <form action="#">
                     <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input">
+                        <input id="emailinput" type="email" placeholder="Email" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input placeholder="Username" class="input">
+                        <input id="usernameinput" placeholder="Username" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Create password" class="password">
+                        <input id="passwordinput" type="password" placeholder="Create password" class="password" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Confirm password" class="password">
+                        <input id="confirmpasswordinput" type="password" placeholder="Confirm password" class="password" required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
                     <div class="field button-field">
-                        <a href="/index.html" class="button" style="text-decoration: none;">Signup</a>
+                        <a href="/index.html" onclick="return validateSignupForm()" class="button" style="text-decoration: none;">Signup</a>
                     </div>
                 </form>
 
