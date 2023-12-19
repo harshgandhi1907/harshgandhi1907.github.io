@@ -81,8 +81,16 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     data.records.forEach(record => {
                         const expenseName = record.Name;
                         const expenseAmount = record.Expense_Amount__c;
-
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
+
+                        // Create a new row for each record and populate the table
+                        const newRow = expenseList.insertRow(-1); // Append a new row to the table
+                        const cell1 = newRow.insertCell(0); // Create cells for the columns
+                        const cell2 = newRow.insertCell(1);
+                        
+                        // Assign data to the cells
+                        cell1.textContent = expenseName;
+                        cell2.textContent = expenseAmount;
                     });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
