@@ -51,9 +51,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log('Password:', globalPassword);
                     localStorage.setItem('password', globalPassword);
                 });
-
-
-
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
