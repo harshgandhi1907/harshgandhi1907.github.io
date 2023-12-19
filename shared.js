@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 globalPassword = '';
                 localStorage.setItem('username', globalUsername);
                 localStorage.setItem('password', globalPassword);
-                const forms = document.querySelector(".forms"),
-                    pwShowHide = document.querySelectorAll(".eye-icon"),
-                    links = document.querySelectorAll(".link");
+                const pwShowHide = document.querySelectorAll(".eye-icon")
 
                 pwShowHide.forEach(eyeIcon => {
                     eyeIcon.addEventListener("click", () => {
@@ -27,14 +25,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             }
                             password.type = "password";
                             eyeIcon.classList.replace("bx-show", "bx-hide");
-                        })
-                    })
-                })
-
-                links.forEach(link => {
-                    link.addEventListener("click", e => {
-                        e.preventDefault(); //preventing form submit
-                        forms.classList.toggle("show-signup");
+                        });
                     });
                 });
 
@@ -51,19 +42,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log('Password:', globalPassword);
                     localStorage.setItem('password', globalPassword);
                 });
-
-                //login required field check
-                function validateLoginForm() {
-                    var username = document.getElementById("usernameInput").value;
-                    var password = document.getElementById("passwordInput").value;
-
-                    if (username == "" || password == "") {
-                        alert("Please fill in all fields.");
-                        return false;
-                    }
-
-                    return true;
-                }
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
@@ -73,19 +51,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('onload else if signup');
                 globalUsername = '';
                 globalPassword = '';
-                //signup required fields check
-                function validateSignupForm() {
-                    var email = document.querySelector("#emailinput").value;
-                    var username = document.querySelector("#usernameinput").value;
-                    var password = document.querySelector("#passwordinput").value;
-                    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
-
-                    if (email == "" || username == "" || password == "" || confirmPassword == "") {
-                        alert("Please fill in all fields.");
-                        return false;
-                    }
-                    return true;
-                }
             } catch(error){
                 console.log('error in DOMContentLoaded signup ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
@@ -117,11 +82,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const expenseName = record.Name;
                         const expenseAmount = record.Expense_Amount__c;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
-
+                        expenses.push({ expenseName, expenseAmount });
                         // Create a new row for each record and populate the table
-                        const newRow = expenseList.insertRow(-1); // Append a new row to the table
-                        const cell1 = newRow.insertCell(0); // Create cells for the columns
-                        const cell2 = newRow.insertCell(1);
+                        var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                        var cell1 = newRow.insertCell(0); // Create cells for the columns
+                        var cell2 = newRow.insertCell(1);
                         
                         // Assign data to the cells
                         cell1.textContent = expenseName;
@@ -146,6 +111,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             addExpenseToSalesforce(name, amount);
                             expenseForm.reset();
                             // toggleExpenseListVisibility();
+
+                            // Create a new row for each record and populate the table
+                            var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                            var cell1 = newRow.insertCell(0); // Create cells for the columns
+                            var cell2 = newRow.insertCell(1);
+                            
+                            // Assign data to the cells
+                            cell1.textContent = name;
+                            cell2.textContent = amount;
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -250,3 +224,30 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
+
+//login required field check
+function validateLoginForm() {
+    var username = document.getElementById("usernameInput").value;
+    var password = document.getElementById("passwordInput").value;
+
+    if (username == "" || password == "") {
+        alert("Please fill in all fields.");
+        return false;
+    }
+
+    return true;
+}
+
+//signup required fields check
+function validateSignupForm() {
+    var email = document.querySelector("#emailinput").value;
+    var username = document.querySelector("#usernameinput").value;
+    var password = document.querySelector("#passwordinput").value;
+    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
+
+    if (email == "" || username == "" || password == "" || confirmPassword == "") {
+        alert("Please fill in all fields.");
+        return false;
+    }
+    return true;
+}
