@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="/loginSignup.css">
+    <title>SignupForm</title>
+    <link rel="stylesheet" href="/Signup.css">
 </head>
 <body>
-    <section class="container forms">
+    <section class="container">
         <!-- Signup Form -->
-
         <div class="form signup">
             <div class="form-content">
                 <header>Signup</header>
                 <form action="#">
                     <div class="field input-field">
-                        <input type="email" placeholder="Email" class="input">
+                        <input id="emailinput" type="email" placeholder="Email" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input placeholder="Username" class="input">
+                        <input id="usernameinput" placeholder="Username" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Create password" class="password">
+                        <input id="passwordinput" type="password" placeholder="Create password" class="password" required>
                     </div>
 
                     <div class="field input-field">
-                        <input type="password" placeholder="Confirm password" class="password">
+                        <input id="confirmpasswordinput" type="password" placeholder="Confirm password" class="password" required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
                     <div class="field button-field">
-                        <button class="link login-link">Signup</button>
+                        <a href="/index.html" onclick="return validateSignupForm()" class="button" style="text-decoration: none;">Signup</a>
                     </div>
                 </form>
 
                 <div class="form-link">
-                    <span>Already have an account? <a href="" class="link login-link">Login</a></span>
+                    <span>Already have an account? <a href="/index.html" class="link login-link">Login</a></span>
                 </div>
             </div>
     </section>

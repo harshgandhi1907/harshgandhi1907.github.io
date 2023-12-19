@@ -44,13 +44,16 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log('Username:', globalUsername);
                     localStorage.setItem('username', globalUsername);
                 });
-                
+
                 // Event listener for password input change
                 document.getElementById('passwordInput').addEventListener('input', function (event) {
                     globalPassword = event.target.value;
                     console.log('Password:', globalPassword);
                     localStorage.setItem('password', globalPassword);
                 });
+
+
+
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
@@ -59,10 +62,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             console.log('onload else if');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
-            if(storedUsername != '' && storedPassword != ''){
+            if (storedUsername != '' && storedPassword != '') {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27'+storedUsername+'%27';
+                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
                 const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
 
@@ -81,7 +84,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     data.records.forEach(record => {
                         const expenseName = record.Name;
                         const expenseAmount = record.Expense_Amount__c;
-                        
+
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                     });
                 } else {
@@ -207,3 +210,30 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
+
+//login required field check
+function validateLoginForm() {
+    var username = document.getElementById("usernameInput").value;
+    var password = document.getElementById("passwordInput").value;
+
+    if (username == "" || password == "") {
+        alert("Please fill in all fields.");
+        return false;
+    }
+
+    return true;
+}
+
+//signup required fields check
+function validateSignupForm() {
+    var email = document.querySelector("#emailinput").value;
+    var username = document.querySelector("#usernameinput").value;
+    var password = document.querySelector("#passwordinput").value;
+    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
+
+    if (email == "" || username == "" || password == "" || confirmPassword == "") {
+        alert("Please fill in all fields.");
+        return false;
+    }
+    return true;
+}
