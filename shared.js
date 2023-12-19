@@ -51,12 +51,47 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log('Password:', globalPassword);
                     localStorage.setItem('password', globalPassword);
                 });
+
+                //login required field check
+                function validateLoginForm() {
+                    var username = document.getElementById("usernameInput").value;
+                    var password = document.getElementById("passwordInput").value;
+
+                    if (username == "" || password == "") {
+                        alert("Please fill in all fields.");
+                        return false;
+                    }
+
+                    return true;
+                }
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
             }
+        } else if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/Signup.html') {
+            try {
+                console.log('onload else if signup');
+                globalUsername = '';
+                globalPassword = '';
+                //signup required fields check
+                function validateSignupForm() {
+                    var email = document.querySelector("#emailinput").value;
+                    var username = document.querySelector("#usernameinput").value;
+                    var password = document.querySelector("#passwordinput").value;
+                    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
+
+                    if (email == "" || username == "" || password == "" || confirmPassword == "") {
+                        alert("Please fill in all fields.");
+                        return false;
+                    }
+                    return true;
+                }
+            } catch(error){
+                console.log('error in DOMContentLoaded signup ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
+            }
         } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
-            console.log('onload else if');
+            console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
             if (storedUsername != '' && storedPassword != '') {
@@ -64,7 +99,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
-                const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
+                const accessToken = '00D5h0000093stB!ARMAQAH12Si_c8kcQhRuPRGnCTVpghdbGgkxfn6QdaQfQ5.rqiOnMticdkFvl7hD82xMHNtN9ClPmuaXs2TBN0lOGDvXO4lH';
 
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
@@ -107,10 +142,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (name && amount) {
                             expenses.push({ name, amount });
                             totalExpense += amount;
-                            updateUI();
+                            // updateUI();
                             addExpenseToSalesforce(name, amount);
                             expenseForm.reset();
-                            toggleExpenseListVisibility();
+                            // toggleExpenseListVisibility();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -160,8 +195,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         console.log('remove meth');
                         const removedExpense = expenses.splice(index, 1)[0];
                         totalExpense -= removedExpense.amount;
-                        updateUI();
-                        toggleExpenseListVisibility();
+                        // updateUI();
+                        // toggleExpenseListVisibility();
                     } catch (error) {
                         console.log('error in removeExpnese ==> ' + error);
                         console.log('Line number ==> ' + error.lineNumber);
@@ -174,7 +209,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
                         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                        const accessToken = "00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E";
+                        const accessToken = "00D5h0000093stB!ARMAQAH12Si_c8kcQhRuPRGnCTVpghdbGgkxfn6QdaQfQ5.rqiOnMticdkFvl7hD82xMHNtN9ClPmuaXs2TBN0lOGDvXO4lH";
 
                         const headers = {
                             "Content-Type": "application/json",
@@ -215,30 +250,3 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
-
-//login required field check
-function validateLoginForm() {
-    var username = document.getElementById("usernameInput").value;
-    var password = document.getElementById("passwordInput").value;
-
-    if (username == "" || password == "") {
-        alert("Please fill in all fields.");
-        return false;
-    }
-
-    return true;
-}
-
-//signup required fields check
-function validateSignupForm() {
-    var email = document.querySelector("#emailinput").value;
-    var username = document.querySelector("#usernameinput").value;
-    var password = document.querySelector("#passwordinput").value;
-    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
-
-    if (email == "" || username == "" || password == "" || confirmPassword == "") {
-        alert("Please fill in all fields.");
-        return false;
-    }
-    return true;
-}
