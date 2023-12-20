@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
                         // Create a new row for each record and populate the table
+                        const expenseTable = document.getElementById('expense-table');
+                        const expenseList = document.getElementById('expense-list');
                         var newRow = expenseList.insertRow(-1); // Append a new row to the table
                         var cell1 = newRow.insertCell(0); // Create cells for the columns
                         var cell2 = newRow.insertCell(1);
@@ -112,7 +114,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             expenseForm.reset();
                             // toggleExpenseListVisibility();
 
-                            // Create a new row for each record and populate the table
+                            // Create a new row for each record and populate the table]
+                            const expenseTable = document.getElementById('expense-table');
+                            const expenseList = document.getElementById('expense-list');
                             var newRow = expenseList.insertRow(-1); // Append a new row to the table
                             var cell1 = newRow.insertCell(0); // Create cells for the columns
                             var cell2 = newRow.insertCell(1);
