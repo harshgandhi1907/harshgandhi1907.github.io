@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
-                const accessToken = '00D5h0000093stB!ARMAQAH12Si_c8kcQhRuPRGnCTVpghdbGgkxfn6QdaQfQ5.rqiOnMticdkFvl7hD82xMHNtN9ClPmuaXs2TBN0lOGDvXO4lH';
+                const accessToken = '00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ';
 
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
                         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                        const accessToken = "00D5h0000093stB!ARMAQAH12Si_c8kcQhRuPRGnCTVpghdbGgkxfn6QdaQfQ5.rqiOnMticdkFvl7hD82xMHNtN9ClPmuaXs2TBN0lOGDvXO4lH";
+                        const accessToken = "00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ";
 
                         const headers = {
                             "Content-Type": "application/json",
