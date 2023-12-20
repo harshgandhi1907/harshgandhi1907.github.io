@@ -83,13 +83,13 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const expenseAmount = record.Expense_Amount__c;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
+                        
                         // Create a new row for each record and populate the table
                         const expenseTable = document.getElementById('expense-table');
                         const expenseList = document.getElementById('expense-list');
                         var newRow = expenseList.insertRow(-1); // Append a new row to the table
                         var cell1 = newRow.insertCell(0); // Create cells for the columns
                         var cell2 = newRow.insertCell(1);
-                        
                         // Assign data to the cells
                         cell1.textContent = expenseName;
                         cell2.textContent = expenseAmount;
@@ -111,19 +111,19 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             totalExpense += amount;
                             // updateUI();
                             addExpenseToSalesforce(name, amount);
-                            expenseForm.reset();
                             // toggleExpenseListVisibility();
-
+                            
                             // Create a new row for each record and populate the table]
                             const expenseTable = document.getElementById('expense-table');
                             const expenseList = document.getElementById('expense-list');
                             var newRow = expenseList.insertRow(-1); // Append a new row to the table
                             var cell1 = newRow.insertCell(0); // Create cells for the columns
                             var cell2 = newRow.insertCell(1);
-                            
                             // Assign data to the cells
                             cell1.textContent = name;
                             cell2.textContent = amount;
+
+                            expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
