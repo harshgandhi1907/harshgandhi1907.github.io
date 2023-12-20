@@ -93,6 +93,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // Assign data to the cells
                         cell1.textContent = expenseName;
                         cell2.textContent = expenseAmount;
+
+                        var balance = document.getElementById("balance");
+                        balance.innerText = totalExpense.toFixed(2);
                     });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
@@ -123,7 +126,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             cell1.textContent = name;
                             cell2.textContent = amount;
                             
-                            const balance = document.getElementById("balance");
+                            var balance = document.getElementById("balance");
                             balance.innerText = totalExpense.toFixed(2);
                             expenseForm.reset();
                         } else {
