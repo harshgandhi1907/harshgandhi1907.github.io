@@ -84,26 +84,17 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const expenseName = record.Name;
                         const expenseAmount = parseFloat(record.Expense_Amount__c);;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
-                        expenses.push({ expenseName, expenseAmount });
+                        expenses.push({ name: expenseName, amount: expenseAmount });
 
                         // Calculate total expense
                         totalExpense += expenseAmount;
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
-
-                        // Create a new row for each record and populate the table
-                        // const expenseTable = document.getElementById('expense-table');
-                        // const expenseList = document.getElementById('expense-list');
-                        // var newRow = expenseList.insertRow(-1); // Append a new row to the table
-                        // var cell1 = newRow.insertCell(0); // Create cells for the columns
-                        // var cell2 = newRow.insertCell(1);
-                        // // Assign data to the cells
-                        // cell1.textContent = expenseName;
-                        // cell2.textContent = expenseAmount;
                     });
 
                     // Create a li element for each expense
                     const expenseList = document.getElementById("expense-list");
+                    expenseList.innerHTML = "";
                     expenses.forEach((expense) => {
                         const listItem = document.createElement("li");
                         listItem.innerHTML = `
@@ -127,7 +118,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         
 
                         if (name && amount) {
-                            expenses.push({ name, amount });
+                            expenses.push({ name: name, amount: amount });
                             totalExpense += amount;
                             // updateUI();
                             addExpenseToSalesforce(name, amount);
