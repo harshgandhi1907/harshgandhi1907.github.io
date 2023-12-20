@@ -1,5 +1,3 @@
-let expenses = [];
-let totalExpense = 0;
 let globalUsername = '';
 let globalPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
@@ -78,24 +76,43 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const data = await response.json();
                     // Handle the Salesforce data
                     console.log(data);
+
+                    let expenses = [];
+                    let totalExpense = 0;
+                    const expensesContainer = document.getElementById('expenses-container');
+                    expensesContainer.innerHTML = '';
                     data.records.forEach(record => {
                         const expenseName = record.Name;
-                        const expenseAmount = record.Expense_Amount__c;
+                        const expenseAmount = parseFloat(record.Expense_Amount__c);;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
 
-                        // Create a new row for each record and populate the table
-                        const expenseTable = document.getElementById('expense-table');
-                        const expenseList = document.getElementById('expense-list');
-                        var newRow = expenseList.insertRow(-1); // Append a new row to the table
-                        var cell1 = newRow.insertCell(0); // Create cells for the columns
-                        var cell2 = newRow.insertCell(1);
-                        // Assign data to the cells
-                        cell1.textContent = expenseName;
-                        cell2.textContent = expenseAmount;
+                        // Create a div element for each expense
+                        const expenseDiv = document.createElement('div');
+                        expenseDiv.classList.add('expense-item'); // You can add a class for styling
 
-                        var balance = document.getElementById("balance");
+                        // Populate the div with expense details
+                        expenseDiv.innerHTML = `
+                            <span>${expenseName}</span>
+                            <span>₹${expenseAmount.toFixed(2)}</span>
+                        `;
+
+                        expensesContainer.appendChild(expenseDiv); // Append the div to the expenses container
+
+                        // Calculate total expense
+                        totalExpense += expenseAmount;
+                        const balance = document.getElementById("balance");
                         balance.innerText = totalExpense.toFixed(2);
+
+                        // Create a new row for each record and populate the table
+                        // const expenseTable = document.getElementById('expense-table');
+                        // const expenseList = document.getElementById('expense-list');
+                        // var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                        // var cell1 = newRow.insertCell(0); // Create cells for the columns
+                        // var cell2 = newRow.insertCell(1);
+                        // // Assign data to the cells
+                        // cell1.textContent = expenseName;
+                        // cell2.textContent = expenseAmount;
                     });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
@@ -108,7 +125,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         e.preventDefault();
                         const name = document.getElementById("expense-name").value;
                         const amount = parseFloat(document.getElementById("expense-amount").value);
-
+                        let expenses = [];
+                        let totalExpense = 0;
+                        
                         if (name && amount) {
                             expenses.push({ name, amount });
                             totalExpense += amount;
@@ -116,18 +135,34 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             addExpenseToSalesforce(name, amount);
                             // toggleExpenseListVisibility();
                             
-                            // Create a new row for each record and populate the table]
-                            const expenseTable = document.getElementById('expense-table');
-                            const expenseList = document.getElementById('expense-list');
-                            var newRow = expenseList.insertRow(-1); // Append a new row to the table
-                            var cell1 = newRow.insertCell(0); // Create cells for the columns
-                            var cell2 = newRow.insertCell(1);
-                            // Assign data to the cells
-                            cell1.textContent = name;
-                            cell2.textContent = amount;
-                            
-                            var balance = document.getElementById("balance");
+                            const expensesContainer = document.getElementById('expenses-container');
+                            // Create a div for the new expense
+                            const newExpenseDiv = document.createElement('div');
+                            newExpenseDiv.classList.add('expense-item'); // You can add a class for styling
+
+                            // Populate the div with expense details
+                            newExpenseDiv.innerHTML = `
+                                <span>${name}</span>
+                                <span>₹${amount.toFixed(2)}</span>
+                            `;
+
+                            expensesContainer.appendChild(newExpenseDiv); // Append the new expense div to the container
+
+                            const balance = document.getElementById("balance");
                             balance.innerText = totalExpense.toFixed(2);
+
+                            // Create a new row for each record and populate the table]
+                            // const expenseTable = document.getElementById('expense-table');
+                            // const expenseList = document.getElementById('expense-list');
+                            // var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                            // var cell1 = newRow.insertCell(0); // Create cells for the columns
+                            // var cell2 = newRow.insertCell(1);
+                            // // Assign data to the cells
+                            // cell1.textContent = name;
+                            // cell2.textContent = amount;
+                            
+                            // var balance = document.getElementById("balance");
+                            // balance.innerText = totalExpense.toFixed(2);
                             expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
