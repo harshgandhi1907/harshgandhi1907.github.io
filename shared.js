@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 globalPassword = '';
                 localStorage.setItem('username', globalUsername);
                 localStorage.setItem('password', globalPassword);
-                const forms = document.querySelector(".forms"),
-                    pwShowHide = document.querySelectorAll(".eye-icon"),
-                    links = document.querySelectorAll(".link");
+                const pwShowHide = document.querySelectorAll(".eye-icon")
 
                 pwShowHide.forEach(eyeIcon => {
                     eyeIcon.addEventListener("click", () => {
@@ -27,14 +25,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             }
                             password.type = "password";
                             eyeIcon.classList.replace("bx-show", "bx-hide");
-                        })
-                    })
-                })
-
-                links.forEach(link => {
-                    link.addEventListener("click", e => {
-                        e.preventDefault(); //preventing form submit
-                        forms.classList.toggle("show-signup");
+                        });
                     });
                 });
 
@@ -55,8 +46,17 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
             }
+        } else if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/Signup.html') {
+            try {
+                console.log('onload else if signup');
+                globalUsername = '';
+                globalPassword = '';
+            } catch(error){
+                console.log('error in DOMContentLoaded signup ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
+            }
         } else if (window.location.href === 'https://harshgandhi1907.github.io/home.html') {
-            console.log('onload else if');
+            console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
             if (storedUsername != '' && storedPassword != '') {
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
-                const accessToken = '00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E'; // Replace with your Salesforce access token
+                const accessToken = '00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ';
 
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
@@ -81,8 +81,18 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     data.records.forEach(record => {
                         const expenseName = record.Name;
                         const expenseAmount = record.Expense_Amount__c;
-
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
+                        expenses.push({ expenseName, expenseAmount });
+                        // Create a new row for each record and populate the table
+                        const expenseTable = document.getElementById('expense-table');
+                        const expenseList = document.getElementById('expense-list');
+                        var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                        var cell1 = newRow.insertCell(0); // Create cells for the columns
+                        var cell2 = newRow.insertCell(1);
+                        
+                        // Assign data to the cells
+                        cell1.textContent = expenseName;
+                        cell2.textContent = expenseAmount;
                     });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
@@ -99,10 +109,21 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (name && amount) {
                             expenses.push({ name, amount });
                             totalExpense += amount;
-                            updateUI();
+                            // updateUI();
                             addExpenseToSalesforce(name, amount);
                             expenseForm.reset();
-                            toggleExpenseListVisibility();
+                            // toggleExpenseListVisibility();
+
+                            // Create a new row for each record and populate the table]
+                            const expenseTable = document.getElementById('expense-table');
+                            const expenseList = document.getElementById('expense-list');
+                            var newRow = expenseList.insertRow(-1); // Append a new row to the table
+                            var cell1 = newRow.insertCell(0); // Create cells for the columns
+                            var cell2 = newRow.insertCell(1);
+                            
+                            // Assign data to the cells
+                            cell1.textContent = name;
+                            cell2.textContent = amount;
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -152,8 +173,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         console.log('remove meth');
                         const removedExpense = expenses.splice(index, 1)[0];
                         totalExpense -= removedExpense.amount;
-                        updateUI();
-                        toggleExpenseListVisibility();
+                        // updateUI();
+                        // toggleExpenseListVisibility();
                     } catch (error) {
                         console.log('error in removeExpnese ==> ' + error);
                         console.log('Line number ==> ' + error.lineNumber);
@@ -166,7 +187,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
                         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                        const accessToken = "00D5h0000093stB!ARMAQI8LzJ3rRDdH4n5HHkliPZzbCKd0WveH0MGo029O81uz7ZGoK0aWGk2z4R5Dr65n2qGTBb1RZ_ojVLRwLpqotPyVpU3E";
+                        const accessToken = "00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ";
 
                         const headers = {
                             "Content-Type": "application/json",
