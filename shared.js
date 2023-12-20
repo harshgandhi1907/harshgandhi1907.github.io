@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
+            let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
@@ -78,22 +79,20 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log(data);
 
                     let expenses = [];
-                    let totalExpense = 0;
-                    const expenseList = document.getElementById("expense-list");
-                    expenseList.innerHTML = "";
+                    
                     data.records.forEach(record => {
                         const expenseName = record.Name;
                         const expenseAmount = parseFloat(record.Expense_Amount__c);;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
-
-                        // Create a div element for each expense
+                        
+                        // Create a li element for each expense
+                        const expenseList = document.getElementById("expense-list");
                         expenses.forEach((expense) => {
                             const listItem = document.createElement("li");
                             listItem.innerHTML = `
                             <span>${expense.name}</span>
-                            <span>₹${expense.amount.toFixed(2)}</span>
-                            <button onclick="removeExpense(${expenses.indexOf(expense)})">Remove</button>
+                            <span>₹${expense.amount}</span>
                             `;
                             expenseList.appendChild(listItem);
                         });
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // Calculate total expense
                         totalExpense += expenseAmount;
                         const balance = document.getElementById("balance");
-                        balance.innerText = totalExpense.toFixed(2);
+                        balance.innerText = totalExpense;
 
                         // Create a new row for each record and populate the table
                         // const expenseTable = document.getElementById('expense-table');
@@ -125,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const name = document.getElementById("expense-name").value;
                         const amount = parseFloat(document.getElementById("expense-amount").value);
                         let expenses = [];
-                        let totalExpense = 0;
+                        
 
                         if (name && amount) {
                             expenses.push({ name, amount });
@@ -134,17 +133,13 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             addExpenseToSalesforce(name, amount);
                             // toggleExpenseListVisibility();
                             
-                            // Create a div for the new expense
+                            // Create a li for the new expense
                             const expenseList = document.getElementById("expense-list");
-                            expenseList.innerHTML = "";
-
-                            // Populate the div with expense details
                             expenses.forEach((expense) => {
                                 const listItem = document.createElement("li");
                                 listItem.innerHTML = `
                                 <span>${expense.name}</span>
-                                <span>₹${expense.amount.toFixed(2)}</span>
-                                <button onclick="removeExpense(${expenses.indexOf(expense)})">Remove</button>
+                                <span>₹${expense.amount}</span>
                                 `;
                                 expenseList.appendChild(listItem);
                             });
