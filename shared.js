@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const expenseAmount = record.Expense_Amount__c;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
-                        
+
                         // Create a new row for each record and populate the table
                         const expenseTable = document.getElementById('expense-table');
                         const expenseList = document.getElementById('expense-list');
@@ -122,7 +122,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             // Assign data to the cells
                             cell1.textContent = name;
                             cell2.textContent = amount;
-
+                            
+                            const balance = document.getElementById("balance");
+                            balance.innerText = totalExpense.toFixed(2);
                             expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
@@ -134,7 +136,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 });
 
                 // Adding new expense lines
-                const balance = document.getElementById("balance");
                 const expenseList = document.getElementById("expense-list");
                 function updateUI() {
                     try {
