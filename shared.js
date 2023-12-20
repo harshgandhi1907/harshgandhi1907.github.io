@@ -85,17 +85,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const expenseAmount = parseFloat(record.Expense_Amount__c);;
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ expenseName, expenseAmount });
-                        
-                        // Create a li element for each expense
-                        const expenseList = document.getElementById("expense-list");
-                        expenses.forEach((expense) => {
-                            const listItem = document.createElement("li");
-                            listItem.innerHTML = `
-                            <span>${expense.name}</span>
-                            <span>₹${expense.amount}</span>
-                            `;
-                            expenseList.appendChild(listItem);
-                        });
 
                         // Calculate total expense
                         totalExpense += expenseAmount;
@@ -111,6 +100,17 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // // Assign data to the cells
                         // cell1.textContent = expenseName;
                         // cell2.textContent = expenseAmount;
+                    });
+
+                    // Create a li element for each expense
+                    const expenseList = document.getElementById("expense-list");
+                    expenses.forEach((expense) => {
+                        const listItem = document.createElement("li");
+                        listItem.innerHTML = `
+                        <span>${expense.name}</span>
+                        <span>₹${expense.amount}</span>
+                        `;
+                        expenseList.appendChild(listItem);
                     });
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
