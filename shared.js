@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     let expenses = [];
                     data.records.forEach(record => {
                         const expenseName = record.Name;
-                        const expenseAmount = parseFloat(record.Expense_Amount__c);;
+                        const expenseAmount = parseFloat(record.Expense_Amount__c);
+                        console.log('id :: ' + record.Id);
                         console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
                         expenses.push({ name: expenseName, amount: expenseAmount });
 
@@ -133,6 +134,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 expenseList.appendChild(listItem);
                             });
                             expenseForm.reset();
+                            location.reload();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
