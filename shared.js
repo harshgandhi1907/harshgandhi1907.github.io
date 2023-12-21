@@ -60,6 +60,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             const storedPassword = localStorage.getItem('password');
             let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
+                // Get previous data if present
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
@@ -75,11 +76,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    // Handle the Salesforce data
                     console.log(data);
-
                     let expenses = [];
-                    
                     data.records.forEach(record => {
                         const expenseName = record.Name;
                         const expenseAmount = parseFloat(record.Expense_Amount__c);;
@@ -117,8 +115,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const name = document.getElementById("expense-name").value;
                         const amount = parseFloat(document.getElementById("expense-amount").value);
                         let expenses = [];
-                        
-
                         if (name && amount) {
                             expenses.push({ name: name, amount: amount });
                             totalExpense += amount;
@@ -136,19 +132,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 `;
                                 expenseList.appendChild(listItem);
                             });
-
-                            // Create a new row for each record and populate the table]
-                            // const expenseTable = document.getElementById('expense-table');
-                            // const expenseList = document.getElementById('expense-list');
-                            // var newRow = expenseList.insertRow(-1); // Append a new row to the table
-                            // var cell1 = newRow.insertCell(0); // Create cells for the columns
-                            // var cell2 = newRow.insertCell(1);
-                            // // Assign data to the cells
-                            // cell1.textContent = name;
-                            // cell2.textContent = amount;
-                            
-                            // var balance = document.getElementById("balance");
-                            // balance.innerText = totalExpense.toFixed(2);
                             expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
@@ -209,8 +192,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 async function addExpenseToSalesforce(name, amount) {
                     try {
                         console.log('add expense callout meth');
-                        // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
-                        // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
 
                         const headers = {
@@ -235,6 +216,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (response.ok) {
                             console.log("Expense added to Salesforce!");
                             console.log(response);
+                            const createdRecordId = response.id;
+                            console.log("Created Record ID:", createdRecordId);
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
                         }
