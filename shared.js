@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     });
 
                     toggleExpenseListVisibility(expenses);
-
+                    
                     // Create a li element for each expense
                     const expenseList = document.getElementById("expense-list");
                     expenseList.innerHTML = "";
@@ -104,6 +104,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         `;
                         expenseList.appendChild(listItem);
                     });
+
+                    toggleExpenseListVisibility(expenses);
                 } else {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
                 }
@@ -134,7 +136,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 expenseList.appendChild(listItem);
                             });
                             expenseForm.reset();
-                            location.reload();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -220,6 +221,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             console.log(response);
                             const createdRecordId = response.id;
                             console.log("Created Record ID:", createdRecordId);
+                            location.reload();
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
                         }
