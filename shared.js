@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         balance.innerText = totalExpense;
                     });
 
-                    toggleExpenseListVisibility();
+                    toggleExpenseListVisibility(expenses);
 
                     // Create a li element for each expense
                     const expenseList = document.getElementById("expense-list");
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
 
                 // Function to toggle visibility of the expense list based on expense addition
-                function toggleExpenseListVisibility() {
+                function toggleExpenseListVisibility(expenses) {
                     try {
                         console.log('toggle meth');
                         const expensesContainer = document.getElementById("expenses-container");
