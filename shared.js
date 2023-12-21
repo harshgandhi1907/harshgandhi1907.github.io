@@ -1,6 +1,7 @@
 let globalUsername = '';
 let globalPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
+    const accessToken = '00D5h0000093stB!ARMAQO38K1mCLgAFaGJP5ymcAQE9WU3GDxn08BSbbm2_L18SthZ38pInaFfNgIcbM7QcT8sMAMFKv9NWgsqHQ1gU1ORrChmc';
     try {
         if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html' || window.location.href === 'https://harshgandhi1907.github.io/') {
             try {
@@ -63,7 +64,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
-                const accessToken = '00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ';
 
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
@@ -91,6 +91,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
                     });
+
+                    toggleExpenseListVisibility();
 
                     // Create a li element for each expense
                     const expenseList = document.getElementById("expense-list");
@@ -158,10 +160,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 });
 
                 // Adding new expense lines
-                const expenseList = document.getElementById("expense-list");
                 function updateUI() {
                     try {
                         console.log('updateUI');
+                        const expenseList = document.getElementById("expense-list");
                         expenseList.innerHTML = "";
                         expenses.forEach((expense) => {
                             const listItem = document.createElement("li");
@@ -180,10 +182,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
 
                 // Function to toggle visibility of the expense list based on expense addition
-                const expensesContainer = document.getElementById("expenses-container");
                 function toggleExpenseListVisibility() {
                     try {
                         console.log('toggle meth');
+                        const expensesContainer = document.getElementById("expenses-container");
                         expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
                     } catch (error) {
                         console.log('error in toggle expense ==> ' + error);
@@ -210,7 +212,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         // const consumer_key = "3MVG95mg0lk4bath_h7i4xZH5uzPYZ_0FZuNbtNGb2eyGFnf3SlckXUQtOAQ56jluM1ChiUBLbI_RTXPbgPF3";
                         // const consumer_secret =  "38C1EF975BA58FBF9FD2C5DA0AC44264B3717D90800101CAD79CA6825715B3C8";
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                        const accessToken = "00D5h0000093stB!ARMAQIoYgJr8L2Oo2V08TV9U8gJPJfw2tJav8u9rn3q8ry6KgbXMcMQ73qfXSH.AP.zWGwjJKRSpIq5ZRplvj02p1RhRTjTQ";
 
                         const headers = {
                             "Content-Type": "application/json",
@@ -233,6 +234,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
                         if (response.ok) {
                             console.log("Expense added to Salesforce!");
+                            console.log(response);
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
                         }
