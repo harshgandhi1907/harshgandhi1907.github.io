@@ -1,5 +1,7 @@
 let globalUsername = '';
 let globalPassword = '';
+let signedUsername = '';
+let signedPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
     const accessToken = '00D5h0000093stB!ARMAQO38K1mCLgAFaGJP5ymcAQE9WU3GDxn08BSbbm2_L18SthZ38pInaFfNgIcbM7QcT8sMAMFKv9NWgsqHQ1gU1ORrChmc';
     try {
@@ -45,11 +47,76 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('error in DOMContentLoaded login ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
             }
-        } else if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/Signup.html') {
+        } else if (window.location.href === 'https://harshgandhi1907.github.io/Signup.html') {
             try {
                 console.log('onload else if signup');
-                globalUsername = '';
-                globalPassword = '';
+                // Event listener for username input change
+                document.getElementById('usernameinput').addEventListener('input', function (event) {
+                    signedUsername = event.target.value;
+                    console.log('Signed Username:', signedUsername);
+                    localStorage.setItem('signedUsername', signedUsername);
+                });
+
+                // Event listener for password input change
+                document.getElementById('passwordinput').addEventListener('input', function (event) {
+                    signedPassword = event.target.value;
+                    console.log('Signed Password:', signedPassword);
+                    localStorage.setItem('signedPassword', signedPassword);
+                });
+
+                const accountForm = document.getElementById("accountForm");
+                accountForm.addEventListener("submit", async (e) => {
+                    try {
+                        console.log('onclick signup');
+                        e.preventDefault();
+                        const newUname = document.getElementById('usernameinput').value;
+                        const newPass = document.getElementById('passwordinput').value;
+                        const newEmail = document.getElementById('emailinput').value;
+                        if (newUname && newPass) {
+                            createAccountToSalesforce(newUname, newPass, newEmail);
+                        } else {
+                            alert('something went wrong !! account not created')
+                        }
+                    } catch (error) {
+                        console.log('error in submit action ==> ' + error);
+                        console.log('Line number ==> ' + error.lineNumber);
+                    }
+                });
+
+                async function createAccountToSalesforce(newUname, newPass, newEmail) {
+                    try {
+                        console.log('create account callout meth');
+                        const salesforceAccEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account";
+
+                        const headers = {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${accessToken}`,
+                        };
+
+                        const requestBody = JSON.stringify({
+                            "Name": newUname,
+                            "Email__c": newEmail,
+                            "UserName__c": newUname,
+                            "Password__c": newPass
+                            // Add other fields as needed for your Expense object
+                        });
+
+                        const response = await fetch(salesforceAccEndpoint, {
+                            method: "POST",
+                            headers,
+                            body: requestBody,
+                        });
+
+                        if (response.ok) {
+                            console.log("Account created to Salesforce!");
+                            console.log(response);
+                        } else {
+                            console.error("Failed to create account to Salesforce:", response.statusText);
+                        }
+                    } catch (error) {
+                        console.error("Error creating account to Salesforce:", error);
+                    }
+                }
             } catch(error){
                 console.log('error in DOMContentLoaded signup ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
