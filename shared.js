@@ -64,8 +64,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     localStorage.setItem('signedPassword', signedPassword);
                 });
 
-                const accountForm = document.getElementById("accountForm");
-                accountForm.addEventListener("submit", async (e) => {
+                window.customFunction = async function (e) {
                     try {
                         console.log('onclick signup');
                         e.preventDefault();
@@ -75,13 +74,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (newUname && newPass) {
                             createAccountToSalesforce(newUname, newPass, newEmail);
                         } else {
-                            alert('something went wrong !! account not created')
+                            alert('something went wrong !! account not created');
+                            return false;
                         }
                     } catch (error) {
                         console.log('error in submit action ==> ' + error);
                         console.log('Line number ==> ' + error.lineNumber);
+                        return false;
                     }
-                });
+                }
 
                 async function createAccountToSalesforce(newUname, newPass, newEmail) {
                     try {
@@ -110,11 +111,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (response.ok) {
                             console.log("Account created to Salesforce!");
                             console.log(response);
+                            return true;
                         } else {
                             console.error("Failed to create account to Salesforce:", response.statusText);
+                            return false;
                         }
                     } catch (error) {
                         console.error("Error creating account to Salesforce:", error);
+                        return false;
                     }
                 }
             } catch(error){
@@ -331,6 +335,11 @@ function validateSignupForm() {
     if (email == "" || username == "" || password == "" || confirmPassword == "") {
         alert("Please fill in all fields.");
         return false;
+    } else if (typeof customFunction === 'function') {
+        // Call customFunction and return its result (true/false) to allow/prevent navigation
+        return customFunction();
+    } else{
+        return false;
     }
-    return true;
+
 }
