@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 globalPassword = '';
                 localStorage.setItem('username', globalUsername);
                 localStorage.setItem('password', globalPassword);
+                const getSignedUname = localStorage.getItem('signedUsername');
+                const getsignedPass = localStorage.getItem('signedPassword');
                 const pwShowHide = document.querySelectorAll(".eye-icon")
 
                 pwShowHide.forEach(eyeIcon => {
@@ -331,21 +333,3 @@ function validateLoginForm() {
 
     return true;
 }
-
-//signup required fields check
-// function validateSignupForm() {
-//     var email = document.querySelector("#emailinput").value;
-//     var username = document.querySelector("#usernameinput").value;
-//     var password = document.querySelector("#passwordinput").value;
-//     var confirmPassword = document.querySelector("#confirmpasswordinput").value;
-
-//     if (email == "" || username == "" || password == "" || confirmPassword == "") {
-//         alert("Please fill in all fields.");
-//         return false;
-//     } else if (typeof customFunction === 'function') {
-//         // Call customFunction and return its result (true/false) to allow/prevent navigation
-//         return customFunction();
-//     }
-
-//     return false;
-// }
