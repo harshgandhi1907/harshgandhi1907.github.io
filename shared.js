@@ -322,7 +322,7 @@ function validateLoginForm() {
         return false;
     }
 
-    window.location.href = "https://harshgandhi1907.github.io/home.html";
+    window.location.replace("https://harshgandhi1907.github.io/home.html");
     return true;
 }
 
