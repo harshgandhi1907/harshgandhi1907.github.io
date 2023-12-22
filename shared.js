@@ -322,6 +322,7 @@ function validateLoginForm() {
         return false;
     }
 
+    window.location.href = "./home.html";
     return true;
 }
 
