@@ -322,7 +322,6 @@ function validateLoginForm() {
         return false;
     }
 
-    window.location.replace("https://harshgandhi1907.github.io/home.html");
     return true;
 }
 
