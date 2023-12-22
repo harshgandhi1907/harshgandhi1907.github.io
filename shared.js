@@ -64,10 +64,19 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     localStorage.setItem('signedPassword', signedPassword);
                 });
 
-                window.customFunction = async function (e) {
+                const accountForm = document.getElementById("accountForm");
+                accountForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick signup');
                         e.preventDefault();
+                        var email = document.querySelector("#emailinput").value;
+                        var username = document.querySelector("#usernameinput").value;
+                        var password = document.querySelector("#passwordinput").value;
+                        var confirmPassword = document.querySelector("#confirmpasswordinput").value;
+
+                        if (email == "" || username == "" || password == "" || confirmPassword == "") {
+                            alert("Please fill in all fields.");
+                        }
                         const newUname = document.getElementById('usernameinput').value;
                         const newPass = document.getElementById('passwordinput').value;
                         const newEmail = document.getElementById('emailinput').value;
@@ -75,14 +84,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             createAccountToSalesforce(newUname, newPass, newEmail);
                         } else {
                             alert('something went wrong !! account not created');
-                            return false;
                         }
                     } catch (error) {
                         console.log('error in submit action ==> ' + error);
                         console.log('Line number ==> ' + error.lineNumber);
-                        return false;
                     }
-                }
+                });
 
                 async function createAccountToSalesforce(newUname, newPass, newEmail) {
                     try {
@@ -111,14 +118,14 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (response.ok) {
                             console.log("Account created to Salesforce!");
                             console.log(response);
-                            return true;
+                            // back to login
+                            window.location.href = "https://harshgandhi1907.github.io/index.html";
                         } else {
                             console.error("Failed to create account to Salesforce:", response.statusText);
-                            return false;
+                            // show error
                         }
                     } catch (error) {
                         console.error("Error creating account to Salesforce:", error);
-                        return false;
                     }
                 }
             } catch(error){
@@ -326,19 +333,19 @@ function validateLoginForm() {
 }
 
 //signup required fields check
-function validateSignupForm() {
-    var email = document.querySelector("#emailinput").value;
-    var username = document.querySelector("#usernameinput").value;
-    var password = document.querySelector("#passwordinput").value;
-    var confirmPassword = document.querySelector("#confirmpasswordinput").value;
+// function validateSignupForm() {
+//     var email = document.querySelector("#emailinput").value;
+//     var username = document.querySelector("#usernameinput").value;
+//     var password = document.querySelector("#passwordinput").value;
+//     var confirmPassword = document.querySelector("#confirmpasswordinput").value;
 
-    if (email == "" || username == "" || password == "" || confirmPassword == "") {
-        alert("Please fill in all fields.");
-        return false;
-    } else if (typeof customFunction === 'function') {
-        // Call customFunction and return its result (true/false) to allow/prevent navigation
-        return customFunction();
-    }
+//     if (email == "" || username == "" || password == "" || confirmPassword == "") {
+//         alert("Please fill in all fields.");
+//         return false;
+//     } else if (typeof customFunction === 'function') {
+//         // Call customFunction and return its result (true/false) to allow/prevent navigation
+//         return customFunction();
+//     }
 
-    return false;
-}
+//     return false;
+// }
