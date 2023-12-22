@@ -338,8 +338,7 @@ function validateSignupForm() {
     } else if (typeof customFunction === 'function') {
         // Call customFunction and return its result (true/false) to allow/prevent navigation
         return customFunction();
-    } else{
-        return false;
     }
 
+    return false;
 }
