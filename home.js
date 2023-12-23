@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
                         toggleExpenseListVisibility(expenses);
+                        location.reload();
                     } else {
                         console.error('Failed to delete record:', response.statusText);
                         // Handle error cases or display an error message
@@ -170,6 +171,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
                         toggleExpenseListVisibility(expenses);
+                        location.reload();
                     } else {
                         console.log("Failed to add expense to Salesforce:", response.statusText);
                     }
