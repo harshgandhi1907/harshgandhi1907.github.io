@@ -1,4 +1,5 @@
 const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
+let totalExpense = 0;
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
         console.log('onload home');
@@ -6,7 +7,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         const storedPassword = localStorage.getItem('password');
         const accId = localStorage.getItem('accId');
         console.log(accId);
-        let totalExpense = 0;
         if (storedUsername != '' && storedPassword != '') {
             // Get previous data if present
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const listItem = document.createElement("li");
                     const deleteButton = document.createElement("button");
                     deleteButton.textContent = 'Delete';
-                    deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
+                    deleteButton.setAttribute('onclick', `removeExpense('${expense.Id}')`);
                     deleteButton.setAttribute('data-record-id', expense.Id);
                     listItem.innerHTML = `
                         <span>${expense.name}</span>
@@ -72,29 +72,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     var uname = localStorage.getItem('username');
                     var pass = localStorage.getItem('password');
                     if (name && amount && accId != '') {
-                        // let expenses = [];
-                        // expenses.push({ name: name, amount: amount });
-                        // totalExpense += amount;
-
                         // add Expense To Salesforce
                         addExpenseToSalesforce(name, amount, uname, pass, accId);
-                        
-                        // Create a li for the new expense
-                        // const expenseList = document.getElementById("expense-list");
-                        // expenses.forEach((expense) => {
-                        //     const listItem = document.createElement("li");
-                        //     const deleteButton = document.createElement("button");
-                        //     deleteButton.textContent = 'Delete';
-                        //     deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
-                        //     deleteButton.setAttribute('data-record-id', expense.Id);
-                        //     listItem.innerHTML = `
-                        //         <span>${expense.name}</span>
-                        //         <span>₹${expense.amount}</span>
-                        //     `;
-                        //     listItem.appendChild(deleteButton);
-                        //     expenseList.appendChild(listItem);
-                        // });
-                        // expenseForm.reset();
                     } else {
                         alert('something went wrong !! Record not stored')
                     }
@@ -116,13 +95,34 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
             }
 
-            window.removeExpense = (index) => {
+            window.removeExpense = async (recordId) => {
                 try {
                     console.log('remove meth');
-                    const removedExpense = expenses.splice(index, 1)[0];
-                    totalExpense -= removedExpense.amount;
-                    // updateUI();
-                    // toggleExpenseListVisibility();
+                    const sfRecDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/${recordId}`;
+                    const response3 = await fetch(sfRecDeleteEndpoint, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    }
+                    });
+                    if (response3.ok) {
+                        console.log(response3);
+                        console.log('Record deleted successfully!');
+                        const expenseListItem = document.querySelector(`li button[data-record-id="${recordId}"]`).parentNode;
+                        const removedExpenseAmount = parseFloat(expenseListItem.querySelector('span:last-child').textContent.slice(1));
+                        expenseListItem.remove();
+                        const index = expenses.findIndex(expense => expense.recordId === recordId);
+                        if (index !== -1) {
+                            expenses.splice(index, 1);
+                        }
+                        totalExpense -= removedExpenseAmount;
+                        const balance = document.getElementById("balance");
+                        balance.innerText = totalExpense;
+                    } else {
+                        console.error('Failed to delete record:', response.statusText);
+                        // Handle error cases or display an error message
+                    }
                 } catch (error) {
                     console.log('error in removeExpnese ==> ' + error);
                     console.log('Line number ==> ' + error.lineNumber);
@@ -175,6 +175,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             listItem.appendChild(deleteButton);
                             expenseList.appendChild(listItem);
                         });
+                        const balance = document.getElementById("balance");
+                        balance.innerText = totalExpense;
                         expenseForm.reset();
                     } else {
                         console.log("Failed to add expense to Salesforce:", response.statusText);
