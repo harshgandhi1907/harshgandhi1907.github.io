@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 if(data.records.length != 0){
                                     localStorage.setItem('username', username);
                                     localStorage.setItem('password', password);
-                                    window.location.href = 'https://harshgandhi1907.github.io/home.html';
+                                    // window.location.href = 'https://harshgandhi1907.github.io/home.html';
                                 } else{
                                     username.innerHTML = '';
                                     password.innerHTML = '';
