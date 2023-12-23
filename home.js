@@ -152,13 +152,13 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const data = await response.json();
                         console.log(data);
 
-                        expenses.push({Id: data.Id, name: name, amount: amount });
+                        expenses.push({Id: data.id, name: name, amount: amount });
                         // Create a li for the new expense
                         const expenseList = document.getElementById("expense-list");
                         const listItem = document.createElement("li");
                         const deleteButton = document.createElement("button");
                         deleteButton.textContent = 'Delete';
-                        deleteButton.setAttribute('onclick', `removeExpense('${data.Id}')`);
+                        deleteButton.setAttribute('onclick', `removeExpense('${data.id}')`);
                         deleteButton.setAttribute('data-record-id', data.Id);
                         listItem.innerHTML = `
                             <span>${name}</span>
