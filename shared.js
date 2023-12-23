@@ -3,23 +3,19 @@ let globalPassword = '';
 let signedUsername = '';
 let signedPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQESSDzaSG_7bhH9ew6_9LdXr2trfn.3vZCwgAdaN6L0QdsVcj4pSnCcCEwcVufsQ7f_oOcrl6zluWR0IMi_LdxyXXhkj';
+    const accessToken = '00D5h0000093stB!ARMAQP7wZvzAkOuMeJ_aM91XHK4mlBG0dVpQS_E6fQ0OiF6qT1wyWQtJNt1chYe5eHOAD2W388eyDNl6kys9urpvS1nOl35S';
     try {
         if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html' || window.location.href === 'https://harshgandhi1907.github.io/') {
             try {
                 console.log('onload if');
                 globalUsername = '';
                 globalPassword = '';
-                localStorage.setItem('username', globalUsername);
-                localStorage.setItem('password', globalPassword);
-                const getSignedUname = localStorage.getItem('signedUsername');
-                const getsignedPass = localStorage.getItem('signedPassword');
-                const pwShowHide = document.querySelectorAll(".eye-icon")
 
+                // Show/Hide password action
+                const pwShowHide = document.querySelectorAll(".eye-icon")
                 pwShowHide.forEach(eyeIcon => {
                     eyeIcon.addEventListener("click", () => {
                         let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
-
                         pwFields.forEach(password => {
                             if (password.type === "password") {
                                 password.type = "text";
@@ -36,14 +32,58 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 document.getElementById('usernameInput').addEventListener('input', function (event) {
                     globalUsername = event.target.value;
                     console.log('Username:', globalUsername);
-                    localStorage.setItem('username', globalUsername);
+                    // localStorage.setItem('username', globalUsername);
                 });
 
                 // Event listener for password input change
                 document.getElementById('passwordInput').addEventListener('input', function (event) {
                     globalPassword = event.target.value;
                     console.log('Password:', globalPassword);
-                    localStorage.setItem('password', globalPassword);
+                    // localStorage.setItem('password', globalPassword);
+                });
+
+                // Login onclick
+                const loginForm = document.getElementById("loginForm");
+                loginForm.addEventListener("submit", async (e) => {
+                    try {
+                        console.log('onclick login');
+                        e.preventDefault();
+                        var username = document.getElementById("usernameInput").value;
+                        var password = document.getElementById("passwordInput").value;
+                        if (username == "" || password == "") {
+                            alert("Please fill in all fields.");
+                        }
+                        if (username && password) {
+                            // check if account is already present
+                            const sfCheckAccEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Id+FROM+Account+WHERE+UserName__c+=+%27' + username + '%27';
+                            console.log(sfCheckAccEndpoint);
+                            const response = await fetch(sfCheckAccEndpoint, {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${accessToken}`
+                                }
+                            });
+                            console.log(response);
+                            if (response.ok) {
+                                const data = await response.json();
+                                console.log(data);
+                                if(data.records.length != 0){
+                                    localStorage.setItem('username', username);
+                                    localStorage.setItem('password', password);
+                                    window.location.href = 'https://harshgandhi1907.github.io/home.html';
+                                } else{
+                                    alert('Account not found !! Please Check credentials or Create new Account')
+                                }
+                            } else {
+                                console.error('Failed to fetch data from Salesforce:', response.statusText);
+                            }
+                        } else {
+                            alert('something went wrong !! Login failed');
+                        }
+                    } catch (error) {
+                        console.log('error in submit action ==> ' + error);
+                        console.log('Line number ==> ' + error.lineNumber);
+                    }
                 });
             } catch (error) {
                 console.log('error in DOMContentLoaded login ==> ' + error);
@@ -52,6 +92,23 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         } else if (window.location.href === 'https://harshgandhi1907.github.io/Signup.html') {
             try {
                 console.log('onload else if signup');
+                // Show/Hide password action
+                const pwShowHide = document.querySelectorAll(".eye-icon")
+                pwShowHide.forEach(eyeIcon => {
+                    eyeIcon.addEventListener("click", () => {
+                        let pwFields = eyeIcon.parentElement.parentElement.querySelectorAll(".password");
+                        pwFields.forEach(password => {
+                            if (password.type === "password") {
+                                password.type = "text";
+                                eyeIcon.classList.replace("bx-hide", "bx-show");
+                                return;
+                            }
+                            password.type = "password";
+                            eyeIcon.classList.replace("bx-show", "bx-hide");
+                        });
+                    });
+                });
+
                 // Event listener for username input change
                 document.getElementById('usernameinput').addEventListener('input', function (event) {
                     signedUsername = event.target.value;
@@ -66,24 +123,43 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     localStorage.setItem('signedPassword', signedPassword);
                 });
 
+                // signup onclick
                 const accountForm = document.getElementById("accountForm");
                 accountForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick signup');
                         e.preventDefault();
-                        var email = document.querySelector("#emailinput").value;
-                        var username = document.querySelector("#usernameinput").value;
-                        var password = document.querySelector("#passwordinput").value;
-                        var confirmPassword = document.querySelector("#confirmpasswordinput").value;
-
-                        if (email == "" || username == "" || password == "" || confirmPassword == "") {
-                            alert("Please fill in all fields.");
-                        }
                         const newUname = document.getElementById('usernameinput').value;
                         const newPass = document.getElementById('passwordinput').value;
                         const newEmail = document.getElementById('emailinput').value;
-                        if (newUname && newPass) {
-                            createAccountToSalesforce(newUname, newPass, newEmail);
+                        const confirmPassword = document.getElementById('confirmpasswordinput').value;
+
+                        if (newUname == "" || newPass == "" || newEmail == "" || confirmPassword == "") {
+                            alert("Please fill in all fields.");
+                        }
+                        if (newUname && newPass && newEmail) {
+                            // check if same username already exist
+                            const sfCheckQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Id+FROM+Account+WHERE+UserName__c+=+%27' + newUname + '%27';
+                            console.log(sfCheckQEndpoint);
+                            const response = await fetch(sfCheckQEndpoint, {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${accessToken}`
+                                }
+                            });
+                            console.log(response);
+                            if (response.ok) {
+                                const data = await response.json();
+                                console.log(data);
+                                if(data.records.length == 0){
+                                    // Create Account
+                                    createAccountToSalesforce(newUname, newPass, newEmail);
+                                } else{
+                                    alert('Account with same username already exist !! \n Use different username')
+                                }
+                            } else {
+                                console.error('Failed to fetch data from Salesforce:', response.statusText);
+                            }
                         } else {
                             alert('something went wrong !! account not created');
                         }
@@ -97,12 +173,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     try {
                         console.log('create account callout meth');
                         const salesforceAccEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account";
-
                         const headers = {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${accessToken}`,
                         };
-
                         const requestBody = JSON.stringify({
                             "Name": newUname,
                             "Email__c": newEmail,
@@ -110,17 +184,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             "Password__c": newPass
                             // Add other fields as needed for your Expense object
                         });
-
                         const response = await fetch(salesforceAccEndpoint, {
                             method: "POST",
                             headers,
                             body: requestBody,
                         });
-
                         if (response.ok) {
                             console.log("Account created to Salesforce!");
                             console.log(response);
-                            // back to login
+                            // go to login
                             window.location.href = "https://harshgandhi1907.github.io/index.html";
                         } else {
                             console.error("Failed to create account to Salesforce:", response.statusText);
@@ -145,7 +217,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
                 const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
-
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
                     headers: {
@@ -153,7 +224,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 });
                 console.log(response);
-
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);
@@ -190,6 +260,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.error('Failed to fetch data from Salesforce:', response.statusText);
                 }
 
+                // Add expense onclick
                 const expenseForm = document.getElementById("expense-form");
                 expenseForm.addEventListener("submit", async (e) => {
                     try {
@@ -225,28 +296,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 });
 
-                // Adding new expense lines
-                function updateUI() {
-                    try {
-                        console.log('updateUI');
-                        const expenseList = document.getElementById("expense-list");
-                        expenseList.innerHTML = "";
-                        expenses.forEach((expense) => {
-                            const listItem = document.createElement("li");
-                            listItem.innerHTML = `
-                            <span>${expense.name}</span>
-                            <span>₹${expense.amount.toFixed(2)}</span>
-                            <button onclick="removeExpense(${expenses.indexOf(expense)})">Remove</button>
-                            `;
-                            expenseList.appendChild(listItem);
-                        });
-                        balance.innerText = totalExpense.toFixed(2);
-                    } catch (error) {
-                        console.log('error in updateUI ==> ' + error);
-                        console.log('Line number ==> ' + error.lineNumber);
-                    }
-                }
-
                 // Function to toggle visibility of the expense list based on expense addition
                 function toggleExpenseListVisibility(expenses) {
                     try {
@@ -276,12 +325,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     try {
                         console.log('add expense callout meth');
                         const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-
                         const headers = {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${accessToken}`,
                         };
-
                         const requestBody = JSON.stringify({
                             "Name": name,
                             "Expense_Amount__c": amount,
@@ -289,13 +336,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             "Password__c": storedPassword
                             // Add other fields as needed for your Expense object
                         });
-
                         const response = await fetch(salesforceEndpoint, {
                             method: "POST",
                             headers,
                             body: requestBody,
                         });
-
                         if (response.ok) {
                             console.log("Expense added to Salesforce!");
                             console.log(response);
@@ -320,16 +365,3 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
-
-//login required field check
-function validateLoginForm() {
-    var username = document.getElementById("usernameInput").value;
-    var password = document.getElementById("passwordInput").value;
-
-    if (username == "" || password == "") {
-        alert("Please fill in all fields.");
-        return false;
-    }
-
-    return true;
-}
