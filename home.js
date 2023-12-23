@@ -143,11 +143,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (response.ok) {
                             console.log(response);
                             console.log("Expense added to Salesforce!");
-                            const expenseForm = document.getElementById("expense-form");
+                            const expenseCont = document.getElementsByClassName("main-container");
                             const data = await response.json();
                             console.log(data);
-                            expenseForm.reset();
-                            // location.reload();
+                            expenseCont.reset();
                         } else {
                             console.log("Failed to add expense to Salesforce:", response.statusText);
                         }

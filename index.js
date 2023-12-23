@@ -59,9 +59,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     if (response.ok) {
                         const data = await response.json();
                         console.log(data);
-                        const url = data.records[0].Id;
-                        localStorage.setItem('accId', url);
                         if(data.records.length != 0){
+                            const url = data.records[0].Id;
+                            localStorage.setItem('accId', url);
                             localStorage.setItem('username', username);
                             localStorage.setItem('password', password);
                             window.location.href = 'https://harshgandhi1907.github.io/home.html';
