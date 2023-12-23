@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
-            console.log(localStorage.getItem('password'));
+            console.log(localStorage.getItem('accId'));
             let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
                 // Get previous data if present
@@ -275,7 +275,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
 
                 // Add expense onclick
-                const expenseForm = document.getElementById("expense-form");
+                var expenseForm = document.getElementById("expense-form");
                 expenseForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick submit');
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             expenses.push({ name: name, amount: amount });
                             totalExpense += amount;
                             // updateUI();
-                            addExpenseToSalesforce(name, amount);
+                            addExpenseToSalesforce(name, amount, storedUsername, storedPassword);
                             // toggleExpenseListVisibility();
                             
                             // Create a li for the new expense
@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 `;
                                 expenseList.appendChild(listItem);
                             });
-                            expenseForm.reset();
+                            // expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -335,7 +335,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 };
 
-                async function addExpenseToSalesforce(name, amount) {
+                async function addExpenseToSalesforce(name, amount, storedUsername, storedPassword) {
                     try {
                         console.log('add expense callout meth');
                         const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
@@ -357,6 +357,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         });
                         if (response.ok) {
                             console.log("Expense added to Salesforce!");
+                            const expenseForm = document.getElementById("expense-form");
+                            expenseForm.reset();
                             const data = await response.json();
                             console.log(data);
                             console.log(data.records[0].attributes.url);
