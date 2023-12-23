@@ -198,6 +198,13 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         if (response.ok) {
                             console.log("Account created to Salesforce!");
                             console.log(response);
+                            const data = await response.json();
+                            console.log(data);
+                            console.log(data.records[0].attributes.url);
+                            const url = data.records[0].attributes.url;
+                            const [,, lastId] = url.split('/').reverse();
+                            console.log(lastId);
+                            localStorage.setItem('accId', lastId);
                             // go to login
                             window.location.href = "https://harshgandhi1907.github.io/index.html";
                         } else {
@@ -216,6 +223,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
+            console.log(localStorage.getItem('password'));
             let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
                 // Get previous data if present
