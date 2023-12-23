@@ -46,15 +46,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         alert('Password changed successfully !!!')
                         window.location.href = 'https://harshgandhi1907.github.io/index.html';
                     } else{
-                        unameInput.innerHTML = '';
-                        passInput.innerHTML = '';
-                        confPassInput.innerHTML = '';
+                        unameInput = '';
+                        passInput = '';
+                        confPassInput = '';
                         alert('Please try again');
                     }
                 } else {
-                    unameInput.innerHTML = '';
-                    passInput.innerHTML = '';
-                    confPassInput.innerHTML = '';
+                    unameInput = '';
+                    passInput = '';
+                    confPassInput = '';
                     alert('Account with entered username is not found');
                     console.log('Failed to fetch data from Salesforce:', response.statusText);
                 }

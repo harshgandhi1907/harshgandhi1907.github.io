@@ -65,10 +65,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             // Create Account
                             createAccountToSalesforce(newUname, newPass, newEmail);
                         } else{
-                            newUname.innerHTML = '';
-                            newPass.innerHTML = '';
-                            newEmail.innerHTML = '';
-                            confirmPassword.innerHTML = '';
+                            newUname = '';
+                            newPass = '';
+                            newEmail = '';
+                            confirmPassword = '';
                             alert('Account with same username already exist !! \nUse different username');
                         }
                     } else {

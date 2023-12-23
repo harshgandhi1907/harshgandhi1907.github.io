@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
                 if (username && password) {
                     // check if account is already present
-                    const sfCheckAccEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Id+FROM+Account+WHERE+UserName__c+=+%27' + username + '%27';
+                    const sfCheckAccEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Id,+Password__c+FROM+Account+WHERE+UserName__c+=+%27' + username + '%27';
                     console.log(sfCheckAccEndpoint);
                     const response = await fetch(sfCheckAccEndpoint, {
                         method: 'GET',
@@ -61,13 +61,18 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         console.log(data);
                         if(data.records.length != 0){
                             const url = data.records[0].Id;
-                            localStorage.setItem('accId', url);
-                            localStorage.setItem('username', username);
-                            localStorage.setItem('password', password);
-                            window.location.href = 'https://harshgandhi1907.github.io/home.html';
+                            var actualPass = data.records[0].Password__c;
+                            if(actualPass === password){   
+                                localStorage.setItem('accId', url);
+                                localStorage.setItem('username', username);
+                                localStorage.setItem('password', password);
+                                window.location.href = 'https://harshgandhi1907.github.io/home.html';
+                            } else{
+                                alert('Incorrect Password');
+                            }
                         } else{
-                            username.innerHTML = '';
-                            password.innerHTML = '';
+                            username = '';
+                            password = '';
                             alert('Account not found !! Please Check credentials or Create new Account');
                         }
                     } else {
