@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             console.log('onload else if home');
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
-            console.log(localStorage.getItem('accId'));
+            const accId = localStorage.getItem('accId');
             let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
                 // Get previous data if present
@@ -288,11 +288,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         var uname = localStorage.getItem('username');
                         var pass = localStorage.getItem('password');
                         let expenses = [];
-                        if (name && amount) {
+                        if (name && amount && accId != '') {
                             expenses.push({ name: name, amount: amount });
                             totalExpense += amount;
                             // updateUI();
-                            addExpenseToSalesforce(name, amount, uname, pass);
+                            addExpenseToSalesforce(name, amount, uname, pass, accId);
                             // toggleExpenseListVisibility();
                             
                             // Create a li for the new expense
@@ -340,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 };
 
-                async function addExpenseToSalesforce(name, amount, uname, pass) {
+                async function addExpenseToSalesforce(name, amount, uname, pass, accId) {
                     try {
                         console.log('add expense callout meth');
                         const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             "Expense_Amount__c": amount,
                             "User_Name__c": uname,
                             "Password__c": pass,
-                            "Account__c": localStorage.getItem('accId')
+                            "Account__c": accId
                             // Add other fields as needed for your Expense object
                         });
                         const response = await fetch(sfExpAddEndpoint, {
