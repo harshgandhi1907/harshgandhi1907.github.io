@@ -67,12 +67,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             if (response.ok) {
                                 const data = await response.json();
                                 console.log(data);
-                                const url = data.id;
+                                const url = data.records[0].Id;
                                 localStorage.setItem('accId', url);
                                 if(data.records.length != 0){
                                     localStorage.setItem('username', username);
                                     localStorage.setItem('password', password);
-                                    // window.location.href = 'https://harshgandhi1907.github.io/home.html';
+                                    window.location.href = 'https://harshgandhi1907.github.io/home.html';
                                 } else{
                                     username.innerHTML = '';
                                     password.innerHTML = '';
@@ -224,6 +224,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             const storedUsername = localStorage.getItem('username');
             const storedPassword = localStorage.getItem('password');
             const accId = localStorage.getItem('accId');
+            console.log(accId);
             let totalExpense = 0;
             if (storedUsername != '' && storedPassword != '') {
                 // Get previous data if present
