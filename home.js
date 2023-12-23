@@ -167,7 +167,7 @@ function deleteAcc(){
     var accId = localStorage.getItem('accId');
     const confirmation = window.confirm('Are you sure you want to delete the account?');
     if(confirmation){
-        const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}}`;
+        const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
         const response = fetch(sfDeleteEndpoint, {
         method: 'DELETE',
         headers: {
