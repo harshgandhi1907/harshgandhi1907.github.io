@@ -6,9 +6,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         const storedUsername = localStorage.getItem('username');
         const storedPassword = localStorage.getItem('password');
         const accId = localStorage.getItem('accId');
-        let expenses = [];
         console.log(accId);
         if (storedUsername != '' && storedPassword != '') {
+            let expenses = [];
             // Get previous data if present
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         totalExpense += amount;
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
-                        expenseForm.reset();
+                        toggleExpenseListVisibility(expenses);
                     } else {
                         console.log("Failed to add expense to Salesforce:", response.statusText);
                     }
