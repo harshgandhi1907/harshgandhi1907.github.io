@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 // Get previous data if present
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
                 // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
+                const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c,+Id+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
                 console.log(salesforceQEndpoint);
                 const response = await fetch(salesforceQEndpoint, {
                     method: 'GET',
@@ -343,9 +343,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         });
                         if (response.ok) {
                             console.log("Expense added to Salesforce!");
+                            const data = await response.json();
+                            console.log(data);
+                            console.log(data.records[0].attributes.url);
                             console.log(response);
-                            const createdRecordId = response.id;
-                            console.log("Created Record ID:", createdRecordId);
+
                             location.reload();
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
