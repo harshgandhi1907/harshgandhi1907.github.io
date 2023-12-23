@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 data.records.forEach(record => {
                     const expenseName = record.Name;
                     const expenseAmount = parseFloat(record.Expense_Amount__c);
-                    console.log('id :: ' + record.Id);
-                    console.log(`Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
-                    expenses.push({ name: expenseName, amount: expenseAmount });
+                    const sfId = record.Id;
+                    console.log(`Id: ${sfId}, Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
+                    expenses.push({Id: sfId, name: expenseName, amount: expenseAmount });
 
                     // Calculate total expense
                     totalExpense += expenseAmount;
@@ -44,10 +44,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 expenseList.innerHTML = "";
                 expenses.forEach((expense) => {
                     const listItem = document.createElement("li");
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
+                    deleteButton.setAttribute('data-record-id', expense.Id);
                     listItem.innerHTML = `
-                    <span>${expense.name}</span>
-                    <span>₹${expense.amount}</span>
+                        <span>${expense.name}</span>
+                        <span>₹${expense.amount}</span>
                     `;
+                    listItem.appendChild(deleteButton);
                     expenseList.appendChild(listItem);
                 });
 
@@ -66,25 +71,30 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     var amount = parseFloat(document.getElementById("expense-amount").value);
                     var uname = localStorage.getItem('username');
                     var pass = localStorage.getItem('password');
-                    let expenses = [];
                     if (name && amount && accId != '') {
-                        expenses.push({ name: name, amount: amount });
-                        totalExpense += amount;
+                        // let expenses = [];
+                        // expenses.push({ name: name, amount: amount });
+                        // totalExpense += amount;
 
                         // add Expense To Salesforce
                         addExpenseToSalesforce(name, amount, uname, pass, accId);
                         
                         // Create a li for the new expense
-                        const expenseList = document.getElementById("expense-list");
-                        expenses.forEach((expense) => {
-                            const listItem = document.createElement("li");
-                            listItem.innerHTML = `
-                            <span>${expense.name}</span>
-                            <span>₹${expense.amount}</span>
-                            `;
-                            expenseList.appendChild(listItem);
-                        });
-                        expenseForm.reset();
+                        // const expenseList = document.getElementById("expense-list");
+                        // expenses.forEach((expense) => {
+                        //     const listItem = document.createElement("li");
+                        //     const deleteButton = document.createElement("button");
+                        //     deleteButton.textContent = 'Delete';
+                        //     deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
+                        //     deleteButton.setAttribute('data-record-id', expense.Id);
+                        //     listItem.innerHTML = `
+                        //         <span>${expense.name}</span>
+                        //         <span>₹${expense.amount}</span>
+                        //     `;
+                        //     listItem.appendChild(deleteButton);
+                        //     expenseList.appendChild(listItem);
+                        // });
+                        // expenseForm.reset();
                     } else {
                         alert('something went wrong !! Record not stored')
                     }
@@ -143,10 +153,29 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     if (response.ok) {
                         console.log(response);
                         console.log("Expense added to Salesforce!");
-                        const expenseCont = document.getElementsByClassName("main-container");
+                        var expenseForm = document.getElementById("expense-form");
                         const data = await response.json();
                         console.log(data);
-                        expenseCont.reset();
+
+                        let expenses = [];
+                        expenses.push({Id: data.Id, name: name, amount: amount });
+                        totalExpense += amount;
+                        // Create a li for the new expense
+                        const expenseList = document.getElementById("expense-list");
+                        expenses.forEach((expense) => {
+                            const listItem = document.createElement("li");
+                            const deleteButton = document.createElement("button");
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
+                            deleteButton.setAttribute('data-record-id', expense.Id);
+                            listItem.innerHTML = `
+                                <span>${expense.name}</span>
+                                <span>₹${expense.amount}</span>
+                            `;
+                            listItem.appendChild(deleteButton);
+                            expenseList.appendChild(listItem);
+                        });
+                        expenseForm.reset();
                     } else {
                         console.log("Failed to add expense to Salesforce:", response.statusText);
                     }
