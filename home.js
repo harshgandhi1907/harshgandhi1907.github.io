@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const balance = document.getElementById("balance");
                     balance.innerText = totalExpense;
                 });
-
+                toggleExpenseListVisibility(expenses);
                 // Create a li element for each expense
                 const expenseList = document.getElementById("expense-list");
                 expenseList.innerHTML = "";
