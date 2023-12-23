@@ -26,37 +26,41 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data);
-                    const accId = data.records[0].Id;
-                    const salesforceEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
-                    const headers2 = {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    };
-                    const requestBody2 = JSON.stringify({
-                        "Password__c":passInput
-                    });
-                    const response2 = await fetch(salesforceEndpoint, {
-                        method: "PATCH",
-                        headers2,
-                        body: requestBody2
-                    });
-                    if (response2.ok) {
-                        const data2 = await response2.json();
-                        console.log(data2);
-                        alert('Password changed successfully !!!')
-                        window.location.href = 'https://harshgandhi1907.github.io/index.html';
-                    } else{
+                    if(data.records.length != 0){
+                        const accId = data.records[0].Id;
+                        const salesforceEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
+                        const headers2 = {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json'
+                        };
+                        const requestBody2 = JSON.stringify({
+                            "Password__c":passInput
+                        });
+                        const response2 = await fetch(salesforceEndpoint, {
+                            method: "PATCH",
+                            headers2,
+                            body: requestBody2
+                        });
+                        if (response2.ok) {
+                            const data2 = await response2.json();
+                            console.log(data2);
+                            alert('Password changed successfully !!!')
+                            window.location.href = 'https://harshgandhi1907.github.io/index.html';
+                        } else{
+                            unameInput = '';
+                            passInput = '';
+                            confPassInput = '';
+                            alert('Please try again');
+                        }
+                    } else {
                         unameInput = '';
                         passInput = '';
                         confPassInput = '';
-                        alert('Please try again');
+                        alert('Account with entered username is not found');
+                        console.log('Failed to fetch data from Salesforce:', response.statusText);
                     }
-                } else {
-                    unameInput = '';
-                    passInput = '';
-                    confPassInput = '';
-                    alert('Account with entered username is not found');
-                    console.log('Failed to fetch data from Salesforce:', response.statusText);
+                } else{
+                    console.log('Error in apicall');
                 }
             }
         } catch (error) {
