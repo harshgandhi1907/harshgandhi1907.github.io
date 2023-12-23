@@ -28,15 +28,17 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log(data);
                     const accId = data.records[0].Id;
                     const salesforceEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
-                    const updatedData = {};
-                    updatedData["Password__c"] = passInput;
+                    const headers2 = {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    };
+                    const requestBody2 = JSON.stringify({
+                        "Password__c":passInput
+                    });
                     const response2 = await fetch(salesforceEndpoint, {
-                        method: 'PATCH',
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(updatedData)
+                        method: "PATCH",
+                        headers2,
+                        body: requestBody2
                     });
                     if (response2.ok) {
                         const data2 = await response2.json();
