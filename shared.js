@@ -3,7 +3,7 @@ let globalPassword = '';
 let signedUsername = '';
 let signedPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQP7wZvzAkOuMeJ_aM91XHK4mlBG0dVpQS_E6fQ0OiF6qT1wyWQtJNt1chYe5eHOAD2W388eyDNl6kys9urpvS1nOl35S';
+    const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
     try {
         if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html' || window.location.href === 'https://harshgandhi1907.github.io/') {
             try {
@@ -303,7 +303,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                 `;
                                 expenseList.appendChild(listItem);
                             });
-                            // expenseForm.reset();
+                            expenseForm.reset();
                         } else {
                             alert('something went wrong !! Record not stored')
                         }
@@ -363,10 +363,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             console.log(response);
                             console.log("Expense added to Salesforce!");
                             const expenseForm = document.getElementById("expense-form");
-                            expenseForm.reset();
                             const data = await response.json();
                             console.log(data);
-                            location.reload();
+                            expenseForm.reset();
+                            // location.reload();
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
                         }

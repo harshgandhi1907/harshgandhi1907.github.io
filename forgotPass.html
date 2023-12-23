@@ -8,7 +8,7 @@
     <title>Expense Tracker</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/forgotPass.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
 </head>
@@ -17,33 +17,34 @@
     <section class="container forms">
         <div class="form login">
             <div class="form-content">
-                <header>Login</header>
-                <form id="loginForm">
+                <header>Forgot Password</header>
+                <form id="forgotPassForm">
                     <div class="field input-field">
-                        <input id="usernameInput" placeholder="Username" class="input" required>
+                        <input id="unameInput" placeholder="Username" class="input" required>
                     </div>
 
                     <div class="field input-field">
-                        <input id="passwordInput" type="password" placeholder="Password" class="password" required>
+                        <input id="passInput" type="password" placeholder="New Password" class="password" required>
                         <i class='bx bx-hide eye-icon'></i>
                     </div>
 
-                    <div class="form-link">
-                        <a href="/forgotPass.html" class="forgot-pass">Forgot password?</a>
+                    <div class="field input-field">
+                        <input id="confPassInput" type="password" placeholder="Confirm Password" class="password" required>
+                        <i class='bx bx-hide eye-icon'></i>
                     </div>
 
                     <div class="field button-field">
-                        <button type="submit">Login</button>
+                        <button type="submit">Reset Password</button>
                     </div>
                 </form>
 
                 <div class="form-link">
-                    <span>Don't have an account? <a href="/Signup.html">Signup</a></span>
+                    <span><a href="/index.html">Login here</a></span>
                 </div>
             </div>
         </div>
     <!-- JavaScript -->
-    <script src="/index.js"></script>
+    <script src="/forgotPass.js"></script>
 
 </body>
 
