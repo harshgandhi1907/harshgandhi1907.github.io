@@ -1,5 +1,5 @@
+const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
     try {
         console.log('onload home');
         const storedUsername = localStorage.getItem('username');
@@ -157,32 +157,33 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         } else {
             console.log('login credentials not fetched');
         }
-
-        async function deleteAcc(){
-            const confirmation = window.confirm('Are you sure you want to delete the account?');
-            if(confirmation){
-                const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}}`;
-                const response = await fetch(sfDeleteEndpoint, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-                });
-                if (response.ok) {
-                    console.log(response);
-                    console.log('Record deleted successfully!');
-                    alert('Account Deleted successfully !!');
-                    window.location.href = 'https://harshgandhi1907.github.io/index.html';
-                    // Perform any additional actions upon successful deletion
-                } else {
-                    console.error('Failed to delete record:', response.statusText);
-                    // Handle error cases or display an error message
-                }
-            }
-        }
     } catch (error) {
         console.log('error in DOMContentLoaded home ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
+
+async function deleteAcc(){
+    var accId = localStorage.getItem('accId');
+    const confirmation = window.confirm('Are you sure you want to delete the account?');
+    if(confirmation){
+        const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}}`;
+        const response = await fetch(sfDeleteEndpoint, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        }
+        });
+        if (response.ok) {
+            console.log(response);
+            console.log('Record deleted successfully!');
+            alert('Account Deleted successfully !!');
+            window.location.href = 'https://harshgandhi1907.github.io/index.html';
+            // Perform any additional actions upon successful deletion
+        } else {
+            console.error('Failed to delete record:', response.statusText);
+            // Handle error cases or display an error message
+        }
+    }
+}
