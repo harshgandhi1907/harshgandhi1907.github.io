@@ -200,11 +200,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             console.log(response);
                             const data = await response.json();
                             console.log(data);
-                            console.log(data.records[0].attributes.url);
-                            const url = data.records[0].attributes.url;
-                            const [,, lastId] = url.split('/').reverse();
-                            console.log(lastId);
-                            localStorage.setItem('accId', lastId);
+                            console.log(data.id);
+                            const url = data.id;
+                            console.log(url);
+                            localStorage.setItem('accId', url);
                             // go to login
                             window.location.href = "https://harshgandhi1907.github.io/index.html";
                         } else {
