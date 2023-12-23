@@ -67,6 +67,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             if (response.ok) {
                                 const data = await response.json();
                                 console.log(data);
+                                var url = data.records[0].attributes.url;
+                                const [,, lastId] = url.split('/').reverse();
+                                console.log(lastId);
+                                localStorage.setItem("accId",lastId);
                                 if(data.records.length != 0){
                                     localStorage.setItem('username', username);
                                     localStorage.setItem('password', password);
@@ -279,14 +283,16 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     try {
                         console.log('onclick submit');
                         e.preventDefault();
-                        const name = document.getElementById("expense-name").value;
-                        const amount = parseFloat(document.getElementById("expense-amount").value);
+                        var name = document.getElementById("expense-name").value;
+                        var amount = parseFloat(document.getElementById("expense-amount").value);
+                        var uname = localStorage.getItem('username');
+                        var pass = localStorage.getItem('password');
                         let expenses = [];
                         if (name && amount) {
                             expenses.push({ name: name, amount: amount });
                             totalExpense += amount;
                             // updateUI();
-                            addExpenseToSalesforce(name, amount, storedUsername, storedPassword);
+                            addExpenseToSalesforce(name, amount, uname, pass);
                             // toggleExpenseListVisibility();
                             
                             // Create a li for the new expense
@@ -334,7 +340,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     }
                 };
 
-                async function addExpenseToSalesforce(name, amount, storedUsername, storedPassword) {
+                async function addExpenseToSalesforce(name, amount, uname, pass) {
                     try {
                         console.log('add expense callout meth');
                         const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
@@ -345,8 +351,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const requestBody = JSON.stringify({
                             "Name": name,
                             "Expense_Amount__c": amount,
-                            "User_Name__c": storedUsername,
-                            "Password__c": storedPassword
+                            "User_Name__c": uname,
+                            "Password__c": pass,
+                            "Account__c": localStorage.getItem('accId')
                             // Add other fields as needed for your Expense object
                         });
                         const response = await fetch(sfExpAddEndpoint, {
