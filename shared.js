@@ -72,7 +72,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                     localStorage.setItem('password', password);
                                     window.location.href = 'https://harshgandhi1907.github.io/home.html';
                                 } else{
-                                    alert('Account not found !! Please Check credentials or Create new Account')
+                                    username.innerHTML = '';
+                                    password.innerHTML = '';
+                                    alert('Account not found !! Please Check credentials or Create new Account');
                                 }
                             } else {
                                 console.error('Failed to fetch data from Salesforce:', response.statusText);
@@ -155,7 +157,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                                     // Create Account
                                     createAccountToSalesforce(newUname, newPass, newEmail);
                                 } else{
-                                    alert('Account with same username already exist !! \n Use different username')
+                                    newUname.innerHTML = '';
+                                    newPass.innerHTML = '';
+                                    newEmail.innerHTML = '';
+                                    confirmPassword.innerHTML = '';
+                                    alert('Account with same username already exist !! \nUse different username');
                                 }
                             } else {
                                 console.error('Failed to fetch data from Salesforce:', response.statusText);
@@ -324,7 +330,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 async function addExpenseToSalesforce(name, amount) {
                     try {
                         console.log('add expense callout meth');
-                        const salesforceEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
+                        const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
                         const headers = {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${accessToken}`,
@@ -336,7 +342,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             "Password__c": storedPassword
                             // Add other fields as needed for your Expense object
                         });
-                        const response = await fetch(salesforceEndpoint, {
+                        const response = await fetch(sfExpAddEndpoint, {
                             method: "POST",
                             headers,
                             body: requestBody,
@@ -347,7 +353,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             console.log(data);
                             console.log(data.records[0].attributes.url);
                             console.log(response);
-
                             location.reload();
                         } else {
                             console.error("Failed to add expense to Salesforce:", response.statusText);
