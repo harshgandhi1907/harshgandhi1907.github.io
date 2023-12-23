@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         const storedUsername = localStorage.getItem('username');
         const storedPassword = localStorage.getItem('password');
         const accId = localStorage.getItem('accId');
+        let expenses = [];
         console.log(accId);
         if (storedUsername != '' && storedPassword != '') {
             // Get previous data if present
@@ -23,7 +24,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             if (response.ok) {
                 const data = await response.json();
                 console.log(data);
-                let expenses = [];
                 data.records.forEach(record => {
                     const expenseName = record.Name;
                     const expenseAmount = parseFloat(record.Expense_Amount__c);
@@ -37,8 +37,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     balance.innerText = totalExpense;
                 });
 
-                toggleExpenseListVisibility(expenses);
-                
                 // Create a li element for each expense
                 const expenseList = document.getElementById("expense-list");
                 expenseList.innerHTML = "";
@@ -73,7 +71,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     var pass = localStorage.getItem('password');
                     if (name && amount && accId != '') {
                         // add Expense To Salesforce
-                        addExpenseToSalesforce(name, amount, uname, pass, accId);
+                        addExpenseToSalesforce(name, amount, uname, pass, accId, expenses);
                     } else {
                         alert('something went wrong !! Record not stored')
                     }
@@ -110,15 +108,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         console.log(response3);
                         console.log('Record deleted successfully!');
                         const expenseListItem = document.querySelector(`li button[data-record-id="${recordId}"]`).parentNode;
-                        const removedExpenseAmount = parseFloat(expenseListItem.querySelector('span:last-child').textContent.slice(1));
+                        const removedExpenseAmount = parseFloat(expenseListItem.querySelector('span:nth-child(2)').textContent.slice(1));
                         expenseListItem.remove();
-                        const index = expenses.findIndex(expense => expense.recordId === recordId);
-                        if (index !== -1) {
-                            expenses.splice(index, 1);
-                        }
                         totalExpense -= removedExpenseAmount;
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
+                        toggleExpenseListVisibility(expenses);
                     } else {
                         console.error('Failed to delete record:', response.statusText);
                         // Handle error cases or display an error message
@@ -129,7 +124,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
             };
 
-            async function addExpenseToSalesforce(name, amount, uname, pass, accId) {
+            async function addExpenseToSalesforce(name, amount, uname, pass, accId, expenses) {
                 try {
                     console.log('add expense callout meth');
                     const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
@@ -157,24 +152,21 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const data = await response.json();
                         console.log(data);
 
-                        let expenses = [];
                         expenses.push({Id: data.Id, name: name, amount: amount });
-                        totalExpense += amount;
                         // Create a li for the new expense
                         const expenseList = document.getElementById("expense-list");
-                        expenses.forEach((expense) => {
-                            const listItem = document.createElement("li");
-                            const deleteButton = document.createElement("button");
-                            deleteButton.textContent = 'Delete';
-                            deleteButton.setAttribute('onclick', `removeExpense(${expenses.indexOf(expense)})`);
-                            deleteButton.setAttribute('data-record-id', expense.Id);
-                            listItem.innerHTML = `
-                                <span>${expense.name}</span>
-                                <span>₹${expense.amount}</span>
-                            `;
-                            listItem.appendChild(deleteButton);
-                            expenseList.appendChild(listItem);
-                        });
+                        const listItem = document.createElement("li");
+                        const deleteButton = document.createElement("button");
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.setAttribute('onclick', `removeExpense('${data.Id}')`);
+                        deleteButton.setAttribute('data-record-id', data.Id);
+                        listItem.innerHTML = `
+                            <span>${name}</span>
+                            <span>₹${amount}</span>
+                        `;
+                        listItem.appendChild(deleteButton);
+                        expenseList.appendChild(listItem);
+                        totalExpense += amount;
                         const balance = document.getElementById("balance");
                         balance.innerText = totalExpense;
                         expenseForm.reset();
