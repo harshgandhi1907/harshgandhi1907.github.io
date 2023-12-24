@@ -264,6 +264,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         });
                         if(response5.ok){
                             console.log(response5);
+                            var data = await response5.json();
+                            localStorage.setItem("budgetId" , data.id);
                             console.log("Budget added to Salesforce!");
                             const newbudget = document.getElementById("totalBudget");
                             newbudget.placeholder = "Edit budget";
