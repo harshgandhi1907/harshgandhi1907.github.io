@@ -218,28 +218,26 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         filterForm.addEventListener("submit", async(e) => {
             try {
                 e.preventDefault();
-                const startDateString = document.getElementById("startFilter").value;
-                const endDateString = document.getElementById("endFilter").value;
+                var startDateString = document.getElementById("startFilter").value;
+                var endDateString = document.getElementById("endFilter").value;
                 // Convert string dates to Date objects
-                const startDate = new Date(startDateString);
-                const endDate = new Date(endDateString);
+                var startDate = new Date(startDateString);
+                var endDate = new Date(endDateString);
                 console.log(startDate);
                 console.log(typeof endDate);
                 if(startDate > endDate){
                     alert('Start date must be earlier than end date');
                 } else{
                     console.log(expenses);
-                    // Filter expenses based on the date range
-                    const filteredExpenses = expenses.filter(expense => {
-                        const expenseDate = new Date(expense.Date);
+                    var filteredList = expenses.filter(expense => {
+                        console.log(expense);
+                        var expenseDate = new Date(expense.Date);
                         return expenseDate >= startDate && expenseDate <= endDate;
                     });
-
-                    // Display the filtered expenses
-                    filteredExpenses.forEach(expense => {
-                        console.log(expense);
-                        // Perform actions with the filtered expenses (e.g., displaying them on the webpage)
-                    });
+                    
+                    // Display the filtered expenses list
+                    console.log("Filtered Expenses:");
+                    console.log(filteredList);
                 }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
