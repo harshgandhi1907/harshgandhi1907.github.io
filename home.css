@@ -63,6 +63,8 @@ h1 {
 
 .main-container {
     padding: 20px;
+    display: flex;
+    /* justify-content: space-between; */
 }
 
 .balance,
@@ -140,4 +142,17 @@ button:hover {
 .expenses,
 .add-expense {
     animation: fadein 1s ease;
+}
+
+.budget{
+    display: flex;
+}
+
+.budget h2{
+    color: #2ecc71;
+    font-size: 1.5rem;
+}
+
+.budget button{
+    width: auto;
 }
