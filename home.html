@@ -30,13 +30,7 @@
             <div class="balance">
                 <h2>Total Expense: ₹<span id="balance">0.00</span></h2>
             </div>
-            <div class="expenses" id="expenses-container">
-                <h2>Recent Transactions</h2>
-                <ul id="expense-list">
-                    <!-- li added dynamically  -->
-                </ul>
-            </div>
-        
+
             <div class="budget">
                 <h2>Budget: ₹<span id="totalBudget">0.00</span></h2>
                 <form id="budget-form" style="display: flex;">
@@ -44,6 +38,7 @@
                     <button type="submit" style="width: 12%;">Submit</button>
                 </form>
             </div>
+            
             <!-- Create new expense -->
             <div class="add-expense">
                 <h2>Add a New Expense</h2>
@@ -54,6 +49,26 @@
                     <input type="number" id="expense-amount" placeholder="Expense Amount" required /><br>
                     <button type="submit" style="width: 12%;">Add</button>
                 </form>
+            </div>
+
+            <div class="filter-container" id="filter-expense">
+                <h2>Filter Expense List</h2>
+                <form id="filter-form">
+                    <input type="date" id="startFilter" placeholder="Select Start Date" />
+                    <input type="date" id="endFilter" placeholder="Select End Date" />
+                    <button type="submit" style="width: 15%;">Enter</button>
+                </form>
+                <h2>Expenses In Selected Duration</h2>
+                <ul id="filter-list">
+                    <!-- li filtered dynamically -->
+                </ul>
+            </div>
+
+            <div class="expenses" id="expenses-container">
+                <h2>Recent Transactions</h2>
+                <ul id="expense-list">
+                    <!-- li added dynamically  -->
+                </ul>
             </div>
         </div>
     </div>

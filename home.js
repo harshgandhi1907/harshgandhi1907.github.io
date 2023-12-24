@@ -7,8 +7,16 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         const storedPassword = localStorage.getItem('password');
         const accId = localStorage.getItem('accId');
         console.log(accId);
+        let expenses = [];
+
         if (storedUsername != '' && storedPassword != '') {
-            let expenses = [];
+            getPreviousRec(storedUsername, storedPassword, accId, expenses);
+        } else {
+            console.log('login credentials not fetched');
+        }
+
+        // get previous record of expenses and budget
+        async function getPreviousRec(storedUsername, storedPassword, accId, expenses){
             toggleExpenseListVisibility(expenses);
             // Get previous expense data if present
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
@@ -88,227 +96,246 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('error in budget callout');
                 localStorage.setItem("budget" , '');
             }
-
-            // Add expense onclick
-            var expenseForm = document.getElementById("expense-form");
-            expenseForm.addEventListener("submit", async (e) => {
-                try {
-                    console.log('onclick submit');
-                    e.preventDefault();
-                    var name = document.getElementById("expense-name").value;
-                    var amount = parseFloat(document.getElementById("expense-amount").value);
-                    var date = document.getElementById("expense-date").value;  
-                    var uname = localStorage.getItem('username');
-                    var pass = localStorage.getItem('password');
-                    if (name && amount && accId != '') {
-                        // add Expense To Salesforce
-                        console.log(date);
-                        addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses);
-                    } else {
-                        alert('something went wrong !! Record not stored')
-                    }
-                } catch (error) {
-                    console.log('error in submit action ==> ' + error);
-                    console.log('Line number ==> ' + error.lineNumber);
+        }
+        
+        // Add expense onclick
+        var expenseForm = document.getElementById("expense-form");
+        expenseForm.addEventListener("submit", async (e) => {
+            try {
+                console.log('onclick submit');
+                e.preventDefault();
+                var name = document.getElementById("expense-name").value;
+                var amount = parseFloat(document.getElementById("expense-amount").value);
+                var date = document.getElementById("expense-date").value;  
+                var uname = localStorage.getItem('username');
+                var pass = localStorage.getItem('password');
+                if (name && amount && accId != '') {
+                    // add Expense To Salesforce
+                    console.log(date);
+                    addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses);
+                } else {
+                    alert('something went wrong !! Record not stored')
                 }
-            });
-
-            // Function to toggle visibility of the expense list based on expense addition
-            function toggleExpenseListVisibility(expenses) {
-                try {
-                    console.log('toggle meth');
-                    const expensesContainer = document.getElementById("expenses-container");
-                    expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
-                } catch (error) {
-                    console.log('error in toggle expense ==> ' + error);
-                    console.log('Line number ==> ' + error.lineNumber);
-                }
+            } catch (error) {
+                console.log('error in submit action ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
             }
+        });
 
-            window.removeExpense = async (recordId) => {
-                try {
-                    console.log('remove meth');
-                    var sfRecDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/${recordId}`;
-                    var response3 = await fetch(sfRecDeleteEndpoint, {
+        // add expense to expense list and to salesforce
+        async function addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses) {
+            try {
+                console.log('add expense callout meth');
+                const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
+                var headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`,
+                };
+                var requestBody = JSON.stringify({
+                    "Expense_Name__c": name,
+                    "Expense_Amount__c": amount,
+                    "Expense_Date__c": date,
+                    "Name": uname,
+                    "Password__c": pass,
+                    "Account__c": accId
+                    // Add other fields as needed for your Expense object
+                });
+                var response = await fetch(sfExpAddEndpoint, {
+                    method: "POST",
+                    headers,
+                    body: requestBody,
+                });
+                if (response.ok) {
+                    console.log(response);
+                    console.log("Expense added to Salesforce!");
+                    var expenseForm = document.getElementById("expense-form");
+                    const data = await response.json();
+                    console.log(data);
+
+                    expenses.push({Id: data.id, name: name, amount: amount, date: date });
+                    // Create a li for the new expense
+                    const expenseList = document.getElementById("expense-list");
+                    const listItem = document.createElement("li");
+                    const deleteButton = document.createElement("button");
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.setAttribute('onclick', `removeExpense('${data.id}')`);
+                    deleteButton.setAttribute('data-record-id', data.Id);
+                    listItem.innerHTML = `
+                        <span>${date}</span>
+                        <span>${name}</span>
+                        <span>₹${amount}</span>
+                    `;
+                    listItem.appendChild(deleteButton);
+                    expenseList.appendChild(listItem);
+                    totalExpense += amount;
+                    const balance = document.getElementById("balance");
+                    balance.innerText = totalExpense;
+                    toggleExpenseListVisibility(expenses);
+                    location.reload();
+                } else {
+                    console.log("Failed to add expense to Salesforce:", response.statusText);
+                }
+            } catch (error) {
+                console.log("Error adding expense to Salesforce:", error);
+            }
+        }
+
+        // remove expense from exepnse list and from salesforce
+        window.removeExpense = async (recordId) => {
+            try {
+                console.log('remove meth');
+                var sfRecDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/${recordId}`;
+                var response3 = await fetch(sfRecDeleteEndpoint, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+                });
+                if (response3.ok) {
+                    console.log(response3);
+                    console.log('Record deleted successfully!');
+                    const expenseListItem = document.querySelector(`li button[data-record-id="${recordId}"]`).parentNode;
+                    const removedExpenseAmount = parseFloat(expenseListItem.querySelector('span:nth-child(2)').textContent.slice(1));
+                    expenseListItem.remove();
+                    totalExpense -= removedExpenseAmount;
+                    const balance = document.getElementById("balance");
+                    balance.innerText = totalExpense;
+                    toggleExpenseListVisibility(expenses);
+                    location.reload();
+                } else {
+                    console.error('Failed to delete record:', response.statusText);
+                    // Handle error cases or display an error message
+                }
+            } catch (error) {
+                console.log('error in removeExpnese ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
+            }
+        };
+
+        // filter expense records onclick
+        var filterForm = document.getElementById("filter-form");
+        filterForm.addEventListener("submit", async(e) => {
+            try {
+                e.preventDefault();
+                var startDate = document.getElementById("startFilter").value;
+                var endDate = document.getElementById("endFilter").value;
+                console.log(expenses);
+            } catch (error) {
+                console.log('Error in onclick filter : ' + error);
+            }
+        })
+
+        // budget creation onclick budget submit
+        var budgetForm = document.getElementById("budget-form");
+        budgetForm.addEventListener("submit", async (e) => {
+            try {
+                console.log('createBudget method');
+                e.preventDefault();
+                const uname = localStorage.getItem('username');
+                const storedBudget = localStorage.getItem('budget');
+                var newbudgetAmount = document.getElementById("budget-line").value;
+
+                if(storedBudget != ''){
+                    // Edit budget if already setted
+                    var budgetId = localStorage.getItem("budgetId");
+                    const updateBudgetSF = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c/${budgetId}`;
+                    var headers2 = {
+                        'Authorization': `Bearer ${accessToken}`,
+                        'Content-Type': 'application/json'
+                    };
+                    var requestBody2 = JSON.stringify({
+                        "Budget_Amount__c": newbudgetAmount
+                    });
+                    var response6 = await fetch(updateBudgetSF, {
+                        method: "PUT",
+                        headers2,
+                        body: requestBody2
+                    });
+                    if(response6.ok){
+                        const data = await response6.json();
+                        console.log(data);
+                        const editedBudget = document.getElementById("totalBudget");
+                        editedBudget.innerText = newbudgetAmount;
+                        var budgetLine = document.getElementById("budget-line");
+                        budgetLine.placeholder = "Edit Budget";
+                    }
+                } 
+                if(storedBudget === ''){
+                    // create budget
+                    const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`,
+                    };
+                    const requestBody = JSON.stringify({
+                        "Name": uname,
+                        "Budget_Amount__c": newbudgetAmount,
+                    });
+                    const response5 = await fetch(setBudgetSF, {
+                        method: "POST",
+                        headers,
+                        body: requestBody,
+                    });
+                    if(response5.ok){
+                        console.log(response5);
+                        var data = await response5.json();
+                        localStorage.setItem("budgetId" , data.id);
+                        console.log("Budget added to Salesforce!");
+                        const newbudget = document.getElementById("totalBudget");
+                        newbudget.innerText = newbudgetAmount;
+                        var budgetLine = document.getElementById("budget-line");
+                        budgetLine.placeholder = "Edit Budget";
+                    }
+                }
+            } catch (error) {
+                console.log('onclick error for createBudget : ' + error);
+            }
+        });
+
+        // Function to toggle visibility of the expense list based on expense addition
+        function toggleExpenseListVisibility(expenses) {
+            try {
+                console.log('toggle meth');
+                const expensesContainer = document.getElementById("expenses-container");
+                expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
+            } catch (error) {
+                console.log('error in toggle expense ==> ' + error);
+                console.log('Line number ==> ' + error.lineNumber);
+            }
+        }
+        
+        // User Account deletion
+        window.deleteAcc = async() => {
+            try {
+                var accId = localStorage.getItem('accId');
+                const confirmation = window.confirm('Are you sure you want to delete the account?');
+                if(confirmation){
+                    const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
+                    const response = await fetch(sfDeleteEndpoint, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     }
                     });
-                    if (response3.ok) {
-                        console.log(response3);
-                        console.log('Record deleted successfully!');
-                        const expenseListItem = document.querySelector(`li button[data-record-id="${recordId}"]`).parentNode;
-                        const removedExpenseAmount = parseFloat(expenseListItem.querySelector('span:nth-child(2)').textContent.slice(1));
-                        expenseListItem.remove();
-                        totalExpense -= removedExpenseAmount;
-                        const balance = document.getElementById("balance");
-                        balance.innerText = totalExpense;
-                        toggleExpenseListVisibility(expenses);
-                        location.reload();
-                    } else {
-                        console.error('Failed to delete record:', response.statusText);
-                        // Handle error cases or display an error message
-                    }
-                } catch (error) {
-                    console.log('error in removeExpnese ==> ' + error);
-                    console.log('Line number ==> ' + error.lineNumber);
-                }
-            };
-
-            async function addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses) {
-                try {
-                    console.log('add expense callout meth');
-                    const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                    var headers = {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${accessToken}`,
-                    };
-                    var requestBody = JSON.stringify({
-                        "Expense_Name__c": name,
-                        "Expense_Amount__c": amount,
-                        "Expense_Date__c": date,
-                        "Name": uname,
-                        "Password__c": pass,
-                        "Account__c": accId
-                        // Add other fields as needed for your Expense object
-                    });
-                    var response = await fetch(sfExpAddEndpoint, {
-                        method: "POST",
-                        headers,
-                        body: requestBody,
-                    });
                     if (response.ok) {
                         console.log(response);
-                        console.log("Expense added to Salesforce!");
-                        var expenseForm = document.getElementById("expense-form");
-                        const data = await response.json();
-                        console.log(data);
-
-                        expenses.push({Id: data.id, name: name, amount: amount, date: date });
-                        // Create a li for the new expense
-                        const expenseList = document.getElementById("expense-list");
-                        const listItem = document.createElement("li");
-                        const deleteButton = document.createElement("button");
-                        deleteButton.textContent = 'Delete';
-                        deleteButton.setAttribute('onclick', `removeExpense('${data.id}')`);
-                        deleteButton.setAttribute('data-record-id', data.Id);
-                        listItem.innerHTML = `
-                            <span>${date}</span>
-                            <span>${name}</span>
-                            <span>₹${amount}</span>
-                        `;
-                        listItem.appendChild(deleteButton);
-                        expenseList.appendChild(listItem);
-                        totalExpense += amount;
-                        const balance = document.getElementById("balance");
-                        balance.innerText = totalExpense;
-                        toggleExpenseListVisibility(expenses);
-                        location.reload();
+                        console.log('Record deleted successfully!');
+                        alert('Account Deleted successfully !!');
+                        window.location.href = 'https://harshgandhi1907.github.io/index.html';
+                        // Perform any additional actions upon successful deletion
                     } else {
-                        console.log("Failed to add expense to Salesforce:", response.statusText);
+                        console.log('Failed to delete record:', response.statusText);
+                        // Handle error cases or display an error message
                     }
-                } catch (error) {
-                    console.log("Error adding expense to Salesforce:", error);
                 }
+            } catch (error) {
+                console.log('Error in deleting account');
             }
-
-            var budgetForm = document.getElementById("budget-form");
-            budgetForm.addEventListener("submit", async (e) => {
-                try {
-                    console.log('createBudget method');
-                    e.preventDefault();
-                    const uname = localStorage.getItem('username');
-                    const storedBudget = localStorage.getItem('budget');
-                    var newbudgetAmount = document.getElementById("budget-line").value;
-
-                    if(storedBudget != ''){
-                        // Edit budget if already setted
-                        var budgetId = localStorage.getItem("budgetId");
-                        const updateBudgetSF = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c/${budgetId}`;
-                        var headers2 = {
-                            'Authorization': `Bearer ${accessToken}`,
-                            'Content-Type': 'application/json'
-                        };
-                        var requestBody2 = JSON.stringify({
-                            "Budget_Amount__c": newbudgetAmount
-                        });
-                        var response6 = await fetch(updateBudgetSF, {
-                            method: "PUT",
-                            headers2,
-                            body: requestBody2
-                        });
-                        if(response6.ok){
-                            const data = await response6.json();
-                            console.log(data);
-                            const editedBudget = document.getElementById("totalBudget");
-                            editedBudget.innerText = newbudgetAmount;
-                            var budgetLine = document.getElementById("budget-line");
-                            budgetLine.placeholder = "Edit Budget";
-                        }
-                    } 
-                    if(storedBudget === ''){
-                        // create budget
-                        const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
-                        const headers = {
-                            "Content-Type": "application/json",
-                            "Authorization": `Bearer ${accessToken}`,
-                        };
-                        const requestBody = JSON.stringify({
-                            "Name": uname,
-                            "Budget_Amount__c": newbudgetAmount,
-                        });
-                        const response5 = await fetch(setBudgetSF, {
-                            method: "POST",
-                            headers,
-                            body: requestBody,
-                        });
-                        if(response5.ok){
-                            console.log(response5);
-                            var data = await response5.json();
-                            localStorage.setItem("budgetId" , data.id);
-                            console.log("Budget added to Salesforce!");
-                            const newbudget = document.getElementById("totalBudget");
-                            newbudget.innerText = newbudgetAmount;
-                            var budgetLine = document.getElementById("budget-line");
-                            budgetLine.placeholder = "Edit Budget";
-                        }
-                    }
-                } catch (error) {
-                    console.log('onclick error for createBudget : ' + error);
-                }
-            });
-        } else {
-            console.log('login credentials not fetched');
         }
     } catch (error) {
         console.log('error in DOMContentLoaded home ==> ' + error);
         console.log('Line number ==> ' + error.lineNumber);
     }
 });
-
-async function deleteAcc(){
-    var accId = localStorage.getItem('accId');
-    const confirmation = window.confirm('Are you sure you want to delete the account?');
-    if(confirmation){
-        const sfDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
-        const response = await fetch(sfDeleteEndpoint, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        }
-        });
-        if (response.ok) {
-            console.log(response);
-            console.log('Record deleted successfully!');
-            alert('Account Deleted successfully !!');
-            window.location.href = 'https://harshgandhi1907.github.io/index.html';
-            // Perform any additional actions upon successful deletion
-        } else {
-            console.error('Failed to delete record:', response.statusText);
-            // Handle error cases or display an error message
-        }
-    }
-}
