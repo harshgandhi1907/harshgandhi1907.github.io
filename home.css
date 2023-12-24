@@ -63,8 +63,6 @@ h1 {
 
 .main-container {
     padding: 20px;
-    display: flex;
-    /* justify-content: space-between; */
 }
 
 .balance,
@@ -147,8 +145,4 @@ button:hover {
 .budget h2{
     color: #2ecc71;
     font-size: 1.5rem;
-}
-
-.budget button{
-    width: auto;
 }
