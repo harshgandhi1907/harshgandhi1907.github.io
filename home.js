@@ -231,13 +231,31 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log(expenses);
                     var filteredList = expenses.filter(expense => {
                         console.log(expense);
-                        var expenseDate = new Date(expense.Date);
+                        var expenseDate = new Date(expense.date);
                         return expenseDate >= startDate && expenseDate <= endDate;
                     });
                     
                     // Display the filtered expenses list
                     console.log("Filtered Expenses:");
                     console.log(filteredList);
+
+                    // Create a li element for each expense
+                    const filtered = document.getElementById("filter-list");
+                    filtered.innerHTML = "";
+                    filteredList.forEach((expense) => {
+                        var listItem = document.createElement("li");
+                        var deleteButton = document.createElement("button");
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.setAttribute('onclick', `removeExpense('${expense.Id}')`);
+                        deleteButton.setAttribute('data-record-id', expense.Id);
+                        listItem.innerHTML = `
+                            <span>${expense.date}</span>
+                            <span>${expense.name}</span>
+                            <span>₹${expense.amount}</span>
+                        `;
+                        listItem.appendChild(deleteButton);
+                        filtered.appendChild(listItem);
+                    });
                 }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
