@@ -230,7 +230,6 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 } else{
                     console.log(expenses);
                     var filteredList = expenses.filter(expense => {
-                        console.log(expense);
                         var expenseDate = new Date(expense.date);
                         return expenseDate >= startDate && expenseDate <= endDate;
                     });
