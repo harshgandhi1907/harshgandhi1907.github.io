@@ -75,10 +75,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         var budget = record.Budget_Amount__c;
                         var budgetId = record.Id;
                         const newbudget = document.getElementById("totalBudget");
-                        newbudget.placeholder = "Edit Budget";
                         newbudget.innerText = budget;
                         localStorage.setItem("budget" , budget);
                         localStorage.setItem("budgetId" , budgetId);
+                        var budgetLine = document.getElementById("budget-line");
+                        budgetLine.placeholder = "Edit Budget";
                     })
                 } else{
                     localStorage.setItem("budget" , '');
@@ -242,8 +243,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             const data = await response6.json();
                             console.log(data);
                             const editedBudget = document.getElementById("totalBudget");
-                            editedBudget.placeholder = "Edit budget";
                             editedBudget.innerText = newbudgetAmount;
+                            var budgetLine = document.getElementById("budget-line");
+                            budgetLine.placeholder = "Edit Budget";
                         }
                     } 
                     if(storedBudget === ''){
@@ -268,8 +270,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             localStorage.setItem("budgetId" , data.id);
                             console.log("Budget added to Salesforce!");
                             const newbudget = document.getElementById("totalBudget");
-                            newbudget.placeholder = "Edit budget";
                             newbudget.innerText = newbudgetAmount;
+                            var budgetLine = document.getElementById("budget-line");
+                            budgetLine.placeholder = "Edit Budget";
                         }
                     }
                 } catch (error) {
