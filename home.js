@@ -235,7 +235,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             "Budget_Amount__c": newbudgetAmount
                         });
                         var response6 = await fetch(updateBudgetSF, {
-                            method: "PATCH",
+                            method: "PUT",
                             headers2,
                             body: requestBody2
                         });
