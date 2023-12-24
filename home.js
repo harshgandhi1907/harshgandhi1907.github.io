@@ -73,9 +73,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 if(data.records.length != 0){
                     data.records.forEach(record => {
                         var budget = record.Budget_Amount__c;
+                        var budgetId = record.Id;
                         const newbudget = document.getElementById("totalBudget");
+                        newbudget.placeholder = "Edit Budget";
                         newbudget.innerText = budget;
                         localStorage.setItem("budget" , budget);
+                        localStorage.setItem("budgetId" , budgetId);
                     })
                 } else{
                     localStorage.setItem("budget" , '');
@@ -217,11 +220,32 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     e.preventDefault();
                     const uname = localStorage.getItem('username');
                     const storedBudget = localStorage.getItem('budget');
-                    const budgetAmount = document.getElementById("budget-line").value;
+                    var newbudgetAmount = document.getElementById("budget-line").value;
 
                     if(storedBudget != ''){
                         // Edit budget if already setted
-                    }
+                        var budgetId = localStorage.getItem("budgetId");
+                        const updateBudgetSF = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c/${budgetId}`;
+                        var headers2 = {
+                            'Authorization': `Bearer ${accessToken}`,
+                            'Content-Type': 'application/json'
+                        };
+                        var requestBody2 = JSON.stringify({
+                            "Budget_Amount__c": newbudgetAmount
+                        });
+                        var response6 = await fetch(updateBudgetSF, {
+                            method: "PATCH",
+                            headers2,
+                            body: requestBody2
+                        });
+                        if(response6.ok){
+                            const data = await response6.json();
+                            console.log(data);
+                            const editedBudget = document.getElementById("totalBudget");
+                            editedBudget.placeholder = "Edit budget";
+                            editedBudget.innerText = newbudgetAmount;
+                        }
+                    } 
                     if(storedBudget === ''){
                         // create budget
                         const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
@@ -231,7 +255,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         };
                         const requestBody = JSON.stringify({
                             "Name": uname,
-                            "Budget_Amount__c": budgetAmount,
+                            "Budget_Amount__c": newbudgetAmount,
                         });
                         const response5 = await fetch(setBudgetSF, {
                             method: "POST",
@@ -242,7 +266,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             console.log(response5);
                             console.log("Budget added to Salesforce!");
                             const newbudget = document.getElementById("totalBudget");
-                            newbudget.innerText = budgetAmount;
+                            newbudget.placeholder = "Edit budget";
+                            newbudget.innerText = newbudgetAmount;
                         }
                     }
                 } catch (error) {
