@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 data.records.forEach(record => {
                     const expenseName = record.Expense_Name__c;
                     const expenseAmount = parseFloat(record.Expense_Amount__c);
-                    const expenseDate = record.Expense_Amount__c;
+                    const expenseDate = record.Expense_Date__c;
                     const sfId = record.Id;
                     console.log(`Id: ${sfId}, Name: ${expenseName}, Amount: ${expenseAmount}, Date: ${expenseDate}`);
                     expenses.push({Id: sfId, name: expenseName, amount: expenseAmount, date: expenseDate });
