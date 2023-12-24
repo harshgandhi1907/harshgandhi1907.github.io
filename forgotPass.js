@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
+    const accessToken = '00D5h0000093stB!ARMAQLA1LLH7LRRPw5A16KaJDFAgdexB1bJWxu72z9uMMCc_UGVWwsdxvanKPChupKM3TxntdNKjzh_6nOnDq7uji3CsyrQa';
     try {
         const forgotPassForm = document.getElementById("forgotPassForm");
         forgotPassForm.addEventListener("submit", async (e) => {

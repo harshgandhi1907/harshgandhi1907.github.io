@@ -1,4 +1,4 @@
-const accessToken = '00D5h0000093stB!ARMAQGsAAsXlRwsgHgh8zEHJ6.mHUL1FQubxja50UkvyL7a2V4HRbd8cHsqwJMXoq2rlF7w6gYLA0FRc_sN6Fdi2mXJHAl2X';
+const accessToken = '00D5h0000093stB!ARMAQLA1LLH7LRRPw5A16KaJDFAgdexB1bJWxu72z9uMMCc_UGVWwsdxvanKPChupKM3TxntdNKjzh_6nOnDq7uji3CsyrQa';
 let totalExpense = 0;
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             // Get previous data if present
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name,+Expense_Amount__c,+Id+FROM+Expense__c+WHERE+User_Name__c+=+%27' + storedUsername + '%27';
+            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
             console.log(salesforceQEndpoint);
             const response = await fetch(salesforceQEndpoint, {
                 method: 'GET',
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 const data = await response.json();
                 console.log(data);
                 data.records.forEach(record => {
-                    const expenseName = record.Name;
+                    const expenseName = record.Expense_Name__c;
                     const expenseAmount = parseFloat(record.Expense_Amount__c);
                     const sfId = record.Id;
                     console.log(`Id: ${sfId}, Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
@@ -134,9 +134,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         "Authorization": `Bearer ${accessToken}`,
                     };
                     const requestBody = JSON.stringify({
-                        "Name": name,
+                        "Expense_Name__c": name,
                         "Expense_Amount__c": amount,
-                        "User_Name__c": uname,
+                        "Name": uname,
                         "Password__c": pass,
                         "Account__c": accId
                         // Add other fields as needed for your Expense object
