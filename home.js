@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             // Get previous data if present
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
             // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
-            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
+            const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
             console.log(salesforceQEndpoint);
             const response = await fetch(salesforceQEndpoint, {
                 method: 'GET',
@@ -27,9 +27,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 data.records.forEach(record => {
                     const expenseName = record.Expense_Name__c;
                     const expenseAmount = parseFloat(record.Expense_Amount__c);
+                    const expenseDate = record.Expense_Amount__c;
                     const sfId = record.Id;
-                    console.log(`Id: ${sfId}, Name: ${expenseName}, Expense Amount: ${expenseAmount}`);
-                    expenses.push({Id: sfId, name: expenseName, amount: expenseAmount });
+                    console.log(`Id: ${sfId}, Name: ${expenseName}, Amount: ${expenseAmount}, Date: ${expenseDate}`);
+                    expenses.push({Id: sfId, name: expenseName, amount: expenseAmount, date: expenseDate });
 
                     // Calculate total expense
                     totalExpense += expenseAmount;
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     deleteButton.setAttribute('onclick', `removeExpense('${expense.Id}')`);
                     deleteButton.setAttribute('data-record-id', expense.Id);
                     listItem.innerHTML = `
+                        <span>${expense.date}</span>
                         <span>${expense.name}</span>
                         <span>₹${expense.amount}</span>
                     `;
@@ -67,11 +69,13 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     e.preventDefault();
                     var name = document.getElementById("expense-name").value;
                     var amount = parseFloat(document.getElementById("expense-amount").value);
+                    var date = document.getElementById("expense-date").value;  
                     var uname = localStorage.getItem('username');
                     var pass = localStorage.getItem('password');
                     if (name && amount && accId != '') {
                         // add Expense To Salesforce
-                        addExpenseToSalesforce(name, amount, uname, pass, accId, expenses);
+                        console.log(date);
+                        addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses);
                     } else {
                         alert('something went wrong !! Record not stored')
                     }
@@ -125,7 +129,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 }
             };
 
-            async function addExpenseToSalesforce(name, amount, uname, pass, accId, expenses) {
+            async function addExpenseToSalesforce(name, amount, date, uname, pass, accId, expenses) {
                 try {
                     console.log('add expense callout meth');
                     const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
@@ -136,6 +140,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const requestBody = JSON.stringify({
                         "Expense_Name__c": name,
                         "Expense_Amount__c": amount,
+                        "Expense_Date__c": date,
                         "Name": uname,
                         "Password__c": pass,
                         "Account__c": accId
@@ -153,7 +158,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         const data = await response.json();
                         console.log(data);
 
-                        expenses.push({Id: data.id, name: name, amount: amount });
+                        expenses.push({Id: data.id, name: name, amount: amount, date: date });
                         // Create a li for the new expense
                         const expenseList = document.getElementById("expense-list");
                         const listItem = document.createElement("li");
@@ -162,6 +167,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         deleteButton.setAttribute('onclick', `removeExpense('${data.id}')`);
                         deleteButton.setAttribute('data-record-id', data.Id);
                         listItem.innerHTML = `
+                            <span>${date}</span>
                             <span>${name}</span>
                             <span>₹${amount}</span>
                         `;
