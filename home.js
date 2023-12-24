@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             let expenses = [];
             // Get previous expense data if present
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
-            var response = await fetch(salesforceQEndpoint, {
+            const response = await fetch(salesforceQEndpoint, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             }
 
             // Get budget if present
-            const getBUdget = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Budget__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
-            var responseB = await fetch(getBUdget, {
+            const getBUdget = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Budget__c,+Id+FROM+Budget__c+WHERE+Name+=+%27' + storedUsername + '%27';
+            const responseB = await fetch(getBUdget, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -209,9 +209,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             budgetForm.addEventListener("submit", async (e) => {
                 try {
                     console.log('createBudget method');
-                    var uname = localStorage.getItem('username');
-                    var storedBudget = localStorage.getItem('budget');
-                    var budgetAmount = document.getElementById("budget-line").value;
+                    e.preventDefault();
+                    const uname = localStorage.getItem('username');
+                    const storedBudget = localStorage.getItem('budget');
+                    const budgetAmount = document.getElementById("budget-line").value;
 
                     if(storedBudget != ''){
                         // Edit budget if already setted
@@ -219,15 +220,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     if(storedBudget === ''){
                         // create budget
                         const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
-                        var headers = {
+                        const headers = {
                             "Content-Type": "application/json",
                             "Authorization": `Bearer ${accessToken}`,
                         };
-                        var requestBody = JSON.stringify({
+                        const requestBody = JSON.stringify({
                             "Name": uname,
-                            "Budget__c": budgetAmount
+                            "Budget__c": budgetAmount,
                         });
-                        var response5 = await fetch(setBudgetSF, {
+                        const response5 = await fetch(setBudgetSF, {
                             method: "POST",
                             headers,
                             body: requestBody,
