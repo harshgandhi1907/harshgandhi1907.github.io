@@ -9,12 +9,9 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log(accId);
         if (storedUsername != '' && storedPassword != '') {
             let expenses = [];
-            // Get previous data if present
-            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27';
-            // const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Name+FROM+Expense__c+WHERE+User_Name__c+=+%27harsh1907%27+Password__c+=+%27harsh1907%27';
+            // Get previous expense data if present
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
-            console.log(salesforceQEndpoint);
-            const response = await fetch(salesforceQEndpoint, {
+            var response = await fetch(salesforceQEndpoint, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
@@ -61,6 +58,26 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('Failed to fetch data from Salesforce:', response.statusText);
             }
 
+            // Get budget if present
+            const getBUdget = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Budget__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
+            var responseB = await fetch(getBUdget, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+            if(responseB.ok){
+                const data = await response.json();
+                if(data.records.length != 0){
+                    data.records.forEach(record => {
+                        var budget = record.Budget__c;
+                        const newbudget = document.getElementById("totalBudget");
+                        newbudget.innerText = budget;
+                        localStorage.setItem("budget" , budget);
+                    })
+                }
+            }
+
             // Add expense onclick
             var expenseForm = document.getElementById("expense-form");
             expenseForm.addEventListener("submit", async (e) => {
@@ -100,8 +117,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             window.removeExpense = async (recordId) => {
                 try {
                     console.log('remove meth');
-                    const sfRecDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/${recordId}`;
-                    const response3 = await fetch(sfRecDeleteEndpoint, {
+                    var sfRecDeleteEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c/${recordId}`;
+                    var response3 = await fetch(sfRecDeleteEndpoint, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -133,11 +150,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 try {
                     console.log('add expense callout meth');
                     const sfExpAddEndpoint = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Expense__c";
-                    const headers = {
+                    var headers = {
                         "Content-Type": "application/json",
                         "Authorization": `Bearer ${accessToken}`,
                     };
-                    const requestBody = JSON.stringify({
+                    var requestBody = JSON.stringify({
                         "Expense_Name__c": name,
                         "Expense_Amount__c": amount,
                         "Expense_Date__c": date,
@@ -146,7 +163,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         "Account__c": accId
                         // Add other fields as needed for your Expense object
                     });
-                    const response = await fetch(sfExpAddEndpoint, {
+                    var response = await fetch(sfExpAddEndpoint, {
                         method: "POST",
                         headers,
                         body: requestBody,
@@ -185,6 +202,45 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log("Error adding expense to Salesforce:", error);
                 }
             }
+
+            var budgetForm = document.getElementById("budget-form");
+            budgetForm.addEventListener("submit", async (e) => {
+                try {
+                    console.log('createBudget method');
+                    var uname = localStorage.getItem('username');
+                    var storedBudget = localStorage.getItem('budget');
+                    var budgetAmount = document.getElementById("budget-line").value;
+
+                    if(storedBudget != null || storedBudget != ''){
+                        // Edit budget if already setted
+                    }
+                    if(storedBudget == null || storedBudget === ''){
+                        // create budget
+                        const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
+                        var headers = {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${accessToken}`,
+                        };
+                        var requestBody = JSON.stringify({
+                            "Name": uname,
+                            "Budget__c": budgetAmount
+                        });
+                        var response5 = await fetch(setBudgetSF, {
+                            method: "POST",
+                            headers,
+                            body: requestBody,
+                        });
+                        if(response5.ok){
+                            console.log(response5);
+                            console.log("Budget added to Salesforce!");
+                            const newbudget = document.getElementById("totalBudget");
+                            newbudget.innerText = budgetAmount;
+                        }
+                    }
+                } catch (error) {
+                    console.log('onclick error for createBudget : ' + error);
+                }
+            });
         } else {
             console.log('login credentials not fetched');
         }
