@@ -137,8 +137,7 @@ button:hover {
     }
 }
 
-.expenses,
-.add-expense {
+.main-container{
     animation: fadein 1s ease;
 }
 
