@@ -11,15 +11,15 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             let expenses = [];
             // Get previous expense data if present
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
-            const response = await fetch(salesforceQEndpoint, {
+            const response1 = await fetch(salesforceQEndpoint, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            console.log(response);
-            if (response.ok) {
-                const data = await response.json();
+            console.log(response1);
+            if (response1.ok) {
+                const data = await response1.json();
                 console.log(data);
                 data.records.forEach(record => {
                     const expenseName = record.Expense_Name__c;
@@ -55,28 +55,30 @@ document.addEventListener("DOMContentLoaded", async (e) => {
 
                 toggleExpenseListVisibility(expenses);
             } else {
-                console.log('Failed to fetch data from Salesforce:', response.statusText);
+                console.log('Failed to fetch data from Salesforce:', response1.statusText);
             }
 
             // Get budget if present
-            const getBUdget = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Budget__c,+Id+FROM+Budget__c+WHERE+Name+=+%27' + storedUsername + '%27';
-            const responseB = await fetch(getBUdget, {
+            const getBUdget = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Budget_Amount__c,+Id+FROM+Budget__c+WHERE+Name+=+%27' + storedUsername + '%27';
+            const response2 = await fetch(getBUdget, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`
                 }
             });
-            if(responseB.ok){
-                const data = await response.json();
+            if(response2.ok){
+                const data = await response2.json();
+                console.log(data);
                 if(data.records.length != 0){
                     data.records.forEach(record => {
-                        var budget = record.Budget__c;
+                        var budget = record.Budget_Amount__c;
                         const newbudget = document.getElementById("totalBudget");
                         newbudget.innerText = budget;
                         localStorage.setItem("budget" , budget);
                     })
                 }
             } else{
+                console.log('error in budget callout');
                 localStorage.setItem("budget" , '');
             }
 
@@ -226,7 +228,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         };
                         const requestBody = JSON.stringify({
                             "Name": uname,
-                            "Budget__c": budgetAmount,
+                            "Budget_Amount__c": budgetAmount,
                         });
                         const response5 = await fetch(setBudgetSF, {
                             method: "POST",
