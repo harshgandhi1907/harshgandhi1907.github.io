@@ -76,6 +76,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         localStorage.setItem("budget" , budget);
                     })
                 }
+            } else{
+                localStorage.setItem("budget" , '');
             }
 
             // Add expense onclick
@@ -211,10 +213,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     var storedBudget = localStorage.getItem('budget');
                     var budgetAmount = document.getElementById("budget-line").value;
 
-                    if(storedBudget != null || storedBudget != ''){
+                    if(storedBudget != ''){
                         // Edit budget if already setted
                     }
-                    if(storedBudget == null || storedBudget === ''){
+                    if(storedBudget === ''){
                         // create budget
                         const setBudgetSF = "https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Budget__c";
                         var headers = {
