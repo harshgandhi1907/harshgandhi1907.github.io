@@ -224,7 +224,17 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     alert('Start date must be earlier than end date');
                 } else{
                     console.log(expenses);
+                    // Filter expenses based on the date range
+                    const filteredExpenses = expenses.filter(expense => {
+                        const expenseDate = new Date(expense.Date);
+                        return expenseDate >= startDate && expenseDate <= endDate;
+                    });
 
+                    // Display the filtered expenses
+                    filteredExpenses.forEach(expense => {
+                        console.log(expense);
+                        // Perform actions with the filtered expenses (e.g., displaying them on the webpage)
+                    });
                 }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
