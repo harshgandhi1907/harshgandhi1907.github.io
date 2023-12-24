@@ -220,7 +220,12 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 e.preventDefault();
                 var startDate = document.getElementById("startFilter").value;
                 var endDate = document.getElementById("endFilter").value;
-                console.log(expenses);
+                if(startDate > endDate){
+                    alert('Start date must be earlier than end date');
+                } else{
+                    console.log(expenses);
+
+                }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
             }
