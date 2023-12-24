@@ -220,6 +220,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 e.preventDefault();
                 var startDate = document.getElementById("startFilter").value;
                 var endDate = document.getElementById("endFilter").value;
+                console.log(startDate);
+                console.log(typeof endDate);
                 if(startDate > endDate){
                     alert('Start date must be earlier than end date');
                 } else{
