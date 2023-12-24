@@ -218,8 +218,11 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         filterForm.addEventListener("submit", async(e) => {
             try {
                 e.preventDefault();
-                var startDate = document.getElementById("startFilter").value;
-                var endDate = document.getElementById("endFilter").value;
+                const startDateString = document.getElementById("startFilter").value;
+                const endDateString = document.getElementById("endFilter").value;
+                // Convert string dates to Date objects
+                const startDate = new Date(startDateString);
+                const endDate = new Date(endDateString);
                 console.log(startDate);
                 console.log(typeof endDate);
                 if(startDate > endDate){
