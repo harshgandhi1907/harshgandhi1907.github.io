@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         console.log(accId);
         if (storedUsername != '' && storedPassword != '') {
             let expenses = [];
+            toggleExpenseListVisibility(expenses);
             // Get previous expense data if present
             const salesforceQEndpoint = 'https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/query?q=SELECT+Expense_Name__c,+Expense_Amount__c,+Id,+Expense_Date__c+FROM+Expense__c+WHERE+Name+=+%27' + storedUsername + '%27';
             const response1 = await fetch(salesforceQEndpoint, {
@@ -34,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     const balance = document.getElementById("balance");
                     balance.innerText = totalExpense;
                 });
-                toggleExpenseListVisibility(expenses);
+
                 // Create a li element for each expense
                 const expenseList = document.getElementById("expense-list");
                 expenseList.innerHTML = "";
@@ -76,6 +77,8 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         newbudget.innerText = budget;
                         localStorage.setItem("budget" , budget);
                     })
+                } else{
+                    localStorage.setItem("budget" , '');
                 }
             } else{
                 console.log('error in budget callout');
