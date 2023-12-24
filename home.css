@@ -144,10 +144,6 @@ button:hover {
     animation: fadein 1s ease;
 }
 
-.budget{
-    /* display: flex; */
-}
-
 .budget h2{
     color: #2ecc71;
     font-size: 1.5rem;

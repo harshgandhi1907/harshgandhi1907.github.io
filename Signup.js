@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQEpjkA_Q3qpl2H85huiA.uSzzC1HhUGJwCxJi.m18Kfm7pFx2y3bSIWUoDcxs9IFzoX9rx.Uey860dJcEnGdNo72fNOn';
+    const accessToken = '00D5h0000093stB!ARMAQPpJiqObiREi7aVBktGsas0tEX8nMA2GHeOyecokccdjZJHA6T3.G_hdhHbZWl4m2yjDsi6XoD3oKPAW1Tazx0yc3t3L';
     try {
         console.log('onload signup');
         // Show/Hide password action
