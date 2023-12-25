@@ -1,4 +1,4 @@
-const accessToken = '00D5h0000093stB!ARMAQMH4g2iwA0Wmk_J6bImnEB9U1SNUeYfs4D_Qr5tQb3QQyONY_vZ32qMkyhlph9BkwJsTjluGKkpw2t217MHl3FBzKWmG';
+const accessToken = '00D5h0000093stB!ARMAQB2jIJeAbrBjhcXIjl5OF1MbUgSA4v61Mh9y6mRroOGGiwuVdSQGnM33FXF2KgTpGVNdECXh9aqFpFv1fGboNP_246iC';
 let totalExpense = 0;
 document.addEventListener("DOMContentLoaded", async (e) => {
     try {
