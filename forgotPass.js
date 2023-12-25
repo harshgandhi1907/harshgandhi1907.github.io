@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         forgotPassForm.addEventListener("submit", async (e) => {
         try {
             console.log('onclick login');
-            
+            e.preventDefault();
             var unameInput = document.getElementById("unameInput").value;
             var passInput = document.getElementById("passInput").value;
             var confPassInput = document.getElementById("confPassInput").value;

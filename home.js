@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         expenseForm.addEventListener("submit", async (e) => {
             try {
                 console.log('onclick submit');
-                
+                e.preventDefault();
                 var name = document.getElementById("expense-name").value;
                 var amount = parseFloat(document.getElementById("expense-amount").value);
                 var date = document.getElementById("expense-date").value;  
@@ -217,7 +217,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         var filterForm = document.getElementById("filter-form");
         filterForm.addEventListener("submit", async(e) => {
             try {
-                
+                e.preventDefault();
                 var startDateString = document.getElementById("startFilter").value;
                 var endDateString = document.getElementById("endFilter").value;
                 // Convert string dates to Date objects
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         budgetForm.addEventListener("submit", async (e) => {
             try {
                 console.log('createBudget method');
-                
+                e.preventDefault();
                 const uname = localStorage.getItem('username');
                 const storedBudget = localStorage.getItem('budget');
                 var newbudgetAmount = document.getElementById("budget-line").value;
