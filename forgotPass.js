@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                     console.log(data);
                     if(data.records.length != 0){
                         const accId = data.records[0].Id;
-                        const salesforceEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/${accId}`;
+                        const salesforceEndpoint = `https://expensetrackerportal-dev-ed.develop.my.salesforce.com/services/data/v58.0/sobjects/Account/Password__c/${accId}`;
                         const headers2 = {
                             'Authorization': `Bearer ${accessToken}`,
                             'Content-Type': 'application/json'
