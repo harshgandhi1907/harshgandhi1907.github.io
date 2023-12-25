@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         accountForm.addEventListener("submit", async (e) => {
             try {
                 console.log('onclick signup');
-                e.preventDefault();
+                
                 const newUname = document.getElementById('usernameinput').value;
                 const newPass = document.getElementById('passwordinput').value;
                 const newEmail = document.getElementById('emailinput').value;

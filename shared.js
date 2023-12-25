@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 loginForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick login');
-                        e.preventDefault();
+                        
                         var username = document.getElementById("usernameInput").value;
                         var password = document.getElementById("passwordInput").value;
                         if (username == "" || password == "") {
@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 accountForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick signup');
-                        e.preventDefault();
+                        
                         const newUname = document.getElementById('usernameinput').value;
                         const newPass = document.getElementById('passwordinput').value;
                         const newEmail = document.getElementById('emailinput').value;
@@ -280,7 +280,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 expenseForm.addEventListener("submit", async (e) => {
                     try {
                         console.log('onclick submit');
-                        e.preventDefault();
+                        
                         var name = document.getElementById("expense-name").value;
                         var amount = parseFloat(document.getElementById("expense-amount").value);
                         var uname = localStorage.getItem('username');

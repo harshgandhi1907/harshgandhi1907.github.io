@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
         loginForm.addEventListener("submit", async (e) => {
             try {
                 console.log('onclick login');
-                e.preventDefault();
+                
                 var username = document.getElementById("usernameInput").value;
                 var password = document.getElementById("passwordInput").value;
                 if (username == "" || password == "") {
