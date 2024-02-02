@@ -347,6 +347,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             }
         }
 
+        // Function to toggle visibility of the filter list based on filter duration
         function toggleFilterListVisibility(filteredList){
             try {
                 console.log('toggle meth');
