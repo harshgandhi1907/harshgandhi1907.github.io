@@ -35,8 +35,8 @@
                 <div class="budget">
                     <h2>Budget: ₹<span id="totalBudget">0.00</span></h2>
                     <form id="budget-form" style="display: flex;">
-                        <input type="number" id="budget-line" placeholder="Enter Budget" style="width: 25%;" required />
-                        <button type="submit" style="width: 12%;">Submit</button>
+                        <input type="number" id="budget-line" placeholder="Enter Budget" style="width: 90%;" required />
+                        <button type="submit">Submit</button>
                     </form>
                 </div>
                 
@@ -45,6 +45,7 @@
                     <ul id="expense-list">
                         <!-- li added dynamically  -->
                     </ul>
+                    <h4 id="noExpense" style="display: block;">No Recent Transactions Found</h4>
                 </div>
             </div>
 
@@ -57,7 +58,7 @@
                         <input type="date" id="expense-date" placeholder="Expense Date" required />
                         <input type="text" id="expense-name" placeholder="Expense Name" required />
                         <input type="number" id="expense-amount" placeholder="Expense Amount" required /><br>
-                        <button type="submit" style="width: 12%;">Add</button>
+                        <button type="submit">Add</button>
                     </form>
                 </div>
                 
@@ -66,12 +67,15 @@
                     <form id="filter-form">
                         <input type="date" label="From" id="startFilter" placeholder="Select Start Date" />
                         <input type="date" label="To" id="endFilter" placeholder="Select End Date" />
-                        <button type="submit" style="width: 15%;">Enter</button>
+                        <button type="submit">Enter</button>
                     </form>
-                    <h2>Expenses In Selected Duration</h2>
-                    <ul id="filter-list">
-                        <!-- li filtered dynamically -->
-                    </ul>
+                    <div id="filters">
+                        <h2>Expenses In Selected Duration</h2>
+                        <ul id="filter-list">
+                            <!-- li filtered dynamically -->
+                        </ul>
+                    </div>
+                    <h4 id="filterError" style="display: block;">No Records Found</h4>
                 </div>
             </div>
         </div>

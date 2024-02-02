@@ -233,28 +233,31 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                         var expenseDate = new Date(expense.date);
                         return expenseDate >= startDate && expenseDate <= endDate;
                     });
-                    
-                    // Display the filtered expenses list
-                    console.log("Filtered Expenses:");
-                    console.log(filteredList);
 
-                    // Create a li element for each expense
-                    const filtered = document.getElementById("filter-list");
-                    filtered.innerHTML = "";
-                    filteredList.forEach((expense) => {
-                        var listItem = document.createElement("li");
-                        var deleteButton = document.createElement("button");
-                        deleteButton.textContent = 'Delete';
-                        deleteButton.setAttribute('onclick', `removeExpense('${expense.Id}')`);
-                        deleteButton.setAttribute('data-record-id', expense.Id);
-                        listItem.innerHTML = `
+                    if(filteredList.length > 0){
+                        // Display the filtered expenses list
+                        console.log("Filtered Expenses:");
+                        console.log(filteredList);
+                        
+                        // Create a li element for each expense
+                        const filtered = document.getElementById("filter-list");
+                        filtered.innerHTML = "";
+                        filteredList.forEach((expense) => {
+                            var listItem = document.createElement("li");
+                            var deleteButton = document.createElement("button");
+                            deleteButton.textContent = 'Delete';
+                            deleteButton.setAttribute('onclick', `removeExpense('${expense.Id}')`);
+                            deleteButton.setAttribute('data-record-id', expense.Id);
+                            listItem.innerHTML = `
                             <span>${expense.date}</span>
                             <span>${expense.name}</span>
                             <span>₹${expense.amount}</span>
-                        `;
-                        listItem.appendChild(deleteButton);
-                        filtered.appendChild(listItem);
-                    });
+                            `;
+                            listItem.appendChild(deleteButton);
+                            filtered.appendChild(listItem);
+                        });
+                    }
+                    toggleFilterListVisibility();
                 }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
@@ -334,9 +337,27 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('toggle meth');
                 const expensesContainer = document.getElementById("expenses-container");
                 expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
+                if(expensesContainer.style.display == "none"){
+                    const noExpense = document.getElementById("noExpense");
+                    noExpense.style.display = "block";
+                }
             } catch (error) {
                 console.log('error in toggle expense ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
+            }
+        }
+
+        function toggleFilterListVisibility(){
+            try {
+                console.log('toggle meth');
+                const filters = document.getElementById("filters");
+                filters.style.display = filteredList.length > 0 ? "block" : "none";
+                if(filters.style.display == "none"){
+                    const filterErrors = document.getElementById("filterError");
+                    filterErrors.style.display = "block";
+                }
+            } catch (error) {
+                console.log('error in toggleFilterListVisibility ==>  ' + error);
             }
         }
         
