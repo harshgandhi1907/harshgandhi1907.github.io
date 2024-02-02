@@ -337,10 +337,10 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                 console.log('toggle meth');
                 const expensesContainer = document.getElementById("expenses-container");
                 expensesContainer.style.display = expenses.length > 0 ? "block" : "none";
-                if(expensesContainer.style.display == "none"){
-                    const noExpense = document.getElementById("noExpense");
-                    noExpense.style.display = "block";
-                }
+                // if(expensesContainer.style.display == "none"){
+                //     const noExpense = document.getElementById("noExpense");
+                //     noExpense.style.display = "block";
+                // }
             } catch (error) {
                 console.log('error in toggle expense ==> ' + error);
                 console.log('Line number ==> ' + error.lineNumber);
