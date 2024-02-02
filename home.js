@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
                             filtered.appendChild(listItem);
                         });
                     }
-                    toggleFilterListVisibility();
+                    toggleFilterListVisibility(filteredList);
                 }
             } catch (error) {
                 console.log('Error in onclick filter : ' + error);
@@ -347,7 +347,7 @@ document.addEventListener("DOMContentLoaded", async (e) => {
             }
         }
 
-        function toggleFilterListVisibility(){
+        function toggleFilterListVisibility(filteredList){
             try {
                 console.log('toggle meth');
                 const filters = document.getElementById("filters");

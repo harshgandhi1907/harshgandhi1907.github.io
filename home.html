@@ -45,7 +45,7 @@
                     <ul id="expense-list">
                         <!-- li added dynamically  -->
                     </ul>
-                    <h4 id="noExpense" style="display: block;">No Recent Transactions Found</h4>
+                    <h4 id="noExpense" style="display: none;">No Recent Transactions Found</h4>
                 </div>
             </div>
 
@@ -69,13 +69,13 @@
                         <input type="date" label="To" id="endFilter" placeholder="Select End Date" />
                         <button type="submit">Enter</button>
                     </form>
-                    <div id="filters">
+                    <div id="filters" style="display: none;">
                         <h2>Expenses In Selected Duration</h2>
                         <ul id="filter-list">
                             <!-- li filtered dynamically -->
                         </ul>
                     </div>
-                    <h4 id="filterError" style="display: block;">No Records Found</h4>
+                    <h4 id="filterError" style="display: none;">No Records Found</h4>
                 </div>
             </div>
         </div>
