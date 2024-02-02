@@ -139,6 +139,15 @@ button:hover {
 
 .main-container{
     animation: fadein 1s ease;
+    display: flex;
+}
+
+.left-side {
+    flex: 1;
+}
+
+.right-side {
+    flex: 1;
 }
 
 .budget h2{
