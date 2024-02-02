@@ -3,7 +3,7 @@ let globalPassword = '';
 let signedUsername = '';
 let signedPassword = '';
 document.addEventListener("DOMContentLoaded", async (e) => {
-    const accessToken = '00D5h0000093stB!ARMAQB6iNACOGnd7aWTkPXfSJe8XDHN0zZPyDCnXgLLBLvbSKA9zE3PKG0HxAHuDrkRuwtc.mxoSRJe2bKY8IzNT3WXTshZR';
+    const accessToken = '00D5h0000093stB!ARMAQL.7iYlNbo6KIxIh20kuw9Z4JAQ5L.wIm2Sz.K9K4LKkk5KtZKwdwIefvrPVPBBD0aKn2bZMeMfMK_YjT8ZYcJt.9Tgc';
     try {
         if (window.location.href === 'https://harshgandhi1907.github.io' || window.location.href === 'https://harshgandhi1907.github.io/index.html' || window.location.href === 'https://harshgandhi1907.github.io/') {
             try {
